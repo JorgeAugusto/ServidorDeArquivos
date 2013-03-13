@@ -1,13 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Enum com as configurações de conexão
+ * @author Jorge Augusto C. dos Reis
  */
+
 package servidor;
 
-/**
- *
- * @author Jorge Augusto
- */
+import javax.swing.JOptionPane;
+
 public class ServidorPrincipal extends javax.swing.JFrame {
 
     /**
@@ -26,21 +25,104 @@ public class ServidorPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jMenuBar = new javax.swing.JMenuBar();
+        jMenuArquivo = new javax.swing.JMenu();
+        jMenuItemCadServEscravo = new javax.swing.JMenuItem();
+        jMenuItemSair = new javax.swing.JMenuItem();
+        jMenuAjuda = new javax.swing.JMenu();
+        jMenuItemSobre = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Servidor Principal - Sistema Servidor de Arquivos");
+        setResizable(false);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Número", "Nome do Arquivo", "Tipo", "Local", "Imagem"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setText("Lista de Arquivos Disponíveis");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Número", "Nome", "IP", "Situação"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jLabel2.setText("Lista de Escravos");
+
+        jMenuArquivo.setText("Arquivo");
+
+        jMenuItemCadServEscravo.setText("Cadastrar Servidor Escravo");
+        jMenuArquivo.add(jMenuItemCadServEscravo);
+
+        jMenuItemSair.setText("Sair");
+        jMenuArquivo.add(jMenuItemSair);
+
+        jMenuBar.add(jMenuArquivo);
+
+        jMenuAjuda.setText("Ajuda");
+
+        jMenuItemSobre.setText("Sobre");
+        jMenuItemSobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSobreActionPerformed(evt);
+            }
+        });
+        jMenuAjuda.add(jMenuItemSobre);
+
+        jMenuBar.add(jMenuAjuda);
+
+        setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreActionPerformed
+        exibirSobre();
+    }//GEN-LAST:event_jMenuItemSobreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,6 +165,36 @@ public class ServidorPrincipal extends javax.swing.JFrame {
             }
         });
     }
+
+    /* Aqui inicia a implementaçãos dos meus métodos, deste ponto em diante
+     * não existe código que não tenha sido feito por mim.
+     */
+
+    // Método que exibe a mensagem do Sobre
+    private void exibirSobre() {
+        JOptionPane.showMessageDialog(rootPane,
+        "<html><b><font size='5'>Sistema Servidor de Arquivos</font></b><br>"                   +
+        "<b><font size='3'>IESAM - Institudo de Estudos Superiores da Amazônia</font></b><br>"  +
+        "<b><font size='3'>Engenharia de Computação</font></b><br><br>"                         +
+        "Programador: <b><font color='red'>Jorge Augusto C. dos Reis</font></b><br>"            +
+        "E-mail: <b><font color='blue'>engjorgeaugusto@gmail.com</font></b><br>",
+        "Sobre", JOptionPane.INFORMATION_MESSAGE);
+
+        // "E-mail: <a href='mailto:engjorgeaugusto@hotmail.com'>engjorgeaugusto@hotmail.com</a></html>",
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenuAjuda;
+    private javax.swing.JMenu jMenuArquivo;
+    private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItemCadServEscravo;
+    private javax.swing.JMenuItem jMenuItemSair;
+    private javax.swing.JMenuItem jMenuItemSobre;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }

@@ -58,21 +58,16 @@ public class CadServidoresEscravos extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {"01", "Escravo 1", "localhost", "2001"},
+                {"02", "Escravo 2", "localhost", "2002"}
             },
             new String [] {
-                "Numero", "Nome", "IP"
+                "Numero", "Nome", "IP", "Porta"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getColumn(0).setMinWidth(60);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -87,7 +82,7 @@ public class CadServidoresEscravos extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonApagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -188,8 +183,13 @@ public class CadServidoresEscravos extends javax.swing.JDialog {
 
     // Este método salva a lista dos servidores escravos em um arquivo no disco
     private void salvaListaServidoresEscravos() {
-        listaServEscravos.add(new InfoServidoresEscravos("Servidor 1", "192.168.0.1"));
-
+        // Estes dados não devesão ser colocados diretamente aqui...
+        // E sim salvos da JTable, mas no momento como ainda não implementei o
+        // Model da JTable vou colocar diretamente... Depois eu faço essa parte...
+        listaServEscravos.add(new InfoServidoresEscravos("Escravo 1", "localhost", 2001));
+        listaServEscravos.add(new InfoServidoresEscravos("Escravo 2", "localhost", 2002));
+        listaServEscravos.add(new InfoServidoresEscravos("Escravo 3", "localhost", 2003));
+        listaServEscravos.add(new InfoServidoresEscravos("Escravo 4", "localhsot", 2004));
 
         try {
             FileOutputStream        arquivo     = new FileOutputStream("ListaDeServidoresEscravos.txt");

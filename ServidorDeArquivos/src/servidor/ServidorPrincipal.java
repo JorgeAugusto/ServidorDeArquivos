@@ -5,6 +5,8 @@
 
 package servidor;
 
+import base.InfoServidoresEscravos;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -51,27 +53,38 @@ public class ServidorPrincipal extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {"01", "Jorge Filho.jpg", "Foto", "Escravo 1", "1 MB"},
+                {"02", "Computador", "Foto", "Escravo 2", "1 MB"},
+                {"03", "Ainda é cedo.mp3", "Música", "Escravo 1", "3 MB"}
             },
             new String [] {
-                "Número", "Nome do Arquivo", "Tipo", "Local", "Imagem"
+                "Número", "Nome do Arquivo", "Tipo", "Local", "Tamanho"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getColumn(0).setMinWidth(60);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
 
         jLabel1.setText("Lista de Arquivos Disponíveis");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {"01", "Escravo 1", "localhost", "2001", "Conectado"},
+                {"02", "Escravo 2", "localhost", "2002", "Desconectado"}
             },
             new String [] {
-                "Número", "Nome", "IP", "Situação"
+                "Número", "Nome", "IP", "Porta", "Situação"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
-        jTable2.getColumnModel().getColumn(0).setMinWidth(50);
-        jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
+        jTable2.getColumnModel().getColumn(0).setMinWidth(60);
+        jTable2.getColumnModel().getColumn(0).setMaxWidth(60);
+        jTable2.getColumnModel().getColumn(2).setMinWidth(100);
+        jTable2.getColumnModel().getColumn(2).setMaxWidth(100);
+        jTable2.getColumnModel().getColumn(3).setMinWidth(60);
+        jTable2.getColumnModel().getColumn(3).setMaxWidth(60);
+        jTable2.getColumnModel().getColumn(4).setMinWidth(100);
+        jTable2.getColumnModel().getColumn(4).setMaxWidth(100);
 
         jLabel2.setText("Lista de Escravos");
 
@@ -224,12 +237,18 @@ public class ServidorPrincipal extends javax.swing.JFrame {
         cadServidoresEscravos.setVisible(true);
     }
 
+    // Este método carrega a lista de servidores escravos do arquivos em disco
+    private void carregarListaServidoresEscravos() {
+
+    }
+
 
     /* Declaração das minhas varíaveis
      *
      */
 
     CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
+    ArrayList<InfoServidoresEscravos> listaServEscravos = new ArrayList<InfoServidoresEscravos>();
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

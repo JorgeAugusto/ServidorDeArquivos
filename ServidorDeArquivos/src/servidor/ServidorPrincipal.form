@@ -112,17 +112,37 @@
         <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="0">
-                <Column editable="true" title="N&#xfa;mero" type="java.lang.Object"/>
-                <Column editable="true" title="Nome do Arquivo" type="java.lang.Object"/>
-                <Column editable="true" title="Tipo" type="java.lang.Object"/>
-                <Column editable="true" title="Local" type="java.lang.Object"/>
-                <Column editable="true" title="Imagem" type="java.lang.Object"/>
+              <Table columnCount="5" rowCount="3">
+                <Column editable="true" title="N&#xfa;mero" type="java.lang.Object">
+                  <Data value="01"/>
+                  <Data value="02"/>
+                  <Data value="03"/>
+                </Column>
+                <Column editable="true" title="Nome do Arquivo" type="java.lang.Object">
+                  <Data value="Jorge Filho.jpg"/>
+                  <Data value="Computador"/>
+                  <Data value="Ainda &#xe9; cedo.mp3"/>
+                </Column>
+                <Column editable="true" title="Tipo" type="java.lang.Object">
+                  <Data value="Foto"/>
+                  <Data value="Foto"/>
+                  <Data value="M&#xfa;sica"/>
+                </Column>
+                <Column editable="true" title="Local" type="java.lang.Object">
+                  <Data value="Escravo 1"/>
+                  <Data value="Escravo 2"/>
+                  <Data value="Escravo 1"/>
+                </Column>
+                <Column editable="true" title="Tamanho" type="java.lang.Object">
+                  <Data value="1 MB"/>
+                  <Data value="1 MB"/>
+                  <Data value="3 MB"/>
+                </Column>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="60" minWidth="60" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -171,16 +191,32 @@
         <Component class="javax.swing.JTable" name="jTable2">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="0">
-                <Column editable="true" title="N&#xfa;mero" type="java.lang.Object"/>
-                <Column editable="true" title="Nome" type="java.lang.Object"/>
-                <Column editable="true" title="IP" type="java.lang.Object"/>
-                <Column editable="true" title="Situa&#xe7;&#xe3;o" type="java.lang.Object"/>
+              <Table columnCount="5" rowCount="2">
+                <Column editable="true" title="N&#xfa;mero" type="java.lang.Object">
+                  <Data value="01"/>
+                  <Data value="02"/>
+                </Column>
+                <Column editable="true" title="Nome" type="java.lang.Object">
+                  <Data value="Escravo 1"/>
+                  <Data value="Escravo 2"/>
+                </Column>
+                <Column editable="true" title="IP" type="java.lang.Object">
+                  <Data value="localhost"/>
+                  <Data value="localhost"/>
+                </Column>
+                <Column editable="true" title="Porta" type="java.lang.Object">
+                  <Data value="2001"/>
+                  <Data value="2002"/>
+                </Column>
+                <Column editable="true" title="Situa&#xe7;&#xe3;o" type="java.lang.Object">
+                  <Data value="Conectado"/>
+                  <Data value="Desconectado"/>
+                </Column>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="50" minWidth="50" prefWidth="-1" resizable="true">
+                <Column maxWidth="60" minWidth="60" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -190,12 +226,17 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="60" minWidth="60" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

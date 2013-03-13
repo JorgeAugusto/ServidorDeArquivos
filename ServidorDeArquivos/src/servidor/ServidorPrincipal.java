@@ -5,6 +5,7 @@
 
 package servidor;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class ServidorPrincipal extends javax.swing.JFrame {
@@ -40,6 +41,8 @@ public class ServidorPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Servidor Principal - Sistema Servidor de Arquivos");
+        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        setName("framePrincipal");
         setResizable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -63,6 +66,8 @@ public class ServidorPrincipal extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(jTable2);
+        jTable2.getColumnModel().getColumn(0).setMinWidth(50);
+        jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
 
         jLabel2.setText("Lista de Escravos");
 
@@ -72,6 +77,11 @@ public class ServidorPrincipal extends javax.swing.JFrame {
         jMenuArquivo.add(jMenuItemCadServEscravo);
 
         jMenuItemSair.setText("Sair");
+        jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSairActionPerformed(evt);
+            }
+        });
         jMenuArquivo.add(jMenuItemSair);
 
         jMenuBar.add(jMenuArquivo);
@@ -123,6 +133,10 @@ public class ServidorPrincipal extends javax.swing.JFrame {
     private void jMenuItemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreActionPerformed
         exibirSobre();
     }//GEN-LAST:event_jMenuItemSobreActionPerformed
+
+    private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
+        sairDoPrograma();
+    }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,6 +195,11 @@ public class ServidorPrincipal extends javax.swing.JFrame {
         "Sobre", JOptionPane.INFORMATION_MESSAGE);
 
         // "E-mail: <a href='mailto:engjorgeaugusto@hotmail.com'>engjorgeaugusto@hotmail.com</a></html>",
+    }
+
+    // Este método fecha o programa
+    private void sairDoPrograma() {
+        dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

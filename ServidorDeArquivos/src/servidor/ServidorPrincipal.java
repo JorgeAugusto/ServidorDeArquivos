@@ -14,7 +14,11 @@ public class ServidorPrincipal extends javax.swing.JFrame {
      * Creates new form ServidorPrincipal
      */
     public ServidorPrincipal() {
+
         initComponents();
+
+        // Coloa janela no centro da tela
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -74,6 +78,11 @@ public class ServidorPrincipal extends javax.swing.JFrame {
         jMenuArquivo.setText("Arquivo");
 
         jMenuItemCadServEscravo.setText("Cadastrar Servidor Escravo");
+        jMenuItemCadServEscravo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadServEscravoActionPerformed(evt);
+            }
+        });
         jMenuArquivo.add(jMenuItemCadServEscravo);
 
         jMenuItemSair.setText("Sair");
@@ -138,6 +147,10 @@ public class ServidorPrincipal extends javax.swing.JFrame {
         sairDoPrograma();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
+    private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
+        cadastrarServidoresEscravos();
+    }//GEN-LAST:event_jMenuItemCadServEscravoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -201,6 +214,23 @@ public class ServidorPrincipal extends javax.swing.JFrame {
     private void sairDoPrograma() {
         dispose();
     }
+
+    // Este método abria a janela de cadastro de servidores escravos
+    private void cadastrarServidoresEscravos() {
+        cadServidoresEscravos = new CadServidoresEscravos(this, true);
+
+        // coloca cadastro de servidores escravos no centro desta tela...
+        cadServidoresEscravos.setLocationRelativeTo(this);
+        cadServidoresEscravos.setVisible(true);
+    }
+
+
+    /* Declaração das minhas varíaveis
+     *
+     */
+
+    CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

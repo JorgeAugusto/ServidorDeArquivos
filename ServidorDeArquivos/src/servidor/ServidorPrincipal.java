@@ -252,8 +252,8 @@ public class ServidorPrincipal extends javax.swing.JFrame {
             listaServEscravos = (ArrayList<InfoServidoresEscravos>) leitor.readObject();
         }
         catch(Exception ex) {
-            JOptionPane.showConfirmDialog(null, ex.getStackTrace().toString(),
-                                         "Erro ao salvar lista",
+            JOptionPane.showConfirmDialog(null, ex.getMessage(),
+                                         "Erro ao ler lista",
                                          JOptionPane.ERROR_MESSAGE);
         }
     }

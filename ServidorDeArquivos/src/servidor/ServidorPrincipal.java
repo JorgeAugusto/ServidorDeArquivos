@@ -6,6 +6,7 @@
 package servidor;
 
 import base.InfoServidoresEscravos;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -200,8 +201,13 @@ public class ServidorPrincipal extends javax.swing.JFrame {
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
-                new ServidorPrincipal().setVisible(true);
+                ServidorPrincipal servidor = new ServidorPrincipal();
+
+
+                servidor.setVisible(true);
+                servidor.carregarListaServidoresEscravos();
             }
         });
     }
@@ -239,7 +245,17 @@ public class ServidorPrincipal extends javax.swing.JFrame {
 
     // Este método carrega a lista de servidores escravos do arquivos em disco
     private void carregarListaServidoresEscravos() {
+        try {
+            FileInputStream        arquivo     = new FileInputStream("ListaDeServidoresEscravos.txt");
+            ObjectInputStream      leitor      = new ObjectInputStream(arquivo);
 
+            listaServEscravos = (ArrayList<InfoServidoresEscravos>) leitor.readObject();
+        }
+        catch(Exception ex) {
+            JOptionPane.showConfirmDialog(null, ex.getStackTrace().toString(),
+                                         "Erro ao salvar lista",
+                                         JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 

@@ -17,4 +17,13 @@ public class InfoServidoresEscravos implements Serializable{
         this.ip     = ip;
         this.porta  = porta;
     }
+
+    // Sobre-escreve o método toString para fornecer os atributos da classe
+    // Este método é somente para testes.
+    @Override
+    public String toString() {
+        return "[" + nome + ", " + ip + ", " + porta + "]";
+        
+
+    }
 }

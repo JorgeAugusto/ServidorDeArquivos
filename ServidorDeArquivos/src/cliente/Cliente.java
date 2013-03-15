@@ -62,16 +62,14 @@ public class Cliente extends javax.swing.JFrame {
 
         jTableArquivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "Jorge Filho.jpg", "Foto", "Escravo 1", "1 MB"},
-                {"02", "Computador", "Foto", "Escravo 2", "1 MB"},
-                {"03", "Ainda é cedo.mp3", "Música", "Escravo 1", "3 MB"}
+
             },
             new String [] {
-                "Número", "Nome do Arquivo", "Tipo", "Local", "Tamanho"
+                "Nome do Arquivo", "Local", "Tamanho"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -81,8 +79,6 @@ public class Cliente extends javax.swing.JFrame {
         jTableArquivos.getTableHeader().setReorderingAllowed(false);
         jScrollPaneTabela.setViewportView(jTableArquivos);
         jTableArquivos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableArquivos.getColumnModel().getColumn(0).setMinWidth(60);
-        jTableArquivos.getColumnModel().getColumn(0).setMaxWidth(60);
 
         jLabelMsgListaArquivos.setText("Lista de Arquivos Disponíveis - No Servidor Principal");
 

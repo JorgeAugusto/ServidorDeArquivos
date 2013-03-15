@@ -61,7 +61,6 @@ public class Conexao implements Runnable {
         }
     }
 
-
     // Este método responde a solicitção de listagem de arquivos...
     private void enviaListaDeArquivos() {
         try {

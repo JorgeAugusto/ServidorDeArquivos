@@ -1,12 +1,16 @@
 /**
  * Enum com as configurações de conexão
  * @author Jorge Augusto C. dos Reis
- */
+ * Descrição:
+ * Esta classe modela a Janela de cadastro de servidores escravos, esta janela
+ * foi criada para evitar que tenhamos que editar o código no momento de colocar
+ * o sistema de em produção, com ela basta apenas informar em quais máquimas
+ * os servidores escravos e iniciar o serviço.
+*/
 
 package servidor;
 
 import base.InfoServidoresEscravos;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;

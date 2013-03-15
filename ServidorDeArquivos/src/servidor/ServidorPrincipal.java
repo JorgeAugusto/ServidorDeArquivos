@@ -1,6 +1,8 @@
 /**
  * Enum com as configurações de conexão
  * @author Jorge Augusto C. dos Reis
+ * Descrição:
+ * Esta classe modela a Janela do Servidor Principal
  */
 
 package servidor;
@@ -267,6 +269,24 @@ public class ServidorPrincipal extends javax.swing.JFrame {
                                          "Erro ao ler lista",
                                          JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // Solicita listagem dos arquivos para todos os servidores escravos
+    private void solicitarArquivos() {
+        for(InfoServidoresEscravos servEscravo : listaServEscravos) {
+            solicitarListagemDeArquivos(servEscravo);
+        }
+    }
+
+
+    // Solicitar listagem dos arquivos
+    // Este método vai solicitar aos vários servidores escravos que informem
+    // a listagem dos vários arquivos disponíveis, ele será chamaod de dentro do
+    // do método solicitarArquivos() ai é cima, para cada uma dos vários servidores
+    // constantes na lista de servidores escravos, no momento ele está sendo
+    // chamdo diretamente e lista os arquivos existentes na pasta: ArquivosDistribuídos
+    private void solicitarListagemDeArquivos(InfoServidoresEscravos servEscravo) {
+
     }
 
     /* Declaração das minhas varíaveis

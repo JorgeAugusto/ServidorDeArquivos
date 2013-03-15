@@ -1,6 +1,10 @@
 /**
  * Enum com as configurações de conexão
  * @author Jorge Augusto C. dos Reis
+ * Descrição:
+ * Esta classe modela uma informação de conexão com um servidor escravo
+ * Ela é usando em um ArrayList, para que dessa se possa trabalhar com esses
+ * dados como objetos.
  */
 
 package base;
@@ -23,7 +27,7 @@ public class InfoServidoresEscravos implements Serializable{
     @Override
     public String toString() {
         return "[" + nome + ", " + ip + ", " + porta + "]";
-        
+
 
     }
 }

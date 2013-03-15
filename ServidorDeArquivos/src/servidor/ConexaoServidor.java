@@ -1,6 +1,10 @@
 /**
  * Classe que implementa Runnable para várias conexões
  * @author Jorge Augusto C. dos Reis
+ * Descrição:
+ * Esta classe modela uma conexão com o servidor principal, ela vai ser utilizada
+ * pela classe ServidorPrincipal para criar uma nova Thread com gerenciará uma
+ * conexão com o cliente.
  */
 
 package servidor;

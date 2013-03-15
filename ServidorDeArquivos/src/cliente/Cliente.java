@@ -34,27 +34,29 @@ public class Cliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPaneTabela = new javax.swing.JScrollPane();
+        jTableArquivos = new javax.swing.JTable();
+        jLabelMsgListaArquivos = new javax.swing.JLabel();
         jButtonUp = new javax.swing.JButton();
         jButtonDown = new javax.swing.JButton();
         jButtonApagar = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
+        jPanelBarraStatus = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabelBarraStatus = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
-        jMenuItemCadServEscravo = new javax.swing.JMenuItem();
         jMenuItemSair = new javax.swing.JMenuItem();
         jMenuAjuda = new javax.swing.JMenu();
         jMenuItemSobre = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Servidor Principal - Sistema Servidor de Arquivos");
+        setTitle("Cliente do Servidor de Arquivos");
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setName("framePrincipal");
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableArquivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"01", "Jorge Filho.jpg", "Foto", "Escravo 1", "1 MB"},
                 {"02", "Computador", "Foto", "Escravo 2", "1 MB"},
@@ -72,13 +74,13 @@ public class Cliente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-        jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+        jTableArquivos.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneTabela.setViewportView(jTableArquivos);
+        jTableArquivos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableArquivos.getColumnModel().getColumn(0).setMinWidth(60);
+        jTableArquivos.getColumnModel().getColumn(0).setMaxWidth(60);
 
-        jLabel1.setText("Lista de Arquivos Disponíveis - No Servidor Principal");
+        jLabelMsgListaArquivos.setText("Lista de Arquivos Disponíveis - No Servidor Principal");
 
         jButtonUp.setText("Upload");
 
@@ -93,15 +95,28 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
 
-        jMenuArquivo.setText("Arquivo");
+        jLabelBarraStatus.setText("Carregando...");
 
-        jMenuItemCadServEscravo.setText("Cadastrar Servidor Escravo");
-        jMenuItemCadServEscravo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCadServEscravoActionPerformed(evt);
-            }
-        });
-        jMenuArquivo.add(jMenuItemCadServEscravo);
+        javax.swing.GroupLayout jPanelBarraStatusLayout = new javax.swing.GroupLayout(jPanelBarraStatus);
+        jPanelBarraStatus.setLayout(jPanelBarraStatusLayout);
+        jPanelBarraStatusLayout.setHorizontalGroup(
+            jPanelBarraStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarraStatusLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelBarraStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelBarraStatusLayout.setVerticalGroup(
+            jPanelBarraStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelBarraStatusLayout.createSequentialGroup()
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelBarraStatus)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jMenuArquivo.setText("Arquivo");
 
         jMenuItemSair.setText("Sair");
         jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +150,7 @@ public class Cliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,23 +162,25 @@ public class Cliente extends javax.swing.JFrame {
                                 .addComponent(jButtonApagar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(336, 336, 336)
                                 .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1))
+                            .addComponent(jLabelMsgListaArquivos))
                         .addContainerGap())))
+            .addComponent(jPanelBarraStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel1)
+                .addComponent(jLabelMsgListaArquivos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDown)
                     .addComponent(jButtonUp)
                     .addComponent(jButtonApagar)
                     .addComponent(jButtonFechar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(jPanelBarraStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -177,12 +194,8 @@ public class Cliente extends javax.swing.JFrame {
         sairDoPrograma();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
-    private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
-        cadastrarServidoresEscravos();
-    }//GEN-LAST:event_jMenuItemCadServEscravoActionPerformed
-
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
-        fecharJanela();
+        sairDoPrograma();
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     /**
@@ -236,15 +249,10 @@ public class Cliente extends javax.swing.JFrame {
      * não existe código que não tenha sido feito por mim.
      */
 
-    // Fecha a janela
-    private void fecharJanela() {
-        dispose();
-    }
-
     // Método que exibe a mensagem do Sobre
     private void exibirSobre() {
         JOptionPane.showMessageDialog(rootPane,
-        "<html><b><font size='5'>Sistema Servidor de Arquivos</font></b><br>"                   +
+        "<html><b><font size='5'>Cliente do Servidor de Arquivos</font></b><br>"                   +
         "<b><font size='3'>IESAM - Institudo de Estudos Superiores da Amazônia</font></b><br>"  +
         "<b><font size='3'>Engenharia de Computação</font></b><br><br>"                         +
         "Programador: <b><font color='red'>Jorge Augusto C. dos Reis</font></b><br>"            +
@@ -296,14 +304,16 @@ public class Cliente extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDown;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonUp;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelBarraStatus;
+    private javax.swing.JLabel jLabelMsgListaArquivos;
     private javax.swing.JMenu jMenuAjuda;
     private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenuItem jMenuItemCadServEscravo;
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSobre;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel jPanelBarraStatus;
+    private javax.swing.JScrollPane jScrollPaneTabela;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTableArquivos;
     // End of variables declaration//GEN-END:variables
 }

@@ -41,6 +41,8 @@ public class Janela extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
         jLabelBarraStatus = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
@@ -105,6 +107,25 @@ public class Janela extends javax.swing.JFrame {
 
         jLabelBarraStatus.setText("Carregando...");
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelBarraStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelBarraStatus)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         jMenuArquivo.setText("Arquivo");
 
         jMenuItemCadServEscravo.setText("Cadastrar Servidor Escravo");
@@ -149,9 +170,9 @@ public class Janela extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabelBarraStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2))
+                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,8 +185,8 @@ public class Janela extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jLabelBarraStatus))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -227,16 +248,17 @@ public class Janela extends javax.swing.JFrame {
                 janela.carregarListaServidoresEscravos();
 
                 /**
-                 * Cria a nova GerenteConexao que irá responder as solicitações,
+                 * Cria a nova GerenteConexao que irá responder as solicitações
                  * a partir dela cria uma nova thread
                  * isso poderia ficar em uma só linha como em:
                  * new Thread(new GerenteConexao(janela.jLabelBarraStatus)).start();
                  * Mas para que possamos referencia tando a instância de GerenteConexao
-                 * como de Thread, resolvi colocar desta forma.
+                 * como de Thread, resolvi colocar desta forma
                  */
-                janela.gerenteConexao   = new GerenteConexao(janela.jLabelBarraStatus);
-                janela.threadDoServidor = new Thread(janela.gerenteConexao);
-                janela.threadDoServidor.start();
+
+                //janela.gerenteConexao   = new GerenteConexao(janela.jLabelBarraStatus);
+                //janela.threadDoServidor = new Thread(janela.gerenteConexao);
+                //janela.threadDoServidor.start();
             }
         });
     }
@@ -301,7 +323,7 @@ public class Janela extends javax.swing.JFrame {
     * a listagem dos vários arquivos que eles tem disponíveis, ele será chamaod de dentro do
     * do método solicitarArquivos() ai é cima, para cada uma dos vários servidores
     * constantes na lista de servidores escravos, no momento ele está sendo
-    * chamdo diretamente e lista os arquivos existentes na pasta: ArquivosDistribuídos 
+    * chamdo diretamente e lista os arquivos existentes na pasta: ArquivosDistribuídos
     */
     private void solicitarListagemDeArquivos(InfoServidoresEscravos servEscravo) {
 
@@ -329,8 +351,10 @@ public class Janela extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCadServEscravo;
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSobre;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables

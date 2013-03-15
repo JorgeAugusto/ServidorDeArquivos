@@ -7,34 +7,23 @@
 
 package servidor;
 
-import base.InfoServidorPrincipal;
 import base.InfoServidoresEscravos;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class ServidorPrincipal extends javax.swing.JFrame {
+public class ServidorJanela extends javax.swing.JFrame {
 
     /**
-     * Creates new form ServidorPrincipal
+     * Creates new form ServidorJanela
      */
-    public ServidorPrincipal() {
+    public ServidorJanela() {
 
         initComponents();
 
         // Coloca janela no centro da tela
         setLocationRelativeTo(null);
-
-        try {
-            socketServidor = new ServerSocket(InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
-        }
-        catch(Exception ex) {
-            JOptionPane.showConfirmDialog(null, ex.getMessage(),
-                                "Erro ao criar Socket do Servidor",
-                                JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
@@ -52,6 +41,7 @@ public class ServidorPrincipal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
         jMenuItemCadServEscravo = new javax.swing.JMenuItem();
@@ -113,6 +103,8 @@ public class ServidorPrincipal extends javax.swing.JFrame {
 
         jLabel2.setText("Lista de Escravos");
 
+        jLabel3.setText("Carregando...");
+
         jMenuArquivo.setText("Arquivo");
 
         jMenuItemCadServEscravo.setText("Cadastrar Servidor Escravo");
@@ -153,11 +145,12 @@ public class ServidorPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -171,7 +164,8 @@ public class ServidorPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jLabel3))
         );
 
         pack();
@@ -210,13 +204,13 @@ public class ServidorPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ServidorPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ServidorPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ServidorPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ServidorPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -227,24 +221,13 @@ public class ServidorPrincipal extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                ServidorPrincipal servidor = new ServidorPrincipal();
+                ServidorJanela servidor = new ServidorJanela();
 
                 servidor.setVisible(true);
                 servidor.carregarListaServidoresEscravos();
 
-                // Loop infinito, aceita as conexões vindas dos clientes
-                // e cria uma nova ConexaoServidor (Thread) para responder pela
-                // mesma
-                for(;;) {
-                    try {
-                        new Thread(new ConexaoServidor(servidor.socketServidor.accept())).start();
-                    }
-                    catch(Exception ex) {
-                        JOptionPane.showConfirmDialog(null, ex.getMessage(),
-                                "Erro ao aceitar a conexão do cliente e criar a nova Conexão",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+                // Cria a nova ServidorThread que irá responder as solicitações
+                new Thread(new ServidorThread()).start();
             }
         });
     }
@@ -317,7 +300,7 @@ public class ServidorPrincipal extends javax.swing.JFrame {
      *
      */
 
-    private ServerSocket    socketServidor;
+    ServidorThread                threadDoServidor;
     private CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
     private ArrayList<InfoServidoresEscravos> listaServEscravos = new ArrayList<InfoServidoresEscravos>();
 
@@ -326,6 +309,7 @@ public class ServidorPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenuAjuda;
     private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar;

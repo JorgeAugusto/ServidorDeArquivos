@@ -8,6 +8,7 @@
 package servidor;
 
 import base.InfoServidoresEscravos;
+import base.ListagemDeArquivos;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -245,7 +246,6 @@ public class Janela extends javax.swing.JFrame {
                 Janela janela = new Janela();
 
                 janela.setVisible(true);
-                janela.carregarListaServidoresEscravos();
 
                 /**
                  * Cria a nova GerenteConexao que irá responder as solicitações
@@ -255,10 +255,13 @@ public class Janela extends javax.swing.JFrame {
                  * Mas para que possamos referencia tando a instância de GerenteConexao
                  * como de Thread, resolvi colocar desta forma
                  */
+                janela.gerenteConexao   = new GerenteConexao(janela.jLabelBarraStatus);
+                janela.threadDoServidor = new Thread(janela.gerenteConexao);
+                janela.threadDoServidor.start();
 
-                //janela.gerenteConexao   = new GerenteConexao(janela.jLabelBarraStatus);
-                //janela.threadDoServidor = new Thread(janela.gerenteConexao);
-                //janela.threadDoServidor.start();
+                // Atualiza a lista dos arquivos...
+                janela.carregarListaServidoresEscravos();
+                janela.atualizaListagemDeArquivos();
             }
         });
     }
@@ -309,24 +312,27 @@ public class Janela extends javax.swing.JFrame {
         }
     }
 
-    // Solicita listagem dos arquivos para todos os servidores escravos
-    private void solicitarArquivos() {
+    /**
+     * Atualiza a listagem dos arquivos, este método é synchronized para evitar
+     * erros de sincronização
+     */
+    private synchronized void  atualizaListagemDeArquivos() {
         for(InfoServidoresEscravos servEscravo : listaServEscravos) {
             solicitarListagemDeArquivos(servEscravo);
         }
     }
-
 
     /**
     * Solicitar listagem dos arquivos
     * Este método vai solicitar aos vários servidores escravos que informem
     * a listagem dos vários arquivos que eles tem disponíveis, ele será chamaod de dentro do
     * do método solicitarArquivos() ai é cima, para cada uma dos vários servidores
-    * constantes na lista de servidores escravos, no momento ele está sendo
-    * chamdo diretamente e lista os arquivos existentes na pasta: ArquivosDistribuídos
+    * constantes na lista de servidores escravos, no momento ele e lista os arquivos
+    * existentes na pasta: ArquivosDistribuídos, mais isso vai mudar, para que
+    * lista os arquivos existentes no servidores escravos
     */
     private void solicitarListagemDeArquivos(InfoServidoresEscravos servEscravo) {
-
+        jLabelBarraStatus.setText("Atualizando listagem de arquivos, aguarde...");
     }
 
     /* Declaração das minhas varíaveis
@@ -336,8 +342,8 @@ public class Janela extends javax.swing.JFrame {
     private Thread                              threadDoServidor;
     private GerenteConexao                      gerenteConexao;
     private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro
-    private ArrayList<InfoServidoresEscravos>   listaServEscravos = new ArrayList<InfoServidoresEscravos>();
-
+    private ArrayList<InfoServidoresEscravos>   listaServEscravos   = new ArrayList<InfoServidoresEscravos>();
+    private ArrayList<ListagemDeArquivos>       listaDeArquivos     = new ArrayList<ListagemDeArquivos>();
 
     // Fim das Minhas Declarações
 

@@ -11,14 +11,15 @@
 package servidor;
 
 import base.InfoServidorPrincipal;
+import base.ListagemDeArquivos;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class GerenteConexao implements Runnable{
-    private ServerSocket    socketServidor;
-    private JLabel          barraStatus;
-
+    private ServerSocket                    socketServidor;
+    private JLabel                          barraStatus;
 
     // Construtor
     public GerenteConexao(JLabel barraStatus) {
@@ -35,7 +36,7 @@ public class GerenteConexao implements Runnable{
 
     @Override
     public void run() {
-        barraStatus.setText("Iniciou Execução da Thread do Servidor!!!");
+        barraStatus.setText("Iniciou execução da Thread do Servidor!!!");
 
         // Loop infinito, aceita as conexões vindas dos clientes
         // e cria uma nova Conexao (GerenteConexao) para responder pela

@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Conexao implements Runnable {
+    private static int i = 0;
     private Socket                  socketCliente;
     private ObjectInputStream       entradaCliente;
     private ObjectOutputStream      saidaCliente;

@@ -13,12 +13,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ServidorConexao implements Runnable {
+public class Conexao implements Runnable {
     private Socket                  socketCliente;
     private ObjectInputStream       entradaCliente;
     private ObjectOutputStream      saidaCliente;
 
-    public ServidorConexao(Socket socketCliente) throws Exception {
+    public Conexao(Socket socketCliente) throws Exception {
         this.socketCliente = socketCliente;
         entradaCliente = new ObjectInputStream(this.socketCliente.getInputStream());
         saidaCliente   = new ObjectOutputStream(this.socketCliente.getOutputStream());

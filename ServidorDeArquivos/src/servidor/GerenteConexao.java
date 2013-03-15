@@ -2,10 +2,10 @@
  * Enum com as configurações de conexão
  * @author Jorge Augusto C. dos Reis
  * Descrição:
- * Esta classe modela a ServidorThread do servidor responsavel por aceitar as conexões
+ * Esta classe modela a GerenteConexao do servidor responsavel por aceitar as conexões
  * isto por que o método accept é bloqueante e não pode ficar em um método da
  * interface gráfica senão, ele trava a mesma, desta forma é necessário se criar
- * uma nova ServidorThread para realizar o processo de aceitar as novas conexões.
+ * uma nova GerenteConexao para realizar o processo de aceitar as novas conexões.
  */
 
 package servidor;
@@ -15,13 +15,13 @@ import java.net.ServerSocket;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class ServidorThread implements Runnable{
+public class GerenteConexao implements Runnable{
     private ServerSocket    socketServidor;
     private JLabel          barraStatus;
 
 
     // Construtor
-    public ServidorThread(JLabel barraStatus) {
+    public GerenteConexao(JLabel barraStatus) {
         try {
             this.barraStatus = barraStatus;
             socketServidor = new ServerSocket(InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
@@ -38,11 +38,11 @@ public class ServidorThread implements Runnable{
         barraStatus.setText("Iniciou Execução da Thread do Servidor!!!");
 
         // Loop infinito, aceita as conexões vindas dos clientes
-        // e cria uma nova ServidorConexao (ServidorThread) para responder pela
+        // e cria uma nova Conexao (GerenteConexao) para responder pela
         // mesma
         for(;;) {
             try {
-                new Thread(new ServidorConexao(socketServidor.accept())).start();
+                new Thread(new Conexao(socketServidor.accept())).start();
             }
             catch(Exception ex) {
                 JOptionPane.showConfirmDialog(null, ex.getMessage(),

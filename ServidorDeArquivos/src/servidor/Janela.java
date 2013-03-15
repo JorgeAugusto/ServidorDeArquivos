@@ -13,12 +13,12 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class ServidorJanela extends javax.swing.JFrame {
+public class Janela extends javax.swing.JFrame {
 
     /**
-     * Creates new form ServidorJanela
+     * Creates new form Janela
      */
-    public ServidorJanela() {
+    public Janela() {
 
         initComponents();
 
@@ -204,13 +204,13 @@ public class ServidorJanela extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ServidorJanela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -221,13 +221,22 @@ public class ServidorJanela extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                ServidorJanela janela = new ServidorJanela();
+                Janela janela = new Janela();
 
                 janela.setVisible(true);
                 janela.carregarListaServidoresEscravos();
 
-                // Cria a nova ServidorThread que irá responder as solicitações
-                new Thread(new ServidorThread(janela.jLabelBarraStatus)).start();
+                /**
+                 * Cria a nova GerenteConexao que irá responder as solicitações,
+                 * a partir dela cria uma nova thread
+                 * isso poderia ficar em uma só linha como em:
+                 * new Thread(new GerenteConexao(janela.jLabelBarraStatus)).start();
+                 * Mas para que possamos referencia tando a instância de GerenteConexao
+                 * como de Thread, resolvi colocar desta forma.
+                 */
+                janela.gerenteConexao   = new GerenteConexao(janela.jLabelBarraStatus);
+                janela.threadDoServidor = new Thread(janela.gerenteConexao);
+                janela.threadDoServidor.start();
             }
         });
     }
@@ -286,12 +295,14 @@ public class ServidorJanela extends javax.swing.JFrame {
     }
 
 
-    // Solicitar listagem dos arquivos
-    // Este método vai solicitar aos vários servidores escravos que informem
-    // a listagem dos vários arquivos disponíveis, ele será chamaod de dentro do
-    // do método solicitarArquivos() ai é cima, para cada uma dos vários servidores
-    // constantes na lista de servidores escravos, no momento ele está sendo
-    // chamdo diretamente e lista os arquivos existentes na pasta: ArquivosDistribuídos
+    /**
+    * Solicitar listagem dos arquivos
+    * Este método vai solicitar aos vários servidores escravos que informem
+    * a listagem dos vários arquivos que eles tem disponíveis, ele será chamaod de dentro do
+    * do método solicitarArquivos() ai é cima, para cada uma dos vários servidores
+    * constantes na lista de servidores escravos, no momento ele está sendo
+    * chamdo diretamente e lista os arquivos existentes na pasta: ArquivosDistribuídos 
+    */
     private void solicitarListagemDeArquivos(InfoServidoresEscravos servEscravo) {
 
     }
@@ -300,9 +311,11 @@ public class ServidorJanela extends javax.swing.JFrame {
      *
      */
 
-    ServidorThread                threadDoServidor;
-    private CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
-    private ArrayList<InfoServidoresEscravos> listaServEscravos = new ArrayList<InfoServidoresEscravos>();
+    private Thread                              threadDoServidor;
+    private GerenteConexao                      gerenteConexao;
+    private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro
+    private ArrayList<InfoServidoresEscravos>   listaServEscravos = new ArrayList<InfoServidoresEscravos>();
+
 
     // Fim das Minhas Declarações
 

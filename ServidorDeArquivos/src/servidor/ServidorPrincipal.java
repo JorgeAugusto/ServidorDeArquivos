@@ -7,9 +7,11 @@
 
 package servidor;
 
+import base.InfoServidorPrincipal;
 import base.InfoServidoresEscravos;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -22,8 +24,17 @@ public class ServidorPrincipal extends javax.swing.JFrame {
 
         initComponents();
 
-        // Coloa janela no centro da tela
+        // Coloca janela no centro da tela
         setLocationRelativeTo(null);
+
+        try {
+            socketServidor = new ServerSocket(InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
+        }
+        catch(Exception ex) {
+            JOptionPane.showConfirmDialog(null, ex.getMessage(),
+                                "Erro ao criar Socket do Servidor",
+                                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -218,9 +229,22 @@ public class ServidorPrincipal extends javax.swing.JFrame {
             public void run() {
                 ServidorPrincipal servidor = new ServidorPrincipal();
 
-
                 servidor.setVisible(true);
                 servidor.carregarListaServidoresEscravos();
+
+                // Loop infinito, aceita as conexões vindas dos clientes
+                // e cria uma nova ConexaoServidor (Thread) para responder pela
+                // mesma
+                for(;;) {
+                    try {
+                        new Thread(new ConexaoServidor(servidor.socketServidor.accept())).start();
+                    }
+                    catch(Exception ex) {
+                        JOptionPane.showConfirmDialog(null, ex.getMessage(),
+                                "Erro ao aceitar a conexão do cliente e criar a nova Conexão",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
     }
@@ -293,9 +317,11 @@ public class ServidorPrincipal extends javax.swing.JFrame {
      *
      */
 
-    CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
-    ArrayList<InfoServidoresEscravos> listaServEscravos = new ArrayList<InfoServidoresEscravos>();
+    private ServerSocket    socketServidor;
+    private CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
+    private ArrayList<InfoServidoresEscravos> listaServEscravos = new ArrayList<InfoServidoresEscravos>();
 
+    // Fim das Minhas Declarações
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

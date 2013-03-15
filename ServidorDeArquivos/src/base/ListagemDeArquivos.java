@@ -12,5 +12,31 @@ package base;
 import java.io.Serializable;
 
 public class ListagemDeArquivos implements Serializable {
+    private String  nome;
+    private String  local;
+    private int     tamanho; // em bytes;
 
+
+    // Construtor
+    public ListagemDeArquivos(String nome, String local, int tamanho) {
+        this.nome       = nome;
+        this.local      = local;
+        this.tamanho    = tamanho;
+    }
+
+    /**
+     * Este método returna um array de string's ele vai ser usado pelo Model da
+     * JTable
+     * @Todo: É necessário escrever um método que transforme o total de dados
+     * em um forma mais inteligente, tipo... KB, MB, GB e coisas do tipo...
+     * mas isso fica pra faze final
+     */
+    public String[] getArray() {
+        String[] array = new String[3];
+        array[0] = nome;
+        array[1] = local;
+        array[2] = Integer.toString(tamanho) + " bytes";
+
+        return array;
+    }
 }

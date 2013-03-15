@@ -27,7 +27,5 @@ public class InfoServidoresEscravos implements Serializable{
     @Override
     public String toString() {
         return "[" + nome + ", " + ip + ", " + porta + "]";
-
-
     }
 }

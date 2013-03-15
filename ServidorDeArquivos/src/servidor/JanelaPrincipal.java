@@ -199,7 +199,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
-        cadastrarServidoresEscravos();
+        abrirJanelaCadastroServidoresEscravos();
     }//GEN-LAST:event_jMenuItemCadServEscravoActionPerformed
 
     /**
@@ -286,12 +286,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }
 
     // Este método abria a janela de cadastro de servidores escravos
-    private void cadastrarServidoresEscravos() {
-        cadServidoresEscravos = new CadServidoresEscravos(this, true);
+    private void abrirJanelaCadastroServidoresEscravos() {
+        janCadServidorEscravo = new JanelaCadServEscravo(this, true);
 
         // coloca cadastro de servidores escravos no centro desta tela...
-        cadServidoresEscravos.setLocationRelativeTo(this);
-        cadServidoresEscravos.setVisible(true);
+        janCadServidorEscravo.setLocationRelativeTo(this);
+        janCadServidorEscravo.setVisible(true);
     }
 
     // Este método carrega a lista de servidores escravos do arquivos em disco
@@ -383,7 +383,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
      */
     private Thread                              threadDoServidor;
     private GerenteConexao                      gerenteConexao;
-    private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro de escravos!
+    private JanelaCadServEscravo               janCadServidorEscravo;      // referência a janela de cadastro de escravos!
     private ArrayList<InfoServidorEscravo>      listaServEscravos   = new ArrayList<InfoServidorEscravo>();
     private ArrayList<InfoDeArquivo>            listaDeArquivos     = new ArrayList<InfoDeArquivo>();
     // Fim das Minhas Declarações

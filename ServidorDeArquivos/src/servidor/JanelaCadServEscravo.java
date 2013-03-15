@@ -16,12 +16,12 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class CadServidoresEscravos extends javax.swing.JDialog {
+public class JanelaCadServEscravo extends javax.swing.JDialog {
 
     /**
-     * Creates new form CadServidoresEscravos
+     * Creates new form JanelaCadServEscravo
      */
-    public CadServidoresEscravos(java.awt.Frame parent, boolean modal) {
+    public JanelaCadServEscravo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -147,13 +147,13 @@ public class CadServidoresEscravos extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadServidoresEscravos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaCadServEscravo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadServidoresEscravos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaCadServEscravo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadServidoresEscravos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaCadServEscravo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadServidoresEscravos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaCadServEscravo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -163,7 +163,7 @@ public class CadServidoresEscravos extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                CadServidoresEscravos dialog = new CadServidoresEscravos(new javax.swing.JFrame(), true);
+                JanelaCadServEscravo dialog = new JanelaCadServEscravo(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

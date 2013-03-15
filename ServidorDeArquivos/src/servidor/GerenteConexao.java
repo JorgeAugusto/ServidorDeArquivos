@@ -18,13 +18,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class GerenteConexao implements Runnable{
-    private ServerSocket                    socketServidor;
-    private JLabel                          barraStatus;
+    private ServerSocket    socketServidor;
+    private Janela          janela;         // referência a janela do programa
 
     // Construtor
-    public GerenteConexao(JLabel barraStatus) {
+    public GerenteConexao(Janela janela) {
         try {
-            this.barraStatus = barraStatus;
+            this.janela = janela;
             socketServidor = new ServerSocket(InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
         }
         catch(Exception ex) {
@@ -36,14 +36,14 @@ public class GerenteConexao implements Runnable{
 
     @Override
     public void run() {
-        barraStatus.setText("Iniciou execução da Thread do Servidor!!!");
+        janela.escreveNaBarraStatus("Iniciou execução da Thread do Servidor!!!");
 
         // Loop infinito, aceita as conexões vindas dos clientes
         // e cria uma nova Conexao (GerenteConexao) para responder pela
         // mesma
         for(;;) {
             try {
-                new Thread(new Conexao(socketServidor.accept())).start();
+                new Thread(new Conexao(socketServidor.accept(), janela)).start();
             }
             catch(Exception ex) {
                 JOptionPane.showConfirmDialog(null, ex.getMessage(),

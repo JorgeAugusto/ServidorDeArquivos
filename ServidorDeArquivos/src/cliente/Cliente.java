@@ -1,16 +1,20 @@
 /**
- * Enum com as configurações de conexão
+ * Classe da Janela Principal do Cliente
  * @author Jorge Augusto C. dos Reis
+ * Descrição:
+ * Esta classe modela a Janela do Servidor Principal
  */
 
 package cliente;
 
-import base.InfoServidorEscravo;
-import java.io.FileInputStream;
+import base.InfoDeArquivo;
+import base.InfoServidorPrincipal;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import servidor.CadServidoresEscravos;
+import javax.swing.table.DefaultTableModel;
 
 public class Cliente extends javax.swing.JFrame {
 
@@ -236,11 +240,12 @@ public class Cliente extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                Cliente servidor = new Cliente();
+                Cliente cliente = new Cliente();
 
+                cliente.setVisible(true);
+                cliente.iniciarComunicao();
 
-                servidor.setVisible(true);
-                servidor.carregarListaServidoresEscravos();
+                cliente.atualizarTabelaArquivos();
             }
         });
     }
@@ -267,37 +272,72 @@ public class Cliente extends javax.swing.JFrame {
         dispose();
     }
 
-    // Este método abria a janela de cadastro de servidores escravos
-    private void cadastrarServidoresEscravos() {
-        cadServidoresEscravos = new CadServidoresEscravos(this, true);
 
-        // coloca cadastro de servidores escravos no centro desta tela...
-        cadServidoresEscravos.setLocationRelativeTo(this);
-        cadServidoresEscravos.setVisible(true);
-    }
-
-    // Este método carrega a lista de servidores escravos do arquivos em disco
-    private void carregarListaServidoresEscravos() {
+    // Este método, cria o socket do cliente e inicia a comunicação com co servidor
+    private void iniciarComunicao() {
         try {
-            FileInputStream        arquivo     = new FileInputStream("ListaDeServidoresEscravos.txt");
-            ObjectInputStream      leitor      = new ObjectInputStream(arquivo);
-
-            listaServEscravos = (ArrayList<InfoServidorEscravo>) leitor.readObject();
+            // Conecto ao servidor
+            socketControleCliente = new Socket( InfoServidorPrincipal.SERVIDOR_PRINCIPAL.ip,
+                                                InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
         }
         catch(Exception ex) {
-            JOptionPane.showConfirmDialog(null, ex.getMessage(),
-                                         "Erro ao ler lista",
-                                         JOptionPane.ERROR_MESSAGE);
+            jLabelBarraStatus.setText("Erro em inciar comunicação com o Servidor: " + ex);
         }
     }
 
-    /* Declaração das minhas varíaveis
-     *
+    // Este método solicita ao servidor que envie a lista de arquivos disponíveis
+    private void enviaSolicitacao(TipoSolicitacao solicitacao) {
+        try {
+            saidaControleSolicitacao = new ObjectOutputStream(socketControleCliente.getOutputStream());
+            saidaControleSolicitacao.writeObject(solicitacao);
+        }
+        catch(Exception ex) {
+            jLabelBarraStatus.setText("Ao enviar solicitação: " + ex);
+        }
+    }
+
+    // Envia uma solicitação de listagem de arquivos...
+    // E lê a resposta do mesmo...
+    private void solicitaListagemArquivos() {
+        enviaSolicitacao(TipoSolicitacao.LISTAGEM_ARQUIVOS);
+
+        try {
+            entradaControleResposta  = new ObjectInputStream(socketControleCliente.getInputStream());
+            listaDeArquivos          = (ArrayList<InfoDeArquivo>) entradaControleResposta.readObject();
+        }
+        catch(Exception ex) {
+            jLabelBarraStatus.setText("Ao receber resposta da listagem dos arquivos: " + ex);
+        }
+    }
+
+    // Este método preenche a JTable com os dados dos arquivos...
+    private void atualizarTabelaArquivos() {
+        solicitaListagemArquivos();
+
+        DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
+        modelo.setRowCount(0);
+
+        for(InfoDeArquivo arquivo : listaDeArquivos) {
+            modelo.addRow(arquivo.getArray());
+        }
+
+        // Adiciona linhas a tabela...
+        jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
+    }
+
+    /*
+     * Declaração das minhas varíaveis
      */
 
-    CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
-    ArrayList<InfoServidorEscravo> listaServEscravos = new ArrayList<InfoServidorEscravo>();
+    // Socket para conexão de controle...
+    private Socket                      socketControleCliente;
+    private ObjectInputStream           entradaControleResposta;
+    private ObjectOutputStream          saidaControleSolicitacao;
 
+    //
+
+
+    private ArrayList<InfoDeArquivo>    listaDeArquivos = new ArrayList<InfoDeArquivo>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonApagar;

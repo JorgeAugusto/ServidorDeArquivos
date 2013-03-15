@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -251,7 +252,7 @@ public class Janela extends javax.swing.JFrame {
                  * Mas para que possamos referencia tando a instância de GerenteConexao
                  * como de Thread, resolvi colocar desta forma
                  */
-                janela.gerenteConexao   = new GerenteConexao(janela.jLabelBarraStatus);
+                janela.gerenteConexao   = new GerenteConexao(janela);
                 janela.threadDoServidor = new Thread(janela.gerenteConexao);
                 janela.threadDoServidor.start();
 
@@ -308,13 +309,18 @@ public class Janela extends javax.swing.JFrame {
         }
     }
 
+    // Escreve mensagem na barra de status
+    public void escreveNaBarraStatus(String mensagens) {
+        jLabelBarraStatus.setText(mensagens);
+    }
+
     /**
      * Atualiza a listagem dos arquivos, este método é synchronized para evitar
      * erros de sincronização
      */
-    private synchronized void  atualizaListagemDeArquivos() {
+    public synchronized void  atualizaListaDeArquivos() {
         for(InfoServidorEscravo servEscravo : listaServEscravos) {
-            solicitarListagemDeArquivos(servEscravo);
+            solicitarListaDeArquivos(servEscravo);
         }
     }
 
@@ -327,7 +333,7 @@ public class Janela extends javax.swing.JFrame {
     * existentes na pasta: ArquivosDistribuídos, mais isso vai mudar, para que
     * lista os arquivos existentes no servidores escravos
     */
-    private void solicitarListagemDeArquivos(InfoServidorEscravo servEscravo) {
+    private void solicitarListaDeArquivos(InfoServidorEscravo servEscravo) {
         jLabelBarraStatus.setText("Atualizando listagem de arquivos, aguarde...");
         try {
             File    pasta       = new File("ArquivosDistribuidos");
@@ -352,9 +358,9 @@ public class Janela extends javax.swing.JFrame {
         }
     }
 
-    // Este método transforma preenche a JTable com os dados dos arquivos...
+    // Este método preenche a JTable com os dados dos arquivos...
     private void atualizarTabelaArquivos() {
-        atualizaListagemDeArquivos();
+        atualizaListaDeArquivos();
 
         DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
         modelo.setRowCount(0);
@@ -367,13 +373,18 @@ public class Janela extends javax.swing.JFrame {
         jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
     }
 
+    // Retorna a lista de arquivos para ser enviada aos clientes...
+    public ArrayList<InfoDeArquivo> getListaDeArquivos() {
+        return listaDeArquivos;
+    }
+
     /* Declaração das minhas varíaveis
      *
      */
     private Thread                              threadDoServidor;
     private GerenteConexao                      gerenteConexao;
     private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro de escravos!
-    private ArrayList<InfoServidorEscravo>   listaServEscravos   = new ArrayList<InfoServidorEscravo>();
+    private ArrayList<InfoServidorEscravo>      listaServEscravos   = new ArrayList<InfoServidorEscravo>();
     private ArrayList<InfoDeArquivo>            listaDeArquivos     = new ArrayList<InfoDeArquivo>();
     // Fim das Minhas Declarações
 

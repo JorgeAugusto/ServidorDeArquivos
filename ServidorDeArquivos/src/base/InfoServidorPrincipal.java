@@ -1,5 +1,7 @@
 /**
  * Enum com as configurações de conexão
+ * Esses dados deverão ser salvos em um arquivo também...
+ * No momento eles estão na enum para facilitar os testes...
  * @author Jorge Augusto C. dos Reis
  */
 

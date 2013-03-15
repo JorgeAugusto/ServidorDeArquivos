@@ -41,7 +41,7 @@ public class ServidorJanela extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelBarraStatus = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
         jMenuItemCadServEscravo = new javax.swing.JMenuItem();
@@ -103,7 +103,7 @@ public class ServidorJanela extends javax.swing.JFrame {
 
         jLabel2.setText("Lista de Escravos");
 
-        jLabel3.setText("Carregando...");
+        jLabelBarraStatus.setText("Carregando...");
 
         jMenuArquivo.setText("Arquivo");
 
@@ -150,7 +150,7 @@ public class ServidorJanela extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelBarraStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -165,7 +165,7 @@ public class ServidorJanela extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jLabel3))
+                .addComponent(jLabelBarraStatus))
         );
 
         pack();
@@ -221,13 +221,13 @@ public class ServidorJanela extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                ServidorJanela servidor = new ServidorJanela();
+                ServidorJanela janela = new ServidorJanela();
 
-                servidor.setVisible(true);
-                servidor.carregarListaServidoresEscravos();
+                janela.setVisible(true);
+                janela.carregarListaServidoresEscravos();
 
                 // Cria a nova ServidorThread que irá responder as solicitações
-                new Thread(new ServidorThread()).start();
+                new Thread(new ServidorThread(janela.jLabelBarraStatus)).start();
             }
         });
     }
@@ -309,7 +309,7 @@ public class ServidorJanela extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelBarraStatus;
     private javax.swing.JMenu jMenuAjuda;
     private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar;

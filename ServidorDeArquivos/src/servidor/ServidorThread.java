@@ -12,15 +12,18 @@ package servidor;
 
 import base.InfoServidorPrincipal;
 import java.net.ServerSocket;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class ServidorThread implements Runnable{
     private ServerSocket    socketServidor;
+    private JLabel          barraStatus;
 
 
     // Construtor
-    public ServidorThread() {
+    public ServidorThread(JLabel barraStatus) {
         try {
+            this.barraStatus = barraStatus;
             socketServidor = new ServerSocket(InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
         }
         catch(Exception ex) {
@@ -32,7 +35,7 @@ public class ServidorThread implements Runnable{
 
     @Override
     public void run() {
-        JOptionPane.showMessageDialog(null, "Iniciou Execução da Thread do Servidor!!!");
+        barraStatus.setText("Iniciou Execução da Thread do Servidor!!!");
 
         // Loop infinito, aceita as conexões vindas dos clientes
         // e cria uma nova ServidorConexao (ServidorThread) para responder pela

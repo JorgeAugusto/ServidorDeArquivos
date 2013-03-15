@@ -19,10 +19,10 @@ public class Conexao implements Runnable {
     private Socket                  socketControleCliente;
     private ObjectInputStream       entradaControleSolicitacao;
     private ObjectOutputStream      saidaControleResposta;
-    private Janela                  janela;         // referência a janela do programa
+    private JanelaPrincipal                  janela;         // referência a janela do programa
     private TipoSolicitacao         solicitacao;
 
-    public Conexao(Socket socketCliente, Janela janela) throws Exception {
+    public Conexao(Socket socketCliente, JanelaPrincipal janela) throws Exception {
         janela.escreveNaBarraStatus("Entrou no construtor da Conexão");
 
         this.janela         = janela;

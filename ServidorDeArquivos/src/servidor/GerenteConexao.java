@@ -19,10 +19,10 @@ import javax.swing.JOptionPane;
 
 public class GerenteConexao implements Runnable{
     private ServerSocket    socketServidor;
-    private Janela          janela;         // referência a janela do programa
+    private JanelaPrincipal          janela;         // referência a janela do programa
 
     // Construtor
-    public GerenteConexao(Janela janela) {
+    public GerenteConexao(JanelaPrincipal janela) {
         try {
             this.janela = janela;
             socketServidor = new ServerSocket(InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);

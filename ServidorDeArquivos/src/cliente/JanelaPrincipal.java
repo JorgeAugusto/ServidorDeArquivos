@@ -1,8 +1,8 @@
 /**
- * Classe da Janela Principal do Cliente
+ * Classe da JanelaPrincipal Principal do JanelaPrincipal
  * @author Jorge Augusto C. dos Reis
  * Descrição:
- * Esta classe modela a Janela do Servidor Principal
+ * Esta classe modela a JanelaPrincipal do Servidor Principal
  * É muito importante notar que uma implementação
  * mais profissional deveria usar 2 Threads para gerenciar
  * as conexão de controle e dados, e sincronizar as funções necessárias...
@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Cliente extends javax.swing.JFrame {
+public class JanelaPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form ServidorPrincipal
      */
-    public Cliente() {
+    public JanelaPrincipal() {
 
         initComponents();
 
@@ -49,7 +49,7 @@ public class Cliente extends javax.swing.JFrame {
         jButtonApagar = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
         jPanelBarraStatus = new javax.swing.JPanel();
-        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator = new javax.swing.JSeparator();
         jLabelBarraStatus = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
@@ -104,7 +104,7 @@ public class Cliente extends javax.swing.JFrame {
         jPanelBarraStatus.setLayout(jPanelBarraStatusLayout);
         jPanelBarraStatusLayout.setHorizontalGroup(
             jPanelBarraStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarraStatusLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelBarraStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -113,7 +113,7 @@ public class Cliente extends javax.swing.JFrame {
         jPanelBarraStatusLayout.setVerticalGroup(
             jPanelBarraStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarraStatusLayout.createSequentialGroup()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelBarraStatus)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -222,13 +222,13 @@ public class Cliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -239,7 +239,7 @@ public class Cliente extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                Cliente cliente = new Cliente();
+                JanelaPrincipal cliente = new JanelaPrincipal();
 
                 cliente.setVisible(true);
                 cliente.iniciarComunicao();
@@ -349,7 +349,7 @@ public class Cliente extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSobre;
     private javax.swing.JPanel jPanelBarraStatus;
     private javax.swing.JScrollPane jScrollPaneTabela;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator;
     private javax.swing.JTable jTableArquivos;
     // End of variables declaration//GEN-END:variables
 }

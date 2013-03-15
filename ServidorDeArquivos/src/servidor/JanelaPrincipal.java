@@ -1,8 +1,8 @@
 /**
- * Classe da Janela Principal do Servidor
+ * Classe da JanelaPrincipal Principal do Servidor
  * @author Jorge Augusto C. dos Reis
  * Descrição:
- * Esta classe modela a Janela do Servidor Principal
+ * Esta classe modela a JanelaPrincipal do Servidor Principal
  */
 
 package servidor;
@@ -17,12 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Janela extends javax.swing.JFrame {
+public class JanelaPrincipal extends javax.swing.JFrame {
 
     /**
-     * Creates new form Janela
+     * Creates new form JanelaPrincipal
      */
-    public Janela() {
+    public JanelaPrincipal() {
 
         initComponents();
 
@@ -223,13 +223,13 @@ public class Janela extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Janela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JanelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -240,7 +240,7 @@ public class Janela extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                Janela janela = new Janela();
+                JanelaPrincipal janela = new JanelaPrincipal();
 
                 janela.setVisible(true);
 
@@ -338,7 +338,6 @@ public class Janela extends javax.swing.JFrame {
         try {
             File    pasta       = new File("ArquivosDistribuidos");
             // para cada arquivo existente na pasta, cria um item no ArrayList
-
 
             // Isto deve sair daqui depois quando estiver comunicando com os vários
             // servidores escravos...

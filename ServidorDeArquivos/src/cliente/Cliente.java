@@ -3,6 +3,9 @@
  * @author Jorge Augusto C. dos Reis
  * Descrição:
  * Esta classe modela a Janela do Servidor Principal
+ * É muito importante notar que uma implementação
+ * mais profissional deveria usar 2 Threads para gerenciar
+ * as conexão de controle e dados, e sincronizar as funções necessárias...
  */
 
 package cliente;
@@ -281,14 +284,14 @@ public class Cliente extends javax.swing.JFrame {
         }
     }
 
-    // Este método solicita ao servidor que envie a lista de arquivos disponíveis
+    // Este método envia uma solicitação ao servidor...
     private void enviaSolicitacao(TipoSolicitacao solicitacao) {
         try {
             saidaControleSolicitacao = new ObjectOutputStream(socketControleCliente.getOutputStream());
             saidaControleSolicitacao.writeObject(solicitacao);
         }
         catch(Exception ex) {
-            jLabelBarraStatus.setText("Ao enviar solicitação: " + ex);
+            jLabelBarraStatus.setText("Erro ao enviar solicitação: " + ex);
         }
     }
 
@@ -329,9 +332,6 @@ public class Cliente extends javax.swing.JFrame {
     private Socket                      socketControleCliente;
     private ObjectInputStream           entradaControleResposta;
     private ObjectOutputStream          saidaControleSolicitacao;
-
-    //
-
 
     private ArrayList<InfoDeArquivo>    listaDeArquivos = new ArrayList<InfoDeArquivo>();
 

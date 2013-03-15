@@ -343,10 +343,9 @@ public class Janela extends javax.swing.JFrame {
             // Isto deve sair daqui depois quando estiver comunicando com os vários
             // servidores escravos...
             listaDeArquivos.clear();
-
             for(File arquivo : pasta.listFiles()) {
                 if(arquivo.isFile()) {
-                    InfoDeArquivo infoArquivo = new InfoDeArquivo(arquivo.getName(), servEscravo, 1000);
+                    InfoDeArquivo infoArquivo = new InfoDeArquivo(arquivo.getName(), servEscravo, arquivo.length());
                     listaDeArquivos.add(infoArquivo);
                 }
             }
@@ -359,6 +358,8 @@ public class Janela extends javax.swing.JFrame {
     }
 
     // Este método preenche a JTable com os dados dos arquivos...
+    // Talvez fique melhor se este método for sincronizado também...
+    // Ainda estou pensando sobre isso, aguardando testes...
     private void atualizarTabelaArquivos() {
         atualizaListaDeArquivos();
 

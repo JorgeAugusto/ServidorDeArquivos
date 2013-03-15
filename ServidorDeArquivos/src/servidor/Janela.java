@@ -255,9 +255,8 @@ public class Janela extends javax.swing.JFrame {
                 janela.threadDoServidor = new Thread(janela.gerenteConexao);
                 janela.threadDoServidor.start();
 
-                // Atualiza a lista dos arquivos...
+                // Atualiza, servidores e arquivos...
                 janela.carregarListaServidoresEscravos();
-                janela.atualizaListagemDeArquivos();
                 janela.atualizarTabelaArquivos();
             }
         });
@@ -341,7 +340,7 @@ public class Janela extends javax.swing.JFrame {
 
             for(File arquivo : pasta.listFiles()) {
                 if(arquivo.isFile()) {
-                    InfoDeArquivo infoArquivo = new InfoDeArquivo(arquivo.getName(), servEscravo.getNome(), 1000);
+                    InfoDeArquivo infoArquivo = new InfoDeArquivo(arquivo.getName(), servEscravo, 1000);
                     listaDeArquivos.add(infoArquivo);
                 }
             }
@@ -355,15 +354,17 @@ public class Janela extends javax.swing.JFrame {
 
     // Este método transforma preenche a JTable com os dados dos arquivos...
     private void atualizarTabelaArquivos() {
+        atualizaListagemDeArquivos();
+
         DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
         modelo.setRowCount(0);
-
-        // Adiciona linhas a tabela...
-        jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
 
         for(InfoDeArquivo arquivo : listaDeArquivos) {
             modelo.addRow(arquivo.getArray());
         }
+
+        // Adiciona linhas a tabela...
+        jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
     }
 
     /* Declaração das minhas varíaveis

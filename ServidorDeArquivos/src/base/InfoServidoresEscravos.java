@@ -22,13 +22,18 @@ public class InfoServidoresEscravos implements Serializable{
         this.porta  = porta;
     }
 
-    // Sobre-escreve o método toString para fornecer os atributos da classe
-    // Este método é somente para testes.
+    /**
+     * Sobrescreve o método toString por que dessa forma eu posso
+     * armazenar na JTable na coluna Local um objeto da classe InfoDeAquivo.
+     @REFATORAR: Este método deve ser apagado na versão final
+     */
     @Override
     public String toString() {
-        return "[" + nome + ", " + ip + ", " + porta + "]";
+        return nome;
     }
 
+    // Retorna o nome do servidor escravo, usando pelo método: solicitarListagemDeArquivos
+    // da classe Janela, para colocar o nome do escravo na JTable.
     public String getNome() {
         return nome;
     }

@@ -11,12 +11,12 @@ package base;
 
 import java.io.Serializable;
 
-public class InfoServidoresEscravos implements Serializable{
+public class InfoServidorEscravo implements Serializable{
     private String  nome;
     private String  ip;
     private int     porta;
 
-    public InfoServidoresEscravos(String nome, String ip, int porta) {
+    public InfoServidorEscravo(String nome, String ip, int porta) {
         this.nome   = nome;
         this.ip     = ip;
         this.porta  = porta;

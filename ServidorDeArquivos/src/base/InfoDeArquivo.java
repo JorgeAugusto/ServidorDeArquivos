@@ -13,12 +13,12 @@ import java.io.Serializable;
 
 public class InfoDeArquivo implements Serializable {
     private String                  nome;
-    private InfoServidoresEscravos  local;
+    private InfoServidorEscravo     local;
     private int                     tamanho; // em bytes;
 
 
     // Construtor
-    public InfoDeArquivo(String nome, InfoServidoresEscravos local, int tamanho) {
+    public InfoDeArquivo(String nome, InfoServidorEscravo local, int tamanho) {
         this.nome       = nome;
         this.local      = local;
         this.tamanho    = tamanho;
@@ -34,7 +34,7 @@ public class InfoDeArquivo implements Serializable {
     public Object[] getArray() {
         Object[] array = new Object[3];
         array[0] = (String) nome;
-        array[1] = (InfoServidoresEscravos) local;
+        array[1] = (InfoServidorEscravo) local;
         array[2] = (String) Integer.toString(tamanho) + " bytes";
 
         return array;

@@ -10,7 +10,7 @@
 
 package servidor;
 
-import base.InfoServidoresEscravos;
+import base.InfoServidorEscravo;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -190,10 +190,10 @@ public class CadServidoresEscravos extends javax.swing.JDialog {
         // Estes dados não devesão ser colocados diretamente aqui...
         // E sim salvos da JTable, mas no momento como ainda não implementei o
         // Model da JTable vou colocar diretamente... Depois eu faço essa parte...
-        listaServEscravos.add(new InfoServidoresEscravos("Escravo 1", "localhost", 2001));
-        listaServEscravos.add(new InfoServidoresEscravos("Escravo 2", "localhost", 2002));
-        listaServEscravos.add(new InfoServidoresEscravos("Escravo 3", "localhost", 2003));
-        listaServEscravos.add(new InfoServidoresEscravos("Escravo 4", "localhsot", 2004));
+        listaServEscravos.add(new InfoServidorEscravo("Escravo 1", "localhost", 2001));
+        listaServEscravos.add(new InfoServidorEscravo("Escravo 2", "localhost", 2002));
+        listaServEscravos.add(new InfoServidorEscravo("Escravo 3", "localhost", 2003));
+        listaServEscravos.add(new InfoServidorEscravo("Escravo 4", "localhsot", 2004));
 
         try {
             FileOutputStream        arquivo     = new FileOutputStream("ListaDeServidoresEscravos.txt");
@@ -211,7 +211,7 @@ public class CadServidoresEscravos extends javax.swing.JDialog {
      *
      */
 
-    ArrayList<InfoServidoresEscravos> listaServEscravos = new ArrayList<InfoServidoresEscravos>();
+    ArrayList<InfoServidorEscravo> listaServEscravos = new ArrayList<InfoServidorEscravo>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonApagar;

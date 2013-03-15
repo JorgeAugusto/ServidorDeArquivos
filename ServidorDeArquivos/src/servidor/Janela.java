@@ -1,5 +1,5 @@
 /**
- * Enum com as configurações de conexão
+ * Classe da Janela Principal do Servidor
  * @author Jorge Augusto C. dos Reis
  * Descrição:
  * Esta classe modela a Janela do Servidor Principal
@@ -7,8 +7,8 @@
 
 package servidor;
 
-import base.InfoServidoresEscravos;
 import base.InfoDeArquivo;
+import base.InfoServidorEscravo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -299,7 +299,7 @@ public class Janela extends javax.swing.JFrame {
             FileInputStream        arquivo     = new FileInputStream("ListaDeServidoresEscravos.txt");
             ObjectInputStream      leitor      = new ObjectInputStream(arquivo);
 
-            listaServEscravos = (ArrayList<InfoServidoresEscravos>) leitor.readObject();
+            listaServEscravos = (ArrayList<InfoServidorEscravo>) leitor.readObject();
         }
         catch(Exception ex) {
             JOptionPane.showConfirmDialog(null, ex.getMessage(),
@@ -313,7 +313,7 @@ public class Janela extends javax.swing.JFrame {
      * erros de sincronização
      */
     private synchronized void  atualizaListagemDeArquivos() {
-        for(InfoServidoresEscravos servEscravo : listaServEscravos) {
+        for(InfoServidorEscravo servEscravo : listaServEscravos) {
             solicitarListagemDeArquivos(servEscravo);
         }
     }
@@ -327,7 +327,7 @@ public class Janela extends javax.swing.JFrame {
     * existentes na pasta: ArquivosDistribuídos, mais isso vai mudar, para que
     * lista os arquivos existentes no servidores escravos
     */
-    private void solicitarListagemDeArquivos(InfoServidoresEscravos servEscravo) {
+    private void solicitarListagemDeArquivos(InfoServidorEscravo servEscravo) {
         jLabelBarraStatus.setText("Atualizando listagem de arquivos, aguarde...");
         try {
             File    pasta       = new File("ArquivosDistribuidos");
@@ -373,7 +373,7 @@ public class Janela extends javax.swing.JFrame {
     private Thread                              threadDoServidor;
     private GerenteConexao                      gerenteConexao;
     private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro de escravos!
-    private ArrayList<InfoServidoresEscravos>   listaServEscravos   = new ArrayList<InfoServidoresEscravos>();
+    private ArrayList<InfoServidorEscravo>   listaServEscravos   = new ArrayList<InfoServidorEscravo>();
     private ArrayList<InfoDeArquivo>            listaDeArquivos     = new ArrayList<InfoDeArquivo>();
     // Fim das Minhas Declarações
 

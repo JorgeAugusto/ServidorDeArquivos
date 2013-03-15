@@ -5,7 +5,7 @@
 
 package cliente;
 
-import base.InfoServidoresEscravos;
+import base.InfoServidorEscravo;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -282,7 +282,7 @@ public class Cliente extends javax.swing.JFrame {
             FileInputStream        arquivo     = new FileInputStream("ListaDeServidoresEscravos.txt");
             ObjectInputStream      leitor      = new ObjectInputStream(arquivo);
 
-            listaServEscravos = (ArrayList<InfoServidoresEscravos>) leitor.readObject();
+            listaServEscravos = (ArrayList<InfoServidorEscravo>) leitor.readObject();
         }
         catch(Exception ex) {
             JOptionPane.showConfirmDialog(null, ex.getMessage(),
@@ -296,7 +296,7 @@ public class Cliente extends javax.swing.JFrame {
      */
 
     CadServidoresEscravos   cadServidoresEscravos;      // referência a janela de cadastro
-    ArrayList<InfoServidoresEscravos> listaServEscravos = new ArrayList<InfoServidoresEscravos>();
+    ArrayList<InfoServidorEscravo> listaServEscravos = new ArrayList<InfoServidorEscravo>();
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

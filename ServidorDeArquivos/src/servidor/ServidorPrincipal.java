@@ -6,9 +6,9 @@
 package servidor;
 
 import base.InfoServidoresEscravos;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class ServidorPrincipal extends javax.swing.JFrame {
@@ -61,8 +61,18 @@ public class ServidorPrincipal extends javax.swing.JFrame {
             new String [] {
                 "Número", "Nome do Arquivo", "Tipo", "Local", "Tamanho"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.getColumnModel().getColumn(0).setMinWidth(60);
         jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
 
@@ -77,6 +87,7 @@ public class ServidorPrincipal extends javax.swing.JFrame {
                 "Número", "Nome", "IP", "Porta", "Situação"
             }
         ));
+        jTable2.setEnabled(false);
         jScrollPane2.setViewportView(jTable2);
         jTable2.getColumnModel().getColumn(0).setMinWidth(60);
         jTable2.getColumnModel().getColumn(0).setMaxWidth(60);
@@ -257,7 +268,6 @@ public class ServidorPrincipal extends javax.swing.JFrame {
                                          JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     /* Declaração das minhas varíaveis
      *

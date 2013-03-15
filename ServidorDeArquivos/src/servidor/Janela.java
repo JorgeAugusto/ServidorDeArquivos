@@ -62,16 +62,14 @@ public class Janela extends javax.swing.JFrame {
 
         jTableArquivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "Jorge Filho.jpg", "Foto", "Escravo 1", "1 MB"},
-                {"02", "Computador", "Foto", "Escravo 2", "1 MB"},
-                {"03", "Ainda é cedo.mp3", "Música", "Escravo 1", "3 MB"}
+
             },
             new String [] {
-                "Número", "Nome do Arquivo", "Tipo", "Local", "Tamanho"
+                "Nome do Arquivo", "Local", "Tamanho"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -81,30 +79,26 @@ public class Janela extends javax.swing.JFrame {
         jTableArquivos.getTableHeader().setReorderingAllowed(false);
         jScrollPaneTabela.setViewportView(jTableArquivos);
         jTableArquivos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableArquivos.getColumnModel().getColumn(0).setMinWidth(60);
-        jTableArquivos.getColumnModel().getColumn(0).setMaxWidth(60);
 
         jLabel1.setText("Lista de Arquivos Disponíveis");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "Escravo 1", "localhost", "2001", "Conectado"},
-                {"02", "Escravo 2", "localhost", "2002", "Desconectado"}
+                {"Escravo 1", "localhost", "2001", "Conectado"},
+                {"Escravo 2", "localhost", "2002", "Desconectado"}
             },
             new String [] {
-                "Número", "Nome", "IP", "Porta", "Situação"
+                "Nome", "IP", "Porta", "Situação"
             }
         ));
         jTable2.setEnabled(false);
         jScrollPane2.setViewportView(jTable2);
-        jTable2.getColumnModel().getColumn(0).setMinWidth(60);
-        jTable2.getColumnModel().getColumn(0).setMaxWidth(60);
-        jTable2.getColumnModel().getColumn(2).setMinWidth(100);
-        jTable2.getColumnModel().getColumn(2).setMaxWidth(100);
-        jTable2.getColumnModel().getColumn(3).setMinWidth(60);
-        jTable2.getColumnModel().getColumn(3).setMaxWidth(60);
-        jTable2.getColumnModel().getColumn(4).setMinWidth(100);
-        jTable2.getColumnModel().getColumn(4).setMaxWidth(100);
+        jTable2.getColumnModel().getColumn(1).setMinWidth(100);
+        jTable2.getColumnModel().getColumn(1).setMaxWidth(100);
+        jTable2.getColumnModel().getColumn(2).setMinWidth(60);
+        jTable2.getColumnModel().getColumn(2).setMaxWidth(60);
+        jTable2.getColumnModel().getColumn(3).setMinWidth(100);
+        jTable2.getColumnModel().getColumn(3).setMaxWidth(100);
 
         jLabel2.setText("Lista de Escravos");
 
@@ -347,7 +341,7 @@ public class Janela extends javax.swing.JFrame {
 
             for(File arquivo : pasta.listFiles()) {
                 if(arquivo.isFile()) {
-                    InfoDeArquivo infoArquivo = new InfoDeArquivo(arquivo.getName(), "Local", 1000);
+                    InfoDeArquivo infoArquivo = new InfoDeArquivo(arquivo.getName(), servEscravo.getNome(), 1000);
                     listaDeArquivos.add(infoArquivo);
                 }
             }
@@ -368,13 +362,7 @@ public class Janela extends javax.swing.JFrame {
         jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
 
         for(InfoDeArquivo arquivo : listaDeArquivos) {
-            String[] array = {"0",
-                              arquivo.getNome(),
-                              "Tipo",
-                              arquivo.getLocal(),
-                              Integer.toString(arquivo.getTamanho())};
-
-            modelo.addRow(array);
+            modelo.addRow(arquivo.getArray());
         }
     }
 
@@ -383,10 +371,9 @@ public class Janela extends javax.swing.JFrame {
      */
     private Thread                              threadDoServidor;
     private GerenteConexao                      gerenteConexao;
-    private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro
+    private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro de escravos!
     private ArrayList<InfoServidoresEscravos>   listaServEscravos   = new ArrayList<InfoServidoresEscravos>();
     private ArrayList<InfoDeArquivo>            listaDeArquivos     = new ArrayList<InfoDeArquivo>();
-
     // Fim das Minhas Declarações
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

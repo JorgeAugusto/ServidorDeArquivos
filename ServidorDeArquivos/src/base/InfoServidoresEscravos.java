@@ -28,4 +28,8 @@ public class InfoServidoresEscravos implements Serializable{
     public String toString() {
         return "[" + nome + ", " + ip + ", " + porta + "]";
     }
+
+    public String getNome() {
+        return nome;
+    }
 }

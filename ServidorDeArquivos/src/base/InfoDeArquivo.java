@@ -27,8 +27,8 @@ public class InfoDeArquivo implements Serializable {
     /**
      * Este método returna um array de string's ele vai ser usado pelo Model da
      * JTable
-     * @Todo: É necessário escrever um método que transforme o total de dados
-     * em um forma mais inteligente, tipo... KB, MB, GB e coisas do tipo...
+     * @REFATORAR: É necessário escrever um método que transforme o total de dados
+     * em um forma mais inteligente, tipo... KB, MB, GB e coisas do tipo
      * mas isso fica pra faze final
      */
     public String[] getArray() {
@@ -38,17 +38,5 @@ public class InfoDeArquivo implements Serializable {
         array[2] = Integer.toString(tamanho) + " bytes";
 
         return array;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getLocal() {
-        return local;
-    }
-
-    public int getTamanho() {
-        return tamanho;
     }
 }

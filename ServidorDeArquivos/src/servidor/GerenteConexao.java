@@ -11,7 +11,7 @@
 package servidor;
 
 import base.InfoServidorPrincipal;
-import base.ListagemDeArquivos;
+import base.InfoDeArquivo;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import javax.swing.JLabel;

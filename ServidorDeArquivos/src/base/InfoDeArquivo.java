@@ -11,14 +11,14 @@ package base;
 
 import java.io.Serializable;
 
-public class ListagemDeArquivos implements Serializable {
+public class InfoDeArquivo implements Serializable {
     private String  nome;
     private String  local;
     private int     tamanho; // em bytes;
 
 
     // Construtor
-    public ListagemDeArquivos(String nome, String local, int tamanho) {
+    public InfoDeArquivo(String nome, String local, int tamanho) {
         this.nome       = nome;
         this.local      = local;
         this.tamanho    = tamanho;
@@ -38,5 +38,17 @@ public class ListagemDeArquivos implements Serializable {
         array[2] = Integer.toString(tamanho) + " bytes";
 
         return array;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getLocal() {
+        return local;
+    }
+
+    public int getTamanho() {
+        return tamanho;
     }
 }

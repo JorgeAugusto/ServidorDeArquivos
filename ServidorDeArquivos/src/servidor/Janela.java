@@ -8,11 +8,13 @@
 package servidor;
 
 import base.InfoServidoresEscravos;
-import base.ListagemDeArquivos;
+import base.InfoDeArquivo;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Janela extends javax.swing.JFrame {
 
@@ -36,8 +38,8 @@ public class Janela extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPaneTabela = new javax.swing.JScrollPane();
+        jTableArquivos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -58,7 +60,7 @@ public class Janela extends javax.swing.JFrame {
         setName("framePrincipal");
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableArquivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"01", "Jorge Filho.jpg", "Foto", "Escravo 1", "1 MB"},
                 {"02", "Computador", "Foto", "Escravo 2", "1 MB"},
@@ -76,11 +78,11 @@ public class Janela extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-        jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+        jTableArquivos.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneTabela.setViewportView(jTableArquivos);
+        jTableArquivos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableArquivos.getColumnModel().getColumn(0).setMinWidth(60);
+        jTableArquivos.getColumnModel().getColumn(0).setMaxWidth(60);
 
         jLabel1.setText("Lista de Arquivos Disponíveis");
 
@@ -168,7 +170,7 @@ public class Janela extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
                     .addComponent(jLabel2))
@@ -181,7 +183,7 @@ public class Janela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -262,6 +264,7 @@ public class Janela extends javax.swing.JFrame {
                 // Atualiza a lista dos arquivos...
                 janela.carregarListaServidoresEscravos();
                 janela.atualizaListagemDeArquivos();
+                janela.atualizarTabelaArquivos();
             }
         });
     }
@@ -333,17 +336,56 @@ public class Janela extends javax.swing.JFrame {
     */
     private void solicitarListagemDeArquivos(InfoServidoresEscravos servEscravo) {
         jLabelBarraStatus.setText("Atualizando listagem de arquivos, aguarde...");
+        try {
+            File    pasta       = new File("ArquivosDistribuidos");
+            // para cada arquivo existente na pasta, cria um item no ArrayList
+
+
+            // Isto deve sair daqui depois quando estiver comunicando com os vários
+            // servidores escravos...
+            listaDeArquivos.clear();
+
+            for(File arquivo : pasta.listFiles()) {
+                if(arquivo.isFile()) {
+                    InfoDeArquivo infoArquivo = new InfoDeArquivo(arquivo.getName(), "Local", 1000);
+                    listaDeArquivos.add(infoArquivo);
+                }
+            }
+
+            jLabelBarraStatus.setText("Total de Arquivos Lidos: " + listaDeArquivos.size());
+        }
+        catch(Exception ex) {
+            jLabelBarraStatus.setText("Erro ao solicitar listagem de arquivos: " + ex.getMessage());
+        }
+    }
+
+    // Este método transforma preenche a JTable com os dados dos arquivos...
+    private void atualizarTabelaArquivos() {
+        DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
+        modelo.setRowCount(0);
+
+        // Adiciona linhas a tabela...
+        jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
+
+        for(InfoDeArquivo arquivo : listaDeArquivos) {
+            String[] array = {"0",
+                              arquivo.getNome(),
+                              "Tipo",
+                              arquivo.getLocal(),
+                              Integer.toString(arquivo.getTamanho())};
+
+            modelo.addRow(array);
+        }
     }
 
     /* Declaração das minhas varíaveis
      *
      */
-
     private Thread                              threadDoServidor;
     private GerenteConexao                      gerenteConexao;
     private CadServidoresEscravos               cadServidoresEscravos;      // referência a janela de cadastro
     private ArrayList<InfoServidoresEscravos>   listaServEscravos   = new ArrayList<InfoServidoresEscravos>();
-    private ArrayList<ListagemDeArquivos>       listaDeArquivos     = new ArrayList<ListagemDeArquivos>();
+    private ArrayList<InfoDeArquivo>            listaDeArquivos     = new ArrayList<InfoDeArquivo>();
 
     // Fim das Minhas Declarações
 
@@ -358,10 +400,10 @@ public class Janela extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSobre;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPaneTabela;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableArquivos;
     // End of variables declaration//GEN-END:variables
 }

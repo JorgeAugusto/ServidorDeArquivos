@@ -43,7 +43,17 @@ public class GerenteConexao implements Runnable{
         // mesma
         for(;;) {
             try {
-                new Thread(new Conexao(socketServidor.accept(), janela)).start();
+                /**
+                 * new Thread(new Conexao(socketServidor.accept(), janela)).start();
+                 * Thread  thread  = new Thread(conexao);
+                 * thread.start();
+                 */
+                Conexao conexao = new Conexao(socketServidor.accept(), janela);
+                Thread  thread  = new Thread(conexao);
+                thread.start();
+
+                janela.getListaDeClientes().add(new InfoCliente(JanelaPrincipal.getNovoIdCliente(), conexao, thread, "Aguardando", "-", 100));
+                janela.atualizaTabelaClientes();
             }
             catch(Exception ex) {
                 JOptionPane.showConfirmDialog(null, ex.getMessage(),

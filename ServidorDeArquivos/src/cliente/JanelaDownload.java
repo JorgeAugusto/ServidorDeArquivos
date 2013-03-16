@@ -142,7 +142,7 @@ public class JanelaDownload extends javax.swing.JDialog {
         try {
             // Conecto ao servidor
             socketCliente = new Socket( InfoServidorPrincipal.SERVIDOR_PRINCIPAL.ip,
-                                                InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
+                                        InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
         }
         catch(Exception ex) {
             jLabelBarraStatus.setText("Erro em inciar comunicação com o Servidor: " + ex);
@@ -161,6 +161,10 @@ public class JanelaDownload extends javax.swing.JDialog {
             saida = new ObjectOutputStream(socketCliente.getOutputStream());
             saida.writeObject(TipoSolicitacao.DOWNLOAD);
             saida.flush();
+
+            // Envia dados do arquivo...
+            saida.writeObject(janelaPai.getInfoDeArquivo());
+            saida.flush();
         }
         catch(Exception ex) {
             jLabelBarraStatus.setText("Erro ao enviar solicitação de Download: " + ex);
@@ -175,30 +179,38 @@ public class JanelaDownload extends javax.swing.JDialog {
     // ainda n;
     private void downloadDeArquivo() {
         try {
-            InputStream in = socketCliente.getInputStream();
+            // Dados vindo do servidor
+            FileInputStream    entrada          = (FileInputStream) socketCliente.getInputStream();
 
-            // InputStreamReader isr = new InputStreamReader(in);
-            // BufferedReader reader = new BufferedReader(isr);
-
-            // String fName = reader.readLine();
-            // System.out.println(fName);
-
-            File                arquivo = new File("receber.txt");
-            FileOutputStream    out     = new FileOutputStream(arquivo);
+            // Crina novo arquivo...
+            File                arquivo         = new File(pastaDeDownloads + "\\" + janelaPai.getInfoDeArquivo().getNome());
+            FileOutputStream    saidaArquivo    = new FileOutputStream(arquivo);
 
             byte[] b = {0};
 
-            in.skip(4);     // para evitar bug!!!
+            /**
+             * Isso aqui não ficou claro o suficiente para mim!
+             * de alguma forma ficam 4 bytes no InputStream
+             * e por isso eu estou pulando eles (skip), mas isso é uma solução
+             * provisória até descobrir de onde estão vindo essa 4 bytes ;) 58.657
+             */
 
-            while(in.read(b) != -1) {
-                out.write(b);
+            entrada.skip(4);     // para evitar bug!!!
+
+            jProgressBar.setMaximum((int) janelaPai.getInfoDeArquivo().getTamanho());
+            int i = 1;
+            while(entrada.read(b) != -1) {
+                jProgressBar.setValue(i);
+                saidaArquivo.write(b);
+                i++;
             }
 
-            out.close();
-            in.close();
+            saidaArquivo.close();   // fecha arquivo
+            entrada.close();        // fecha stream de entrada
+            socketCliente.close();  // fecha socket
         }
         catch(Exception ex) {
-            jLabelBarraStatus.setText("Erro ao Download o arquivo...");
+            jLabelBarraStatus.setText("Erro ao Download o arquivo do servidor: " + ex);
         }
     }
 
@@ -211,6 +223,8 @@ public class JanelaDownload extends javax.swing.JDialog {
     private ObjectInputStream   entrada;
     private ObjectOutputStream  saida;
     private JanelaPrincipal     janelaPai;
+
+    private static final String pastaDeDownloads = "Downloads";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;

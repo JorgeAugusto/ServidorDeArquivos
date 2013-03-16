@@ -289,7 +289,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private void iniciarComunicao() {
         try {
             // Conecto ao servidor
-            socketControleCliente = new Socket( InfoServidorPrincipal.SERVIDOR_PRINCIPAL.ip,
+            socketCliente = new Socket( InfoServidorPrincipal.SERVIDOR_PRINCIPAL.ip,
                                                 InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
         }
         catch(Exception ex) {
@@ -300,8 +300,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // Este método envia uma solicitação ao servidor...
     private void enviaSolicitacao(TipoSolicitacao solicitacao) {
         try {
-            saidaControleSolicitacao = new ObjectOutputStream(socketControleCliente.getOutputStream());
-            saidaControleSolicitacao.writeObject(solicitacao);
+            saida = new ObjectOutputStream(socketCliente.getOutputStream());
+            saida.writeObject(solicitacao);
         }
         catch(Exception ex) {
             jLabelBarraStatus.setText("Erro ao enviar solicitação: " + ex);
@@ -314,8 +314,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         enviaSolicitacao(TipoSolicitacao.LISTAGEM_ARQUIVOS);
 
         try {
-            entradaControleResposta  = new ObjectInputStream(socketControleCliente.getInputStream());
-            listaDeArquivos          = (ArrayList<InfoDeArquivo>) entradaControleResposta.readObject();
+            entrada  = new ObjectInputStream(socketCliente.getInputStream());
+            listaDeArquivos          = (ArrayList<InfoDeArquivo>) entrada.readObject();
         }
         catch(Exception ex) {
             jLabelBarraStatus.setText("Ao receber resposta da listagem dos arquivos: " + ex);
@@ -358,9 +358,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
      */
 
     // Socket para conexão de controle...
-    private Socket                      socketControleCliente;
-    private ObjectInputStream           entradaControleResposta;
-    private ObjectOutputStream          saidaControleSolicitacao;
+    private Socket                      socketCliente;
+    private ObjectInputStream           entrada;
+    private ObjectOutputStream          saida;
 
     private ArrayList<InfoDeArquivo>    listaDeArquivos = new ArrayList<InfoDeArquivo>();
     private JanelaDownload              janDownload;

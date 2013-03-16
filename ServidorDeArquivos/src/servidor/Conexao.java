@@ -9,32 +9,36 @@
 
 package servidor;
 
+import base.InfoDeArquivo;
 import cliente.TipoSolicitacao;
 import java.io.*;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 public class Conexao implements Runnable {
+    private static final String     pastaBaseArquivos = "ArquivosDistribuidos";
+
     private Socket                  socketCliente;
     private ObjectInputStream       entrada;
     private ObjectOutputStream      saida;
     private JanelaPrincipal         janela;         // referência a janela do programa
     private TipoSolicitacao         solicitacao;
+    private InfoDeArquivo           infoDeArquivo;
 
     public Conexao(Socket socketCliente, JanelaPrincipal janela) throws Exception {
         janela.escreveNaBarraStatus("Entrou no construtor da Conexão");
 
-        this.janela                 = janela;
+        this.janela         = janela;
         this.socketCliente  = socketCliente;
-        entrada  = new ObjectInputStream(this.socketCliente.getInputStream());
+        entrada     = new ObjectInputStream(this.socketCliente.getInputStream());
         saida       = new ObjectOutputStream(this.socketCliente.getOutputStream());
     }
 
     @Override
     public void run() {
         for(;;) {
+            // Se o socke esta fechado então terminar Thread.
+            if(socketCliente.isClosed()) return;
+
             try {
                 solicitacao = (TipoSolicitacao) entrada.readObject();
 
@@ -77,19 +81,28 @@ public class Conexao implements Runnable {
     // Este método envia o arquivo selecionado...
     private void enviaArquivo() {
         try {
-            File                arquivo = new File("enviar.txt");
-            FileInputStream     in      = new FileInputStream(arquivo);
+            /**
+             * Lê a informação enviada pelo cliente sobre qual arquivo ele
+             * quer baixar
+             */
+            infoDeArquivo = (InfoDeArquivo) entrada.readObject();
 
-            OutputStream        out     = socketCliente.getOutputStream();
+            File                arquivo         = new File(pastaBaseArquivos + "\\" + infoDeArquivo.getNome());
+            FileInputStream     entradaArquivo  = new FileInputStream(arquivo);
+            FileOutputStream    saidaCliente    = (FileOutputStream) socketCliente.getOutputStream();
 
             byte[] b = {0};
 
-            while (in.read(b) != -1) {
-                out.write(b);
+            while (entradaArquivo.read(b) != -1) {
+                saidaCliente.write(b);
             }
+            saidaCliente.flush();       // força despejo de algum dado restante
+            saidaCliente.close();       // fecha stream de saída
+            entradaArquivo.close();     // fecha arquivo de entrada
+            socketCliente.close();      // fecha o socket
         }
         catch (Exception ex) {
-            janela.escreveNaBarraStatus("Erro enviar o arquivo: " + ex);
+            janela.escreveNaBarraStatus("Erro enviar o arquivo para o cliente...: " + ex);
         }
     }
 }

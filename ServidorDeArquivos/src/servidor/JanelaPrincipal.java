@@ -39,15 +39,18 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPaneTabela = new javax.swing.JScrollPane();
+        jScrollPaneArquivos = new javax.swing.JScrollPane();
         jTableArquivos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jScrollPaneEscravos = new javax.swing.JScrollPane();
+        jTableEscravos = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator = new javax.swing.JSeparator();
         jLabelBarraStatus = new javax.swing.JLabel();
+        jScrollPaneConexoes = new javax.swing.JScrollPane();
+        jTableConexoes = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
         jMenuItemCadServEscravo = new javax.swing.JMenuItem();
@@ -78,28 +81,33 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
         jTableArquivos.getTableHeader().setReorderingAllowed(false);
-        jScrollPaneTabela.setViewportView(jTableArquivos);
+        jScrollPaneArquivos.setViewportView(jTableArquivos);
         jTableArquivos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableArquivos.getColumnModel().getColumn(1).setMinWidth(80);
+        jTableArquivos.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTableArquivos.getColumnModel().getColumn(1).setMaxWidth(80);
+        jTableArquivos.getColumnModel().getColumn(2).setMinWidth(120);
+        jTableArquivos.getColumnModel().getColumn(2).setPreferredWidth(120);
+        jTableArquivos.getColumnModel().getColumn(2).setMaxWidth(120);
 
         jLabel1.setText("Lista de Arquivos Disponíveis");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableEscravos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Escravo 1", "localhost", "2001", "Conectado"},
-                {"Escravo 2", "localhost", "2002", "Desconectado"}
+
             },
             new String [] {
                 "Nome", "IP", "Porta", "Situação"
             }
         ));
-        jTable2.setEnabled(false);
-        jScrollPane2.setViewportView(jTable2);
-        jTable2.getColumnModel().getColumn(1).setMinWidth(100);
-        jTable2.getColumnModel().getColumn(1).setMaxWidth(100);
-        jTable2.getColumnModel().getColumn(2).setMinWidth(60);
-        jTable2.getColumnModel().getColumn(2).setMaxWidth(60);
-        jTable2.getColumnModel().getColumn(3).setMinWidth(100);
-        jTable2.getColumnModel().getColumn(3).setMaxWidth(100);
+        jTableEscravos.setEnabled(false);
+        jScrollPaneEscravos.setViewportView(jTableEscravos);
+        jTableEscravos.getColumnModel().getColumn(1).setMinWidth(100);
+        jTableEscravos.getColumnModel().getColumn(1).setMaxWidth(100);
+        jTableEscravos.getColumnModel().getColumn(2).setMinWidth(60);
+        jTableEscravos.getColumnModel().getColumn(2).setMaxWidth(60);
+        jTableEscravos.getColumnModel().getColumn(3).setMinWidth(100);
+        jTableEscravos.getColumnModel().getColumn(3).setMaxWidth(100);
 
         jLabel2.setText("Lista de Escravos");
 
@@ -109,20 +117,51 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelBarraStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabelBarraStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelBarraStatus)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTableConexoes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Cliente", "Estado", "Arquivo", "%"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableConexoes.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneConexoes.setViewportView(jTableConexoes);
+        jTableConexoes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableConexoes.getColumnModel().getColumn(0).setMinWidth(50);
+        jTableConexoes.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTableConexoes.getColumnModel().getColumn(0).setMaxWidth(50);
+        jTableConexoes.getColumnModel().getColumn(1).setMinWidth(80);
+        jTableConexoes.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTableConexoes.getColumnModel().getColumn(1).setMaxWidth(80);
+        jTableConexoes.getColumnModel().getColumn(3).setMinWidth(50);
+        jTableConexoes.getColumnModel().getColumn(3).setPreferredWidth(50);
+        jTableConexoes.getColumnModel().getColumn(3).setMaxWidth(50);
+
+        jLabel3.setText("Lista de Clientes Conectados");
 
         jMenuArquivo.setText("Arquivo");
 
@@ -162,27 +201,39 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
-                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneEscravos)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPaneArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPaneConexoes, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))))
                 .addContainerGap())
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPaneArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneConexoes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneEscravos, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -258,7 +309,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
                 // Atualiza, servidores e arquivos...
                 janela.carregarListaServidoresEscravos();
-                janela.atualizarTabelaArquivos();
+                janela.atualizaTabelaArquivos();
             }
         });
     }
@@ -318,7 +369,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
      * Atualiza a listagem dos arquivos, este método é synchronized para evitar
      * erros de sincronização
      */
-    public synchronized void  atualizaListaDeArquivos() {
+    private void  atualizaListaDeArquivos() {
         for(InfoServidorEscravo servEscravo : listaServEscravos) {
             solicitarListaDeArquivos(servEscravo);
         }
@@ -359,7 +410,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // Este método preenche a JTable com os dados dos arquivos...
     // Talvez fique melhor se este método for sincronizado também...
     // Ainda estou pensando sobre isso, aguardando testes...
-    private void atualizarTabelaArquivos() {
+    private void atualizaTabelaArquivos() {
         atualizaListaDeArquivos();
 
         DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
@@ -373,24 +424,53 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
     }
 
-    // Retorna a lista de arquivos para ser enviada aos clientes...
+    // Este método atualiza a tabela de conexões...
+    public void atualizaTabelaClientes() {
+        DefaultTableModel modelo = (DefaultTableModel) jTableConexoes.getModel();
+        modelo.setRowCount(0);
+
+        for(InfoCliente cliente : listaDeClientes) {
+            modelo.addRow(cliente.getArray());
+        }
+    }
+
+    /**
+     * Retorna a lista de arquivos para ser enviada aos clientes através das conexões
+     */
     public ArrayList<InfoDeArquivo> getListaDeArquivos() {
         return listaDeArquivos;
+    }
+
+    /**
+     * Retorna a lista de conexões, está sendo usada assim para permitir
+     * as mensagens em broadcast, (para todos os clientes)
+     */
+    public ArrayList<InfoCliente> getListaDeClientes() {
+        return listaDeClientes;
+    }
+
+    // Retorna um novo ID de Conexão...
+    public static int getNovoIdCliente() {
+        return idCliente++;
     }
 
     /* Declaração das minhas varíaveis
      *
      */
-    private Thread                              threadDoServidor;
-    private GerenteConexao                      gerenteConexao;
-    private JanelaCadServEscravo               janCadServidorEscravo;      // referência a janela de cadastro de escravos!
-    private ArrayList<InfoServidorEscravo>      listaServEscravos   = new ArrayList<InfoServidorEscravo>();
-    private ArrayList<InfoDeArquivo>            listaDeArquivos     = new ArrayList<InfoDeArquivo>();
+    private Thread                          threadDoServidor;
+    private GerenteConexao                  gerenteConexao;
+    private JanelaCadServEscravo            janCadServidorEscravo;      // referência a janela de cadastro de escravos!
+    private ArrayList<InfoServidorEscravo>  listaServEscravos   = new ArrayList<InfoServidorEscravo>();
+    private ArrayList<InfoDeArquivo>        listaDeArquivos     = new ArrayList<InfoDeArquivo>();
+    private ArrayList<InfoCliente>          listaDeClientes     = new ArrayList<InfoCliente>();
+    private static int                      idCliente           = 1;
+
     // Fim das Minhas Declarações
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelBarraStatus;
     private javax.swing.JMenu jMenuAjuda;
     private javax.swing.JMenu jMenuArquivo;
@@ -399,10 +479,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSobre;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPaneTabela;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JScrollPane jScrollPaneArquivos;
+    private javax.swing.JScrollPane jScrollPaneConexoes;
+    private javax.swing.JScrollPane jScrollPaneEscravos;
+    private javax.swing.JSeparator jSeparator;
     private javax.swing.JTable jTableArquivos;
+    private javax.swing.JTable jTableConexoes;
+    private javax.swing.JTable jTableEscravos;
     // End of variables declaration//GEN-END:variables
 }

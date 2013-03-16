@@ -141,7 +141,7 @@ public class JanelaDownload extends javax.swing.JDialog {
     private void iniciarComunicao() {
         try {
             // Conecto ao servidor
-            socketControleCliente = new Socket( InfoServidorPrincipal.SERVIDOR_PRINCIPAL.ip,
+            socketCliente = new Socket( InfoServidorPrincipal.SERVIDOR_PRINCIPAL.ip,
                                                 InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
         }
         catch(Exception ex) {
@@ -151,14 +151,16 @@ public class JanelaDownload extends javax.swing.JDialog {
 
     // Envia uma solicitação de downloada
     private void solicitaDownload() {
+        iniciarComunicao();
         // jLabelBarraStatus.setText(janelaPai.getInfoDeArquivo().toString());
         jLabelArquivo.setText("Arquivo: "   + janelaPai.getInfoDeArquivo().getNome());
         jLabelServidor.setText("Servidor: " + janelaPai.getInfoDeArquivo().getInfoServidorEscravo().getNome());
 
         // Envia solicitação de Download...
         try {
-            saidaControleSolicitacao = new ObjectOutputStream(socketControleCliente.getOutputStream());
-            saidaControleSolicitacao.writeObject(TipoSolicitacao.DOWNLOAD);
+            saida = new ObjectOutputStream(socketCliente.getOutputStream());
+            saida.writeObject(TipoSolicitacao.DOWNLOAD);
+            saida.flush();
         }
         catch(Exception ex) {
             jLabelBarraStatus.setText("Erro ao enviar solicitação de Download: " + ex);
@@ -173,7 +175,7 @@ public class JanelaDownload extends javax.swing.JDialog {
     // ainda n;
     private void downloadDeArquivo() {
         try {
-            InputStream in = socketControleCliente.getInputStream();
+            InputStream in = socketCliente.getInputStream();
 
             // InputStreamReader isr = new InputStreamReader(in);
             // BufferedReader reader = new BufferedReader(isr);
@@ -184,11 +186,16 @@ public class JanelaDownload extends javax.swing.JDialog {
             File                arquivo = new File("receber.txt");
             FileOutputStream    out     = new FileOutputStream(arquivo);
 
-            int c;
+            byte[] b = {0};
 
-            while ((c = in.read()) != -1) {
-                out.write(c);
+            in.skip(4);     // para evitar bug!!!
+
+            while(in.read(b) != -1) {
+                out.write(b);
             }
+
+            out.close();
+            in.close();
         }
         catch(Exception ex) {
             jLabelBarraStatus.setText("Erro ao Download o arquivo...");
@@ -200,9 +207,9 @@ public class JanelaDownload extends javax.swing.JDialog {
      */
 
     // Socket para conexão de controle...
-    private Socket              socketControleCliente;
-    private ObjectInputStream   entradaControleResposta;
-    private ObjectOutputStream  saidaControleSolicitacao;
+    private Socket              socketCliente;
+    private ObjectInputStream   entrada;
+    private ObjectOutputStream  saida;
     private JanelaPrincipal     janelaPai;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

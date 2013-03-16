@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Conexao implements Runnable {
-    private Socket                  socketControleCliente;
-    private ObjectInputStream       entradaControleSolicitacao;
-    private ObjectOutputStream      saidaControleResposta;
+    private Socket                  socketCliente;
+    private ObjectInputStream       entrada;
+    private ObjectOutputStream      saida;
     private JanelaPrincipal         janela;         // referência a janela do programa
     private TipoSolicitacao         solicitacao;
 
@@ -27,16 +27,16 @@ public class Conexao implements Runnable {
         janela.escreveNaBarraStatus("Entrou no construtor da Conexão");
 
         this.janela                 = janela;
-        this.socketControleCliente  = socketCliente;
-        entradaControleSolicitacao  = new ObjectInputStream(this.socketControleCliente.getInputStream());
-        saidaControleResposta       = new ObjectOutputStream(this.socketControleCliente.getOutputStream());
+        this.socketCliente  = socketCliente;
+        entrada  = new ObjectInputStream(this.socketCliente.getInputStream());
+        saida       = new ObjectOutputStream(this.socketCliente.getOutputStream());
     }
 
     @Override
     public void run() {
         for(;;) {
             try {
-                solicitacao = (TipoSolicitacao) entradaControleSolicitacao.readObject();
+                solicitacao = (TipoSolicitacao) entrada.readObject();
 
                 switch(solicitacao) {
                     case LISTAGEM_ARQUIVOS:
@@ -66,8 +66,8 @@ public class Conexao implements Runnable {
     private void enviaListaDeArquivos() {
         try {
             // envia listagem de arquivos...
-            saidaControleResposta.writeObject(janela.getListaDeArquivos());
-            saidaControleResposta.flush();
+            saida.writeObject(janela.getListaDeArquivos());
+            saida.flush();
         }
         catch(Exception ex) {
             System.err.println("Erro ao enviar o resultado...");
@@ -80,18 +80,12 @@ public class Conexao implements Runnable {
             File                arquivo = new File("enviar.txt");
             FileInputStream     in      = new FileInputStream(arquivo);
 
-            OutputStream        out     = socketControleCliente.getOutputStream();
-            // OutputStreamWriter  osw     = new OutputStreamWriter(out);
-            // BufferedWriter      writer  = new BufferedWriter(osw);
+            OutputStream        out     = socketCliente.getOutputStream();
 
+            byte[] b = {0};
 
-            //writer.write(arquivo.getName()+"\n");
-            //writer.flush();
-
-            int c;
-
-            while ((c = in.read()) != -1) {
-                out.write(c);
+            while (in.read(b) != -1) {
+                out.write(b);
             }
         }
         catch (Exception ex) {

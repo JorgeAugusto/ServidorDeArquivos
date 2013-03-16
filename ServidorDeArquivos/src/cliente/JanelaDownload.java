@@ -6,9 +6,7 @@ package cliente;
 
 import base.InfoDeArquivo;
 import base.InfoServidorPrincipal;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -164,24 +162,32 @@ public class JanelaDownload extends javax.swing.JDialog {
         }
         catch(Exception ex) {
             jLabelBarraStatus.setText("Erro ao enviar solicitação de Download: " + ex);
-
             return;
         }
-        
+
         // Faz Download do arquivo...
+        downloadDeArquivo();
+    }
+
+    // Este metodo faz o download do arquivo...
+    // ainda n;
+    private void downloadDeArquivo() {
         try {
-            entradaDados  = new ObjectInputStream(socketControleCliente.getInputStream());
-            // listaDeArquivos          = (ArrayList<InfoDeArquivo>) entradaControleResposta.readObject();
+            InputStream in = socketControleCliente.getInputStream();
+            InputStreamReader isr = new InputStreamReader(in);
+            BufferedReader reader = new BufferedReader(isr);
+            String fName = reader.readLine();
+            System.out.println(fName);
+            File f1 = new File("CAMINO PARA DESTINO DO FILE/" + fName);
+            FileOutputStream out = new FileOutputStream(f1);
+            int c;
+
+            while ((c = in.read()) != -1) {
+                out.write(c);
+            }
         }
         catch(Exception ex) {
-            jLabelBarraStatus.setText("Ao receber resposta da listagem dos arquivos: " + ex);
-        }
 
-        try {
-
-        }
-        catch(Exception ex) {
-            // jLabelBarraStatus.setText("Ao receber resposta da listagem dos arquivos: " + ex);
         }
     }
 
@@ -191,9 +197,8 @@ public class JanelaDownload extends javax.swing.JDialog {
 
     // Socket para conexão de controle...
     private Socket              socketControleCliente;
-    private InputStream         entradaDados;
+    private ObjectInputStream   entradaControleResposta;
     private ObjectOutputStream  saidaControleSolicitacao;
-
     private JanelaPrincipal     janelaPai;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -18,6 +18,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import servidor.JanelaCadServEscravo;
 
 public class JanelaPrincipal extends javax.swing.JFrame {
 
@@ -88,6 +89,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jButtonUp.setText("Upload");
 
         jButtonDown.setText("Download");
+        jButtonDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDownActionPerformed(evt);
+            }
+        });
 
         jButtonApagar.setText("Apagar");
 
@@ -194,12 +200,19 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSobreActionPerformed
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
-        sairDoPrograma();
+        fecharJanela();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
-        sairDoPrograma();
+        fecharJanela();
     }//GEN-LAST:event_jButtonFecharActionPerformed
+
+    private void jButtonDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDownActionPerformed
+        // Enviar Solicitação de Download...
+        // Pegar o socket retornado e passar para a janela, que vai passar para thread
+
+        abrirJanDownload();
+    }//GEN-LAST:event_jButtonDownActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,8 +279,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         // "E-mail: <a href='mailto:engjorgeaugusto@hotmail.com'>engjorgeaugusto@hotmail.com</a></html>",
     }
 
-    // Este método fecha o programa
-    private void sairDoPrograma() {
+    // Este método fecha a janela do programa
+    private void fecharJanela() {
         dispose();
     }
 
@@ -297,7 +310,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     // Envia uma solicitação de listagem de arquivos...
     // E lê a resposta do mesmo...
-    private void solicitaListagemArquivos() {
+    private void solicitaListaArquivos() {
         enviaSolicitacao(TipoSolicitacao.LISTAGEM_ARQUIVOS);
 
         try {
@@ -311,7 +324,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     // Este método preenche a JTable com os dados dos arquivos...
     private void atualizarTabelaArquivos() {
-        solicitaListagemArquivos();
+        solicitaListaArquivos();
 
         DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
         modelo.setRowCount(0);
@@ -324,6 +337,22 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jLabelBarraStatus.setText("Total de Arquivos: " + listaDeArquivos.size());
     }
 
+    // Este método abri a janela de download de arquivo...
+    private void abrirJanDownload() {
+        janDownload = new JanelaDownload(this, true);
+
+        // coloca cadastro de servidores escravos no centro desta tela...
+        janDownload.setLocationRelativeTo(this);
+        janDownload.setVisible(true);
+    }
+
+    // Este método retorna o arquivo selecionado
+    public InfoDeArquivo getInfoDeArquivo() {
+        DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
+
+        return listaDeArquivos.get(jTableArquivos.getSelectedRow());
+    }
+
     /*
      * Declaração das minhas varíaveis
      */
@@ -334,6 +363,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private ObjectOutputStream          saidaControleSolicitacao;
 
     private ArrayList<InfoDeArquivo>    listaDeArquivos = new ArrayList<InfoDeArquivo>();
+    private JanelaDownload              janDownload;
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonApagar;

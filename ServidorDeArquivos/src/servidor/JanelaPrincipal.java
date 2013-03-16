@@ -195,11 +195,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSobreActionPerformed
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
-        sairDoPrograma();
+        fecharJanela();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
-        abrirJanelaCadastroServidoresEscravos();
+        abrirJanCadServEscravo();
     }//GEN-LAST:event_jMenuItemCadServEscravoActionPerformed
 
     /**
@@ -281,12 +281,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }
 
     // Este método fecha o programa
-    private void sairDoPrograma() {
+    private void fecharJanela() {
         dispose();
     }
 
     // Este método abria a janela de cadastro de servidores escravos
-    private void abrirJanelaCadastroServidoresEscravos() {
+    private void abrirJanCadServEscravo() {
         janCadServidorEscravo = new JanelaCadServEscravo(this, true);
 
         // coloca cadastro de servidores escravos no centro desta tela...

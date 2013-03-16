@@ -127,6 +127,8 @@ public class JanelaCadServEscravo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**
+     * Retirar este método depois e colocar a inicialização em:
+     * windowOpenedActionPerformed
      * @param args the command line arguments
      */
     public static void main(String args[]) {

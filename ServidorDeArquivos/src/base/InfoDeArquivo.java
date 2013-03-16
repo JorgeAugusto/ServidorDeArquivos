@@ -39,4 +39,16 @@ public class InfoDeArquivo implements Serializable {
 
         return array;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public InfoServidorEscravo getInfoServidorEscravo() {
+        return local;
+    }
+
+    public long getTamanho() {
+        return tamanho;
+    }
 }

@@ -1,5 +1,5 @@
 /**
- * Enum com as configurações de conexão
+ * Classe que modela o gerenciador de conexões
  * @author Jorge Augusto C. dos Reis
  * Descrição:
  * Esta classe modela a GerenteConexao do servidor responsavel por aceitar as conexões

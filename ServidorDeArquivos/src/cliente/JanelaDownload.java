@@ -4,6 +4,14 @@
  */
 package cliente;
 
+import base.InfoDeArquivo;
+import base.InfoServidorPrincipal;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jorge Augusto
@@ -19,6 +27,7 @@ public class JanelaDownload extends javax.swing.JDialog {
 
         // Coloa janela no centro da tela
         setLocationRelativeTo(null);
+        janelaPai = (JanelaPrincipal) parent;
     }
 
     /**
@@ -30,20 +39,26 @@ public class JanelaDownload extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelArquivo = new javax.swing.JLabel();
+        jLabelServidor = new javax.swing.JLabel();
         jPanelBarraStatus = new javax.swing.JPanel();
         jSeparator = new javax.swing.JSeparator();
         jLabelBarraStatus = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        jButtonCancelar = new javax.swing.JButton();
+        jProgressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Baixando arquivo...");
+        setTitle("Baixando arquivo, aguarde...");
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                windowOpenedActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setText("Arquivo: foto.jpg");
+        jLabelArquivo.setText("Arquivo: foto.jpg");
 
-        jLabel2.setText("Servidor: Escravo X");
+        jLabelServidor.setText("Servidor: Escravo X");
 
         jLabelBarraStatus.setText("Carregando...");
 
@@ -66,7 +81,12 @@ public class JanelaDownload extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Cancelar");
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,26 +98,26 @@ public class JanelaDownload extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelServidor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(jButtonCancelar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabelArquivo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(jLabelServidor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanelBarraStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -105,62 +125,68 @@ public class JanelaDownload extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JanelaDownload.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JanelaDownload.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JanelaDownload.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JanelaDownload.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        fecharJanela();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
-        /*
-         * Create and display the dialog
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+    private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
+        solicitaDownload();
+    }//GEN-LAST:event_windowOpenedActionPerformed
 
-            public void run() {
-                JanelaDownload dialog = new JanelaDownload(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+    // Este método fecha a janela
+    private void fecharJanela() {
+        dispose();
     }
+
+        // Este método, cria o socket do cliente e inicia a comunicação com co servidor
+    private void iniciarComunicao() {
+        try {
+            // Conecto ao servidor
+            socketControleCliente = new Socket( InfoServidorPrincipal.SERVIDOR_PRINCIPAL.ip,
+                                                InfoServidorPrincipal.SERVIDOR_PRINCIPAL.porta);
+        }
+        catch(Exception ex) {
+            jLabelBarraStatus.setText("Erro em inciar comunicação com o Servidor: " + ex);
+        }
+    }
+
+    // Envia uma solicitação de downloada
+    private void solicitaDownload() {
+        // jLabelBarraStatus.setText(janelaPai.getInfoDeArquivo().toString());
+        jLabelArquivo.setText("Arquivo: "   + janelaPai.getInfoDeArquivo().getNome());
+        jLabelServidor.setText("Servidor: " + janelaPai.getInfoDeArquivo().getInfoServidorEscravo().getNome());
+
+
+
+
+
+
+        try {
+
+        }
+        catch(Exception ex) {
+            // jLabelBarraStatus.setText("Ao receber resposta da listagem dos arquivos: " + ex);
+        }
+    }
+
+    /*
+     * Declaração das minhas varíaveis
+     */
+
+    // Socket para conexão de controle...
+    private Socket              socketControleCliente;
+    private ObjectInputStream   entradaControleResposta;
+    private ObjectOutputStream  saidaControleSolicitacao;
+
+    private JanelaPrincipal     janelaPai;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JLabel jLabelArquivo;
     private javax.swing.JLabel jLabelBarraStatus;
+    private javax.swing.JLabel jLabelServidor;
     private javax.swing.JPanel jPanelBarraStatus;
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JProgressBar jProgressBar;
     private javax.swing.JSeparator jSeparator;
     // End of variables declaration//GEN-END:variables
 }

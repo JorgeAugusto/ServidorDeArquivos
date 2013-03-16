@@ -32,9 +32,15 @@ public class InfoServidorEscravo implements Serializable{
         return nome;
     }
 
-    // Retorna o nome do servidor escravo, usando pelo método: solicitarListagemDeArquivos
-    // da classe Janela, para colocar o nome do escravo na JTable.
     public String getNome() {
         return nome;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public int getPorta() {
+        return porta;
     }
 }

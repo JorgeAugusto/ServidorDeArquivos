@@ -10,22 +10,23 @@
 package servidor;
 
 import cliente.TipoSolicitacao;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Conexao implements Runnable {
     private Socket                  socketControleCliente;
     private ObjectInputStream       entradaControleSolicitacao;
     private ObjectOutputStream      saidaControleResposta;
-    private JanelaPrincipal                  janela;         // referência a janela do programa
+    private JanelaPrincipal         janela;         // referência a janela do programa
     private TipoSolicitacao         solicitacao;
 
     public Conexao(Socket socketCliente, JanelaPrincipal janela) throws Exception {
         janela.escreveNaBarraStatus("Entrou no construtor da Conexão");
 
-        this.janela         = janela;
+        this.janela                 = janela;
         this.socketControleCliente  = socketCliente;
         entradaControleSolicitacao  = new ObjectInputStream(this.socketControleCliente.getInputStream());
         saidaControleResposta       = new ObjectOutputStream(this.socketControleCliente.getOutputStream());
@@ -47,7 +48,7 @@ public class Conexao implements Runnable {
                     break;
 
                     case DOWNLOAD:
-
+                        enviaArquivo();
                     break;
 
                     case DELETAR:
@@ -70,6 +71,31 @@ public class Conexao implements Runnable {
         }
         catch(Exception ex) {
             System.err.println("Erro ao enviar o resultado...");
+        }
+    }
+
+    // Este método envia o arquivo selecionado...
+    private void enviaArquivo() {
+        try {
+            File                arquivo = new File("enviar.txt");
+            FileInputStream     in      = new FileInputStream(arquivo);
+
+            OutputStream        out     = socketControleCliente.getOutputStream();
+            // OutputStreamWriter  osw     = new OutputStreamWriter(out);
+            // BufferedWriter      writer  = new BufferedWriter(osw);
+
+
+            //writer.write(arquivo.getName()+"\n");
+            //writer.flush();
+
+            int c;
+
+            while ((c = in.read()) != -1) {
+                out.write(c);
+            }
+        }
+        catch (Exception ex) {
+            janela.escreveNaBarraStatus("Erro enviar o arquivo: " + ex);
         }
     }
 }

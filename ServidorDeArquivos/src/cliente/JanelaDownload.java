@@ -174,12 +174,16 @@ public class JanelaDownload extends javax.swing.JDialog {
     private void downloadDeArquivo() {
         try {
             InputStream in = socketControleCliente.getInputStream();
-            InputStreamReader isr = new InputStreamReader(in);
-            BufferedReader reader = new BufferedReader(isr);
-            String fName = reader.readLine();
-            System.out.println(fName);
-            File f1 = new File("CAMINO PARA DESTINO DO FILE/" + fName);
-            FileOutputStream out = new FileOutputStream(f1);
+
+            // InputStreamReader isr = new InputStreamReader(in);
+            // BufferedReader reader = new BufferedReader(isr);
+
+            // String fName = reader.readLine();
+            // System.out.println(fName);
+
+            File                arquivo = new File("receber.txt");
+            FileOutputStream    out     = new FileOutputStream(arquivo);
+
             int c;
 
             while ((c = in.read()) != -1) {
@@ -187,7 +191,7 @@ public class JanelaDownload extends javax.swing.JDialog {
             }
         }
         catch(Exception ex) {
-
+            jLabelBarraStatus.setText("Erro ao Download o arquivo...");
         }
     }
 

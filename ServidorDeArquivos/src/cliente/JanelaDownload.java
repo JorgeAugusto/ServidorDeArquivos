@@ -6,6 +6,7 @@ package cliente;
 
 import base.InfoDeArquivo;
 import base.InfoServidorPrincipal;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -156,10 +157,25 @@ public class JanelaDownload extends javax.swing.JDialog {
         jLabelArquivo.setText("Arquivo: "   + janelaPai.getInfoDeArquivo().getNome());
         jLabelServidor.setText("Servidor: " + janelaPai.getInfoDeArquivo().getInfoServidorEscravo().getNome());
 
+        // Envia solicitação de Download...
+        try {
+            saidaControleSolicitacao = new ObjectOutputStream(socketControleCliente.getOutputStream());
+            saidaControleSolicitacao.writeObject(TipoSolicitacao.DOWNLOAD);
+        }
+        catch(Exception ex) {
+            jLabelBarraStatus.setText("Erro ao enviar solicitação de Download: " + ex);
 
-
-
-
+            return;
+        }
+        
+        // Faz Download do arquivo...
+        try {
+            entradaDados  = new ObjectInputStream(socketControleCliente.getInputStream());
+            // listaDeArquivos          = (ArrayList<InfoDeArquivo>) entradaControleResposta.readObject();
+        }
+        catch(Exception ex) {
+            jLabelBarraStatus.setText("Ao receber resposta da listagem dos arquivos: " + ex);
+        }
 
         try {
 
@@ -175,7 +191,7 @@ public class JanelaDownload extends javax.swing.JDialog {
 
     // Socket para conexão de controle...
     private Socket              socketControleCliente;
-    private ObjectInputStream   entradaControleResposta;
+    private InputStream         entradaDados;
     private ObjectOutputStream  saidaControleSolicitacao;
 
     private JanelaPrincipal     janelaPai;

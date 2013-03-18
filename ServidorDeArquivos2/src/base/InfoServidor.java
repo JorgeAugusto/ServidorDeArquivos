@@ -30,12 +30,14 @@ public class InfoServidor implements Serializable {
         this.portaDados    = portaDados;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="SOMENTE PARA TESTES">
     // Somente para Teste
     @Override
     public String toString() {
         return "[" + nome + ", " + ip + ", " + Integer.toString(portaControle) +
                 ", " + Integer.toString(portaDados) + "]";
     }
+    //</editor-fold>
 
     public String getNome() {
         return nome;
@@ -61,9 +63,9 @@ public class InfoServidor implements Serializable {
         try {
             FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
             ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
+
             escritor.writeObject(info);
             escritor.flush();
-
             arquivo.close();
         }
         catch(Exception ex) {
@@ -81,8 +83,8 @@ public class InfoServidor implements Serializable {
         try {
             FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
             ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
-            info = (InfoServidor) leitor.readObject();
 
+            info = (InfoServidor) leitor.readObject();
             arquivo.close();
         }
         catch(Exception ex) {
@@ -100,7 +102,10 @@ public class InfoServidor implements Serializable {
         try {
             FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
             ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
+
             escritor.writeObject(listaInfo);
+            escritor.flush();
+            arquivo.close();
         }
         catch(Exception ex) {
             return false;
@@ -117,7 +122,9 @@ public class InfoServidor implements Serializable {
         try {
             FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
             ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
+
             listaInfo = (ArrayList<InfoServidor>) leitor.readObject();
+            arquivo.close();
         }
         catch(Exception ex) {
             return null;

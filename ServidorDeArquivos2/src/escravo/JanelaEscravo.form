@@ -9,12 +9,12 @@
             <Property name="text" type="java.lang.String" value="Arquivo"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCadServEscravo">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemConfigConServidor">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastrar Servidor Escravo"/>
+                <Property name="text" type="java.lang.String" value="Configurar Conex&#xe3;o com Servidor"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCadServEscravoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemConfigConServidorActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSair">

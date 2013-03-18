@@ -1,19 +1,14 @@
 /**
- * Enum com as configurações de conexão
- * @author Jorge Augusto C. dos Reis
- * Descrição:
- * Esta classe modela a Janela de cadastro de servidores escravos, esta janela
- * foi criada para evitar que tenhamos que editar o código no momento de colocar
- * o sistema de em produção, com ela basta apenas informar em quais máquimas
- * os servidores escravos e iniciar o serviço.
-*/
+ * Classe que modela a GUI da Janela de Configuração de Conexão com o Servidor
+ * @author: Jorge Augusto C. dos Reis
+ * @data..: 18/03/2013 às 04:34
+ * @Descrição:
+ * Esta classe modela a GUI da Janela de configuração da conexão com o servidor
+ * basicamente ela carrega e salva as informações ta JTable em um arquivo,
+ * usando os métodos da classe InfoServidor
+ */
 
 package escravo;
-
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class JanelaConfigConServidor extends javax.swing.JDialog {
 
@@ -23,6 +18,9 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
     public JanelaConfigConServidor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        // Coloca janela no centro da tela
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -41,8 +39,13 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         jButtonSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Servidores Escravos");
+        setTitle("Configuração de Conexão com Servidor Principal");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                windowOpenedActionPerformed(evt);
+            }
+        });
 
         jButtonEditar.setText("Editar");
 
@@ -55,11 +58,10 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"01", "Escravo 1", "localhost"},
-                {"02", "Escravo 2", "localhost"}
+                {"Servidor", "localhsot", "2000"}
             },
             new String [] {
-                "Nome", "IP", "Porta"
+                "Nome*", "IP", "Porta"
             }
         ));
         jTable1.setColumnSelectionAllowed(true);
@@ -100,7 +102,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
                         .addComponent(jButtonEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonFechar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -114,59 +116,12 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        // 
+        //
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    /**
-     * Retirar este método depois e colocar a inicialização em:
-     * windowOpenedActionPerformed
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JanelaConfigConServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JanelaConfigConServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JanelaConfigConServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JanelaConfigConServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
-         * Create and display the dialog
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                JanelaConfigConServidor dialog = new JanelaConfigConServidor(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
+        carregaConfigConServidor();
+    }//GEN-LAST:event_windowOpenedActionPerformed
 
     /* Aqui inicia a implementaçãos dos meus métodos, deste ponto em diante
      * não existe código que não tenha sido feito por mim.
@@ -177,6 +132,21 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         dispose();
     }
 
+    /**
+     * Carrega informações de conexão com o servidor principal, apartir do arquivo
+     * caso o arquivo de configuração não exista, cria o mesmo e carrefa
+     */
+    private void carregaConfigConServidor() {
+
+    }
+
+    /**
+     * Cria um novo arquivo de configuração de conexão com o servidor
+     */
+    private void criaNovoArqConfigConServidor() {
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonFechar;
@@ -184,4 +154,5 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -1,9 +1,9 @@
 /**
- * Classe que modela Janela principal do Servidor
+ * Classe que modela a GUI do Servidor Escravo
  * @author: Jorge Augusto C. dos Reis
- * @data..: 17/03/2013 às 23:14
+ * @data..: 18/03/2013 às 04:34
  * @Descrição:
- * Esta classe modela a GUI do servidor principal
+ * Esta classe modela a GUI do servidor escravo
  */
 
 package escravo;
@@ -43,7 +43,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
-        jMenuItemCadServEscravo = new javax.swing.JMenuItem();
+        jMenuItemConfigConServidor = new javax.swing.JMenuItem();
         jMenuItemSair = new javax.swing.JMenuItem();
         jMenuAjuda = new javax.swing.JMenu();
         jMenuItemSobre = new javax.swing.JMenuItem();
@@ -129,13 +129,13 @@ public class JanelaEscravo extends javax.swing.JFrame {
 
         jMenuArquivo.setText("Arquivo");
 
-        jMenuItemCadServEscravo.setText("Cadastrar Servidor Escravo");
-        jMenuItemCadServEscravo.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemConfigConServidor.setText("Configurar Conexão com Servidor");
+        jMenuItemConfigConServidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCadServEscravoActionPerformed(evt);
+                jMenuItemConfigConServidorActionPerformed(evt);
             }
         });
-        jMenuArquivo.add(jMenuItemCadServEscravo);
+        jMenuArquivo.add(jMenuItemConfigConServidor);
 
         jMenuItemSair.setText("Sair");
         jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
@@ -205,9 +205,9 @@ public class JanelaEscravo extends javax.swing.JFrame {
         fechaJanela();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
-    private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
-        TestaClasse();
-    }//GEN-LAST:event_jMenuItemCadServEscravoActionPerformed
+    private void jMenuItemConfigConServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigConServidorActionPerformed
+        abriJanelaConfigConServidor();
+    }//GEN-LAST:event_jMenuItemConfigConServidorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,6 +286,15 @@ public class JanelaEscravo extends javax.swing.JFrame {
     }
 
     /**
+     * Este método abri a janela de configuração de conexão com o servidor
+     */
+    private void abriJanelaConfigConServidor() {
+        janConfiConServidor = new JanelaConfigConServidor(this, true);
+
+        janConfiConServidor.setVisible(true);
+    }
+
+    /**
      * Este método escreve uma mensagem na barra de status
      */
     public void escreveNaBarraStatus(String mensagens) {
@@ -306,6 +315,12 @@ public class JanelaEscravo extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Declaração dos meus atributos
+     */
+
+    JanelaConfigConServidor janConfiConServidor;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -313,7 +328,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAjuda;
     private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenuItem jMenuItemCadServEscravo;
+    private javax.swing.JMenuItem jMenuItemConfigConServidor;
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSobre;
     private javax.swing.JPanel jPanel1;

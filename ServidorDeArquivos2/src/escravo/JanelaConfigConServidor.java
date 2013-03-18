@@ -10,6 +10,10 @@
 
 package escravo;
 
+import base.InfoServidor;
+import java.io.File;
+import javax.swing.table.DefaultTableModel;
+
 public class JanelaConfigConServidor extends javax.swing.JDialog {
 
     /**
@@ -21,6 +25,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
 
         // Coloca janela no centro da tela
         setLocationRelativeTo(null);
+        janelaPai = (JanelaEscravo) parent;
     }
 
     /**
@@ -35,7 +40,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         jButtonEditar = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableConfigCon = new javax.swing.JTable();
         jButtonSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -56,7 +61,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableConfigCon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Servidor", "localhsot", "2000"}
             },
@@ -64,13 +69,13 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
                 "Nome*", "IP", "Porta"
             }
         ));
-        jTable1.setColumnSelectionAllowed(true);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable1.getColumnModel().getColumn(0).setMinWidth(150);
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(150);
-        jTable1.getColumnModel().getColumn(0).setMaxWidth(60150);
+        jTableConfigCon.setColumnSelectionAllowed(true);
+        jTableConfigCon.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jTableConfigCon);
+        jTableConfigCon.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableConfigCon.getColumnModel().getColumn(0).setMinWidth(150);
+        jTableConfigCon.getColumnModel().getColumn(0).setPreferredWidth(150);
+        jTableConfigCon.getColumnModel().getColumn(0).setMaxWidth(60150);
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -137,22 +142,24 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
      * caso o arquivo de configuração não exista, cria o mesmo e carrefa
      */
     private void carregaConfigConServidor() {
+        janelaPai.carregaConfigConServidor();
 
+        // DefaultTableModel   model = (DefaultTableModel) jt
     }
 
     /**
-     * Cria um novo arquivo de configuração de conexão com o servidor
+     * Declaração dos meus atributos.
      */
-    private void criaNovoArqConfigConServidor() {
+    JanelaEscravo janelaPai;
 
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableConfigCon;
     // End of variables declaration//GEN-END:variables
 
 }

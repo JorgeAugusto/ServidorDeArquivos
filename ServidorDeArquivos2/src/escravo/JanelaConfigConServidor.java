@@ -11,7 +11,6 @@
 package escravo;
 
 import base.InfoServidor;
-import java.io.File;
 import javax.swing.table.DefaultTableModel;
 
 public class JanelaConfigConServidor extends javax.swing.JDialog {
@@ -63,13 +62,14 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
 
         jTableConfigCon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Servidor", "localhsot", "2000"}
+
             },
             new String [] {
                 "Nome*", "IP", "Porta"
             }
         ));
         jTableConfigCon.setColumnSelectionAllowed(true);
+        jTableConfigCon.setEnabled(false);
         jTableConfigCon.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableConfigCon);
         jTableConfigCon.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -142,9 +142,12 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
      * caso o arquivo de configuração não exista, cria o mesmo e carrefa
      */
     private void carregaConfigConServidor() {
-        janelaPai.carregaConfigConServidor();
+        InfoServidor infoServidor = janelaPai.getEscravo().getInfoServidor();
+        DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
 
-        // DefaultTableModel   model = (DefaultTableModel) jt
+        model.setRowCount(0);
+        model.addRow(new String[]{infoServidor.getNome(), infoServidor.getIp(),
+                                  Integer.toString(infoServidor.getPorta())});
     }
 
     /**

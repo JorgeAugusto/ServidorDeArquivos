@@ -19,11 +19,22 @@ public class InfoServidor implements Serializable {
     private int     portaControle;
     private int     portaDados;
 
+    public InfoServidor() {
+
+    }
+
     public InfoServidor(String nome, String ip, int portaControle, int portaDados) {
         this.nome   = nome;
         this.ip     = ip;
         this.portaControle = portaControle;
         this.portaDados    = portaDados;
+    }
+
+    // Somente para Teste
+    @Override
+    public String toString() {
+        return "[" + nome + ", " + ip + ", " + Integer.toString(portaControle) +
+                ", " + Integer.toString(portaDados) + "]";
     }
 
     public String getNome() {
@@ -51,6 +62,9 @@ public class InfoServidor implements Serializable {
             FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
             ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
             escritor.writeObject(info);
+            escritor.flush();
+
+            arquivo.close();
         }
         catch(Exception ex) {
             return false;
@@ -63,17 +77,19 @@ public class InfoServidor implements Serializable {
      * Este método carrega um objeto desta classe de um arquivo informado.
      * @return true se carregado com sucesse e false em caso de erro.
      */
-    public static boolean carregaDeArquivo(InfoServidor info, String nomeArquivo) {
+    public static InfoServidor carregaDeArquivo(InfoServidor info, String nomeArquivo) {
         try {
             FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
-            ObjectInputStream   escritor    = new ObjectInputStream(arquivo);
-            info = (InfoServidor) escritor.readObject();
+            ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
+            info = (InfoServidor) leitor.readObject();
+
+            arquivo.close();
         }
         catch(Exception ex) {
-            return false;
+            return null;
         }
 
-        return true;
+        return info;
     }
 
     /**
@@ -97,16 +113,16 @@ public class InfoServidor implements Serializable {
      * Este método carrega um objeto desta classe de um arquivo informado.
      * @return true se carregado com sucesse e false em caso de erro.
      */
-    public static boolean carregaDeArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) {
+    public static ArrayList<InfoServidor> carregaDeArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) {
         try {
             FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
-            ObjectInputStream   escritor    = new ObjectInputStream(arquivo);
-            listaInfo = (ArrayList<InfoServidor>) escritor.readObject();
+            ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
+            listaInfo = (ArrayList<InfoServidor>) leitor.readObject();
         }
         catch(Exception ex) {
-            return false;
+            return null;
         }
 
-        return true;
+        return listaInfo;
     }
 }

@@ -30,7 +30,7 @@ public class InfoServidor implements Serializable {
         this.portaDados    = portaDados;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="SOMENTE PARA TESTES">
+    //<editor-fold defaultstate="collapsed" desc="SOMENTE PARA TESTES - DEVE SER RETIRADO MAIS TARDE">
     // Somente para Teste
     @Override
     public String toString() {

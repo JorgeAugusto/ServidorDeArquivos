@@ -1,0 +1,112 @@
+/**
+ * Classe que modela a informação de um servidor (principal ou escravo)
+ * @author: Jorge Augusto C. dos Reis
+ * @data..: 17/03/2013 às 23:14
+ * @Descrição:
+ * Esta classe modela as informações de conexão de um host servidor
+ * que pode ser tando o servidor principal como um dos vários servidores
+ * escravos
+ */
+
+package base;
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class InfoServidor implements Serializable {
+    private String  nome;
+    private String  ip;
+    private int     portaControle;
+    private int     portaDados;
+
+    public InfoServidor(String nome, String ip, int portaControle, int portaDados) {
+        this.nome   = nome;
+        this.ip     = ip;
+        this.portaControle = portaControle;
+        this.portaDados    = portaDados;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public int getPortaControle() {
+        return portaControle;
+    }
+
+    public int getPortaDados() {
+        return portaDados;
+    }
+
+    /**
+     * Este método salva um objeto desta classe em um arquivo informado.
+     * @return true se salvo com sucesse e false em caso de erro.
+     */
+    public static boolean salvaEmArquivo(InfoServidor info, String nomeArquivo) {
+        try {
+            FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
+            ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
+            escritor.writeObject(info);
+        }
+        catch(Exception ex) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Este método carrega um objeto desta classe de um arquivo informado.
+     * @return true se carregado com sucesse e false em caso de erro.
+     */
+    public static boolean carregaDeArquivo(InfoServidor info, String nomeArquivo) {
+        try {
+            FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
+            ObjectInputStream   escritor    = new ObjectInputStream(arquivo);
+            info = (InfoServidor) escritor.readObject();
+        }
+        catch(Exception ex) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Este método salva um ArrayList de objetos desta classe em um arquivo informado.
+     * @return true se salvo com sucesse e false em caso de erro.
+     */
+    public static boolean salvaEmArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) {
+        try {
+            FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
+            ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
+            escritor.writeObject(listaInfo);
+        }
+        catch(Exception ex) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Este método carrega um objeto desta classe de um arquivo informado.
+     * @return true se carregado com sucesse e false em caso de erro.
+     */
+    public static boolean carregaDeArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) {
+        try {
+            FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
+            ObjectInputStream   escritor    = new ObjectInputStream(arquivo);
+            listaInfo = (ArrayList<InfoServidor>) escritor.readObject();
+        }
+        catch(Exception ex) {
+            return false;
+        }
+
+        return true;
+    }
+}

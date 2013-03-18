@@ -187,12 +187,8 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
                     "Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Troca o estado do botão de edição e outros...
-        jTableConfigCon.editingCanceled(null);
-        jTableConfigCon.clearSelection();
-        jTableConfigCon.setEnabled(false);
-        jButtonEditar.setText("Editar");
-        jButtonSalvar.setEnabled(false);
+        // Troca o estado do botão de edição e recarrega pra ter certeza que foi salvo
+        carregaConfigConServidor();
     }
 
     /**

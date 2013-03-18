@@ -16,24 +16,21 @@ import java.util.ArrayList;
 public class InfoServidor implements Serializable {
     private String  nome;
     private String  ip;
-    private int     portaControle;
-    private int     portaDados;
+    private int     porta;
 
     public InfoServidor() { }
 
-    public InfoServidor(String nome, String ip, int portaControle, int portaDados) {
+    public InfoServidor(String nome, String ip, int porta) {
         this.nome   = nome;
         this.ip     = ip;
-        this.portaControle = portaControle;
-        this.portaDados    = portaDados;
+        this.porta = porta;
     }
 
     //<editor-fold defaultstate="collapsed" desc="SOMENTE PARA TESTES - DEVE SER RETIRADO MAIS TARDE">
     // Somente para Teste
     @Override
     public String toString() {
-        return "[" + nome + ", " + ip + ", " + Integer.toString(portaControle) +
-                ", " + Integer.toString(portaDados) + "]";
+        return "[" + nome + ", " + ip + ", " + Integer.toString(porta) + "]";
     }
     //</editor-fold>
 
@@ -45,12 +42,8 @@ public class InfoServidor implements Serializable {
         return ip;
     }
 
-    public int getPortaControle() {
-        return portaControle;
-    }
-
-    public int getPortaDados() {
-        return portaDados;
+    public int getPorta() {
+        return porta;
     }
 
     /**

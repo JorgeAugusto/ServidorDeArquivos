@@ -301,50 +301,11 @@ public class JanelaServidor extends javax.swing.JFrame {
      * Este é um método de teste de algumas classes
      */
     private void TestaClasse() {
-        final String arquivoDoObjeto = "Objeto.txt";
-        final String arquivoDaLista  = "ListaDeObjetos.txt";
+        final String arquivoDaLista  = "ListaDeArquivos.txt";
 
-        InfoServidor info1 = new InfoServidor("Servidor", "192.168.0.1", 3001, 3002);
 
-        // Salva objeto em arquivo...
-        InfoServidor.salvaEmArquivo(info1, arquivoDoObjeto);
-        JOptionPane.showMessageDialog(rootPane, "Dados do info1: " + info1);
 
-        // Cria novo objeto
-        InfoServidor info2 = new InfoServidor();
 
-        // Carrega objeto do arquivo...
-        info2 = InfoServidor.carregaDeArquivo(info2, arquivoDoObjeto);
-        JOptionPane.showMessageDialog(rootPane, "Dados do info2: " + info2);
-
-        // Teste para ArrayList
-        // Cria lista 1
-        ArrayList<InfoServidor> listaInfo1 = new ArrayList<InfoServidor>();
-
-        // Preenche com dados
-        listaInfo1.add(new InfoServidor("Escravo 1", "192.168.0.2", 2001, 2002));
-        listaInfo1.add(new InfoServidor("Escravo 2", "192.168.0.3", 2001, 2002));
-        listaInfo1.add(new InfoServidor("Escravo 3", "192.168.0.4", 2001, 2002));
-        listaInfo1.add(new InfoServidor("Escravo 4", "192.168.0.5", 2001, 2002));
-
-        // Salva lista 1 no arquivo
-        InfoServidor.salvaEmArquivo(listaInfo1, arquivoDaLista);
-
-        // Cria lista 2
-        ArrayList<InfoServidor> listaInfo2 = new ArrayList<InfoServidor>();
-
-        // Carrega lista 2 do arquivo
-        listaInfo2 = InfoServidor.carregaDeArquivo(listaInfo2, arquivoDaLista);
-
-        // processa lista 2
-        String dados = new String();
-
-        for(InfoServidor info : listaInfo2) {
-            dados += info;
-        }
-
-        // Mostra mensagem com os dados...
-        JOptionPane.showMessageDialog(rootPane, "Dados da Lista: " + dados);
     }
 
     /**

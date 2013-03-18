@@ -8,6 +8,7 @@
 
 package servidor;
 
+import base.InfoArquivo;
 import base.InfoServidor;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -301,11 +302,7 @@ public class JanelaServidor extends javax.swing.JFrame {
      * Este é um método de teste de algumas classes
      */
     private void TestaClasse() {
-        final String arquivoDaLista  = "ListaDeArquivos.txt";
-
-
-
-
+        
     }
 
     /**

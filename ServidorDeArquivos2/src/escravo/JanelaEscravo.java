@@ -8,7 +8,10 @@
 
 package escravo;
 
+import base.InfoServidor;
+import java.io.File;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class JanelaEscravo extends javax.swing.JFrame {
 
@@ -53,6 +56,11 @@ public class JanelaEscravo extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setName("framePrincipal");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                windowOpenedActionPerformed(evt);
+            }
+        });
 
         jTableArquivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -209,6 +217,10 @@ public class JanelaEscravo extends javax.swing.JFrame {
         abriJanelaConfigConServidor();
     }//GEN-LAST:event_jMenuItemConfigConServidorActionPerformed
 
+    private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
+        inicializacao();
+    }//GEN-LAST:event_windowOpenedActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -316,10 +328,44 @@ public class JanelaEscravo extends javax.swing.JFrame {
     }
 
     /**
-     * Declaração dos meus atributos
+     * Este método carrega as informações de conexão do
      */
+    public void carregaConfigConServidor() {
+        try {
+            File arq = new File(Escravo.ARQ_CONFIG_CON_SERVIDOR);
 
-    JanelaConfigConServidor janConfiConServidor;
+            InfoServidor infoServidor = new InfoServidor("Servidor", "localhost", 2002);
+
+            if(!arq.exists() || !arq.isFile()) {
+                InfoServidor.salvaEmArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR);
+            }
+
+            escravo.setInfoServidor(InfoServidor.carregaDeArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR));
+        }
+        catch(Exception ex) {
+
+        }
+    }
+
+    /**
+     * Este método é executado no momento de abertura da janela
+     */
+    private void inicializacao() {
+        carregaConfigConServidor();
+    }
+
+    /**
+     * Retorna o atribudo escravo
+     */
+    public Escravo getEscravo() {
+        return escravo;
+    }
+
+    /**
+     * Declaração dos meus atributos.
+     */
+    private Escravo                 escravo = new Escravo();
+    private JanelaConfigConServidor janConfiConServidor;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -338,4 +384,5 @@ public class JanelaEscravo extends javax.swing.JFrame {
     private javax.swing.JTable jTableArquivos;
     private javax.swing.JTable jTableConexoes;
     // End of variables declaration//GEN-END:variables
+
 }

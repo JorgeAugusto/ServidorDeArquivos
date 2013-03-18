@@ -11,9 +11,11 @@ package escravo;
 import base.InfoServidor;
 
 public class Escravo {
+    public  static final String ARQ_CONFIG_CON_SERVIDOR = "ConfigConServidor.ser";
+
     private InfoServidor infoConexaoServidor;
 
-    
+
     public Escravo() { }
 
     public Escravo(InfoServidor infoConexaoServidor) {

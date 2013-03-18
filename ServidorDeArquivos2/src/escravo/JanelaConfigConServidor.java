@@ -11,6 +11,8 @@
 package escravo;
 
 import base.InfoServidor;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class JanelaConfigConServidor extends javax.swing.JDialog {
@@ -52,6 +54,11 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         });
 
         jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
 
         jButtonFechar.setText("Fechar");
         jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +85,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         jTableConfigCon.getColumnModel().getColumn(0).setMaxWidth(60150);
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.setEnabled(false);
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
@@ -90,12 +98,12 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonFechar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonFechar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(jButtonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -121,12 +129,16 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        //
+        salvaConfiConServidor();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
         carregaConfigConServidor();
     }//GEN-LAST:event_windowOpenedActionPerformed
+
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        habilitaEdicao();
+    }//GEN-LAST:event_jButtonEditarActionPerformed
 
     /* Aqui inicia a implementaçãos dos meus métodos, deste ponto em diante
      * não existe código que não tenha sido feito por mim.
@@ -150,12 +162,64 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
                                   Integer.toString(infoServidor.getPorta())});
     }
 
+
+    /**
+     * Este método salva as alterações feitas no arquivo de configuração de
+     * conexão com o servidor
+     */
+    private void salvaConfiConServidor() {
+        DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
+        List linha = (List) model.getDataVector().get(0);
+
+        try {
+            // Cria objeto de InfoServidor com os dados da JTable
+            InfoServidor infoServidor = new InfoServidor(
+                                            linha.get(0).toString(),
+                                            linha.get(1).toString(),
+                                            Integer.parseInt(linha.get(2).toString()));
+
+            janelaPai.getEscravo().setInfoServidor(infoServidor);
+            InfoServidor.salvaEmArquivo(janelaPai.getEscravo().getInfoServidor(), Escravo.ARQ_CONFIG_CON_SERVIDOR);
+        }
+        catch(Exception ex) {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Erro ao salvar informações de configuração",
+                    "Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Troca o estado do botão de edição e outros...
+        jTableConfigCon.editingCanceled(null);
+        jTableConfigCon.clearSelection();
+        jTableConfigCon.setEnabled(false);
+        jButtonEditar.setText("Editar");
+        jButtonSalvar.setEnabled(false);
+    }
+
+    /**
+     * Este método habilida edição da tabela
+     */
+    private void habilitaEdicao() {
+        if(!jTableConfigCon.isEnabled()) {
+            jTableConfigCon.setEnabled(true);
+            jButtonEditar.setText("Cancelar");
+            jButtonSalvar.setEnabled(true);
+        }
+        else {
+            jTableConfigCon.editingCanceled(null);
+            jTableConfigCon.clearSelection();
+            jTableConfigCon.setEnabled(false);
+            jButtonEditar.setText("Editar");
+            jButtonSalvar.setEnabled(false);
+
+            // Recarrega arquivo, cancelando qualquer alteração
+            carregaConfigConServidor();
+        }
+    }
+
     /**
      * Declaração dos meus atributos.
      */
     JanelaEscravo janelaPai;
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;

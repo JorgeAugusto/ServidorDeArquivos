@@ -19,9 +19,7 @@ public class InfoServidor implements Serializable {
     private int     portaControle;
     private int     portaDados;
 
-    public InfoServidor() {
-
-    }
+    public InfoServidor() { }
 
     public InfoServidor(String nome, String ip, int portaControle, int portaDados) {
         this.nome   = nome;

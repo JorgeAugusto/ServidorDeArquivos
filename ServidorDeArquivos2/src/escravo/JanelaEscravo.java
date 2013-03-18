@@ -47,6 +47,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
         jMenuItemConfigConServidor = new javax.swing.JMenuItem();
+        jMenuItemReiniciaConexoServidor = new javax.swing.JMenuItem();
         jMenuItemSair = new javax.swing.JMenuItem();
         jMenuAjuda = new javax.swing.JMenu();
         jMenuItemSobre = new javax.swing.JMenuItem();
@@ -144,6 +145,9 @@ public class JanelaEscravo extends javax.swing.JFrame {
             }
         });
         jMenuArquivo.add(jMenuItemConfigConServidor);
+
+        jMenuItemReiniciaConexoServidor.setText("Reinicar Conexão com Servidor");
+        jMenuArquivo.add(jMenuItemReiniciaConexoServidor);
 
         jMenuItemSair.setText("Sair");
         jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
@@ -375,6 +379,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemConfigConServidor;
+    private javax.swing.JMenuItem jMenuItemReiniciaConexoServidor;
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSobre;
     private javax.swing.JPanel jPanel1;

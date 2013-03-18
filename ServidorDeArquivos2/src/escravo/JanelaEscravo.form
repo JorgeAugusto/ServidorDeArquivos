@@ -17,6 +17,11 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemConfigConServidorActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemReiniciaConexoServidor">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reinicar Conex&#xe3;o com Servidor"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSair">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sair"/>

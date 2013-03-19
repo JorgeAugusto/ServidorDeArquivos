@@ -188,7 +188,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         }
 
         // Troca o estado do botão de edição e recarrega pra ter certeza que foi salvo
-        carregaConfigConServidor();
+        habilitaEdicao();
     }
 
     /**

@@ -11,7 +11,6 @@ package escravo;
 import base.InfoServidor;
 import java.io.File;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class JanelaEscravo extends javax.swing.JFrame {
 
@@ -347,7 +346,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
             escravo.setInfoServidor(InfoServidor.carregaDeArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR));
         }
         catch(Exception ex) {
-
+            escreveNaBarraStatus("Erro ao carregar configurações da conexão com o Servidor.");
         }
     }
 

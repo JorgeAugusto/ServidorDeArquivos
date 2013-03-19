@@ -50,37 +50,29 @@ public class InfoServidor implements Serializable {
      * Este método salva um objeto desta classe em um arquivo informado.
      * @return true se salvo com sucesse e false em caso de erro.
      */
-    public static boolean salvaEmArquivo(InfoServidor info, String nomeArquivo) {
-        try {
-            FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
-            ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
+    public static void salvaEmArquivo(InfoServidor info, String nomeArquivo)
+        throws Exception {
 
-            escritor.writeObject(info);
-            escritor.flush();
-            arquivo.close();
-        }
-        catch(Exception ex) {
-            return false;
-        }
+        FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
+        ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
 
-        return true;
+        escritor.writeObject(info);
+        escritor.flush();
+        arquivo.close();
     }
 
     /**
      * Este método carrega um objeto desta classe de um arquivo informado.
      * @return true se carregado com sucesse e false em caso de erro.
      */
-    public static InfoServidor carregaDeArquivo(InfoServidor info, String nomeArquivo) {
-        try {
-            FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
-            ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
+    public static InfoServidor carregaDeArquivo(InfoServidor info,
+        String nomeArquivo) throws Exception {
 
-            info = (InfoServidor) leitor.readObject();
-            arquivo.close();
-        }
-        catch(Exception ex) {
-            return null;
-        }
+        FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
+        ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
+
+        info = (InfoServidor) leitor.readObject();
+        arquivo.close();
 
         return info;
     }
@@ -89,37 +81,30 @@ public class InfoServidor implements Serializable {
      * Este método salva um ArrayList de objetos desta classe em um arquivo informado.
      * @return true se salvo com sucesse e false em caso de erro.
      */
-    public static boolean salvaEmArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) {
-        try {
-            FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
-            ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
+    public static void salvaEmArquivo(ArrayList<InfoServidor> listaInfo,
+        String nomeArquivo) throws Exception {
 
-            escritor.writeObject(listaInfo);
-            escritor.flush();
-            arquivo.close();
-        }
-        catch(Exception ex) {
-            return false;
-        }
+        FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
+        ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
 
-        return true;
+        escritor.writeObject(listaInfo);
+        escritor.flush();
+        arquivo.close();
     }
 
     /**
      * Este método carrega um objeto desta classe de um arquivo informado.
      * @return true se carregado com sucesse e false em caso de erro.
      */
-    public static ArrayList<InfoServidor> carregaDeArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) {
-        try {
-            FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
-            ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
+    public static ArrayList<InfoServidor> carregaDeArquivo(
+        ArrayList<InfoServidor> listaInfo, String nomeArquivo)
+        throws Exception {
 
-            listaInfo = (ArrayList<InfoServidor>) leitor.readObject();
-            arquivo.close();
-        }
-        catch(Exception ex) {
-            return null;
-        }
+        FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
+        ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
+
+        listaInfo = (ArrayList<InfoServidor>) leitor.readObject();
+        arquivo.close();
 
         return listaInfo;
     }

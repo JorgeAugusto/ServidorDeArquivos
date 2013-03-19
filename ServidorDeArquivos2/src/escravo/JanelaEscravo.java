@@ -337,7 +337,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
         try {
             File arq = new File(Escravo.ARQ_CONFIG_CON_SERVIDOR);
 
-            InfoServidor infoServidor = new InfoServidor("Servidor", "localhost", 2002);
+            InfoServidor infoServidor = new InfoServidor("Servidor", "localhost", 2000);
 
             if(!arq.exists() || !arq.isFile()) {
                 InfoServidor.salvaEmArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR);
@@ -347,7 +347,10 @@ public class JanelaEscravo extends javax.swing.JFrame {
         }
         catch(Exception ex) {
             escreveNaBarraStatus("Erro ao carregar configurações da conexão com o Servidor.");
+            return;
         }
+
+        escreveNaBarraStatus("Configurações da conexão com o Servidor, carregadas com sucesso.");
     }
 
     /**

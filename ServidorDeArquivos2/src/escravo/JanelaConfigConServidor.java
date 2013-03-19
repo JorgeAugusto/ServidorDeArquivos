@@ -158,7 +158,8 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
 
         model.setRowCount(0);
-        model.addRow(new String[]{infoServidor.getNome(), infoServidor.getIp(),
+        model.addRow(new String[]{infoServidor.getNome(),
+                                  infoServidor.getIp(),
                                   Integer.toString(infoServidor.getPorta())});
     }
 

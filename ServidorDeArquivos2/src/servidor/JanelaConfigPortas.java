@@ -189,6 +189,9 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
                                     Integer.parseInt(((List)linha).get(2).toString())
                         ));
             }
+
+            janelaPai.getServidor().setInfoPortas(infoPortas);
+            InfoServidor.salvarEmArquivo(janelaPai.getServidor().getInfoPortas(), Servidor.ARQ_CONFIG_PORTAS);
         }
         catch(Exception ex) {
             JOptionPane.showMessageDialog(rootPane,

@@ -350,7 +350,7 @@ public class JanelaServidor extends javax.swing.JFrame {
     private void inicializacao() {
         adicionarHistorico("Inicializando Sistema", "OK");
 
-        carregarConfigPortas();
+        servidor = new Servidor(this);
     }
 
     /**
@@ -420,33 +420,6 @@ public class JanelaServidor extends javax.swing.JFrame {
     }
 
     /**
-     * Este método carrega as informações de conexão do
-     */
-    public void carregarConfigPortas() {
-        try {
-            File arq = new File(Servidor.ARQ_CONFIG_PORTAS);
-
-            ArrayList<InfoServidor> listaPortas = new ArrayList<InfoServidor>();
-
-            listaPortas.add(new InfoServidor("Clientes", "-", 2000));
-            listaPortas.add(new InfoServidor("Escravos", "-", 2001));
-
-            if(!arq.exists() || !arq.isFile()) {
-                InfoServidor.salvarEmArquivo(listaPortas, Servidor.ARQ_CONFIG_PORTAS);
-            }
-
-            servidor.setInfoPortas(InfoServidor.carregarDeArquivo(listaPortas, Servidor.ARQ_CONFIG_PORTAS));
-        }
-        catch(Exception ex) {
-            adicionarHistorico("Corregando configurações de portas", "ERRO");
-            return;
-        }
-
-        adicionarHistorico("Corregando configurações de portas", "OK");
-    }
-
-
-    /**
      * Retorna o atribudo servidor
      */
     public Servidor getServidor() {
@@ -456,7 +429,7 @@ public class JanelaServidor extends javax.swing.JFrame {
     /**
      * Declaração dos meus atributos.
      */
-    private Servidor                servidor = new Servidor();
+    private Servidor                servidor;
     private JanelaConfigPortas      janConfiPortas;
 
 

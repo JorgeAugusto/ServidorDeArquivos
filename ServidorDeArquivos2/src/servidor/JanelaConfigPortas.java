@@ -8,19 +8,20 @@
  * usando os métodos da classe InfoServidor
  */
 
-package escravo;
+package servidor;
 
+import escravo.*;
 import base.InfoServidor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class JanelaConfigConServidor extends javax.swing.JDialog {
+public class JanelaConfigPortas extends javax.swing.JDialog {
 
     /**
      * Creates new form JanelaCadServEscravo
      */
-    public JanelaConfigConServidor(java.awt.Frame parent, boolean modal) {
+    public JanelaConfigPortas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -45,7 +46,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         jButtonSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Configuração de Conexão com Servidor Principal");
+        setTitle("Configuração de Portas de Escuta: Para Clientes e Servidores Escravos");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {

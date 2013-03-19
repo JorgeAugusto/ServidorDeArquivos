@@ -1,5 +1,5 @@
 /**
- * Classe que modela a informação de um servidor (principal ou escravo)
+ * Classe que modela a informação de uma conexao (principal ou escravo)
  * @author: Jorge Augusto C. dos Reis
  * @data..: 17/03/2013 às 23:14
  * @Descrição:
@@ -49,7 +49,7 @@ public class InfoServidor implements Serializable {
     /**
      * Este método salva um objeto desta classe em um arquivo informado.
      */
-    public static void salvaEmArquivo(InfoServidor info, String nomeArquivo) throws Exception {
+    public static void salvarEmArquivo(InfoServidor info, String nomeArquivo) throws Exception {
         FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
         ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
 
@@ -61,7 +61,7 @@ public class InfoServidor implements Serializable {
     /**
      * Este método carrega um objeto desta classe de um arquivo informado.
      */
-    public static InfoServidor carregaDeArquivo(InfoServidor info, String nomeArquivo) throws Exception {
+    public static InfoServidor carregarDeArquivo(InfoServidor info, String nomeArquivo) throws Exception {
         FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
         ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
 
@@ -74,7 +74,7 @@ public class InfoServidor implements Serializable {
     /**
      * Este método salva um ArrayList de objetos desta classe em um arquivo informado.
      */
-    public static void salvaEmArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) throws Exception {
+    public static void salvarEmArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) throws Exception {
         FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
         ObjectOutputStream  escritor    = new ObjectOutputStream(arquivo);
 
@@ -86,7 +86,7 @@ public class InfoServidor implements Serializable {
     /**
      * Este método carrega um objeto desta classe de um arquivo informado.
      */
-    public static ArrayList<InfoServidor> carregaDeArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) throws Exception {
+    public static ArrayList<InfoServidor> carregarDeArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) throws Exception {
         FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
         ObjectInputStream   leitor      = new ObjectInputStream(arquivo);
 

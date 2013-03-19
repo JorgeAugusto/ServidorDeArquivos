@@ -209,15 +209,15 @@ public class JanelaEscravo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreActionPerformed
-        exibiSobre();
+        exibirSobre();
     }//GEN-LAST:event_jMenuItemSobreActionPerformed
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
-        fechaJanela();
+        fecharJanela();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemConfigConServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigConServidorActionPerformed
-        abriJanelaConfigConServidor();
+        abrirJanelaConfigConServidor();
     }//GEN-LAST:event_jMenuItemConfigConServidorActionPerformed
 
     private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
@@ -283,7 +283,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
     /**
      * Método que exibe a mensagem do Sobre
      */
-    private void exibiSobre() {
+    private void exibirSobre() {
         JOptionPane.showMessageDialog(rootPane,
         "<html><b><font size='5'>Sistema Servidor de Arquivos</font></b><br>"                   +
         "<b><font size='3'>IESAM - Institudo de Estudos Superiores da Amazônia</font></b><br>"  +
@@ -296,14 +296,14 @@ public class JanelaEscravo extends javax.swing.JFrame {
     /**
      * Este método fecha a janela e sai do programa
      */
-    private void fechaJanela() {
+    private void fecharJanela() {
         dispose();
     }
 
     /**
      * Este método abri a janela de configuração de conexão com o servidor
      */
-    private void abriJanelaConfigConServidor() {
+    private void abrirJanelaConfigConServidor() {
         janConfiConServidor = new JanelaConfigConServidor(this, true);
 
         janConfiConServidor.setVisible(true);
@@ -312,52 +312,52 @@ public class JanelaEscravo extends javax.swing.JFrame {
     /**
      * Este método escreve uma mensagem na barra de status
      */
-    public void escreveNaBarraStatus(String mensagens) {
+    public void escreverNaBarraStatus(String mensagens) {
         jLabelBarraStatus.setText(mensagens);
     }
 
     /**
      * Este métod atualiza a tabela de arquivos disponíveis
      */
-    private void atualizaTabelaArquivos() {
+    private void atualizarTabelaArquivos() {
 
     }
 
     /**
      * Este métod atualiza a tabela de clientes conectados
      */
-    public void atualizaTabelaClientesConectados() {
+    public void atualizarTabelaClientesConectados() {
 
     }
 
     /**
      * Este método carrega as informações de conexão do
      */
-    public void carregaConfigConServidor() {
+    public void carregarConfigConServidor() {
         try {
             File arq = new File(Escravo.ARQ_CONFIG_CON_SERVIDOR);
 
             InfoServidor infoServidor = new InfoServidor("Servidor", "localhost", 2000);
 
             if(!arq.exists() || !arq.isFile()) {
-                InfoServidor.salvaEmArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR);
+                InfoServidor.salvarEmArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR);
             }
 
-            escravo.setInfoServidor(InfoServidor.carregaDeArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR));
+            escravo.setInfoServidor(InfoServidor.carregarDeArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR));
         }
         catch(Exception ex) {
-            escreveNaBarraStatus("Erro ao carregar configurações da conexão com o Servidor.");
+            escreverNaBarraStatus("Erro ao carregar configurações da conexão com o Servidor.");
             return;
         }
 
-        escreveNaBarraStatus("Configurações da conexão com o Servidor, carregadas com sucesso.");
+        escreverNaBarraStatus("Configurações da conexão com o Servidor, carregadas com sucesso.");
     }
 
     /**
      * Este método é executado no momento de abertura da janela
      */
     private void inicializacao() {
-        carregaConfigConServidor();
+        carregarConfigConServidor();
     }
 
     /**

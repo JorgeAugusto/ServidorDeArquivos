@@ -11,7 +11,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCadServEscravo">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastrar Servidor Escravo"/>
+                <Property name="text" type="java.lang.String" value="Configurar Portas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCadServEscravoActionPerformed"/>

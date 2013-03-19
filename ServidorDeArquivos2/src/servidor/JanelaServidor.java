@@ -161,7 +161,7 @@ public class JanelaServidor extends javax.swing.JFrame {
 
         jMenuArquivo.setText("Arquivo");
 
-        jMenuItemCadServEscravo.setText("Cadastrar Servidor Escravo");
+        jMenuItemCadServEscravo.setText("Configurar Portas");
         jMenuItemCadServEscravo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemCadServEscravoActionPerformed(evt);
@@ -246,7 +246,7 @@ public class JanelaServidor extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
-        TestaClasse();
+        // 
     }//GEN-LAST:event_jMenuItemCadServEscravoActionPerformed
 
     /**
@@ -302,7 +302,7 @@ public class JanelaServidor extends javax.swing.JFrame {
      * Este é um método de teste de algumas classes
      */
     private void TestaClasse() {
-        
+
     }
 
     /**

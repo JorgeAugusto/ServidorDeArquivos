@@ -48,7 +48,6 @@ public class InfoServidor implements Serializable {
 
     /**
      * Este método salva um objeto desta classe em um arquivo informado.
-     * @return true se salvo com sucesse e false em caso de erro.
      */
     public static void salvaEmArquivo(InfoServidor info, String nomeArquivo) throws Exception {
         FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
@@ -61,7 +60,6 @@ public class InfoServidor implements Serializable {
 
     /**
      * Este método carrega um objeto desta classe de um arquivo informado.
-     * @return true se carregado com sucesse e false em caso de erro.
      */
     public static InfoServidor carregaDeArquivo(InfoServidor info, String nomeArquivo) throws Exception {
         FileInputStream     arquivo     = new FileInputStream(nomeArquivo);
@@ -75,7 +73,6 @@ public class InfoServidor implements Serializable {
 
     /**
      * Este método salva um ArrayList de objetos desta classe em um arquivo informado.
-     * @return true se salvo com sucesse e false em caso de erro.
      */
     public static void salvaEmArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) throws Exception {
         FileOutputStream    arquivo     = new FileOutputStream(nomeArquivo);
@@ -88,7 +85,6 @@ public class InfoServidor implements Serializable {
 
     /**
      * Este método carrega um objeto desta classe de um arquivo informado.
-     * @return true se carregado com sucesse e false em caso de erro.
      */
     public static ArrayList<InfoServidor> carregaDeArquivo(ArrayList<InfoServidor> listaInfo, String nomeArquivo) throws Exception {
         FileInputStream     arquivo     = new FileInputStream(nomeArquivo);

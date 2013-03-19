@@ -273,10 +273,18 @@ public class JanelaEscravo extends javax.swing.JFrame {
      * não existe código que não tenha sido feito por mim.
      */
 
+
+    /**
+     * Este método é executado no momento de abertura da janela
+     */
+    private void inicializacao() {
+        carregarConfigConServidor();
+    }
+
     /**
      * Este é um método de teste de algumas classes
      */
-    private void TestaClasse() {
+    private void TestarClasse() {
 
     }
 
@@ -351,13 +359,6 @@ public class JanelaEscravo extends javax.swing.JFrame {
         }
 
         escreverNaBarraStatus("Configurações da conexão com o Servidor, carregadas com sucesso.");
-    }
-
-    /**
-     * Este método é executado no momento de abertura da janela
-     */
-    private void inicializacao() {
-        carregarConfigConServidor();
     }
 
     /**

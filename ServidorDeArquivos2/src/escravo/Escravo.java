@@ -18,10 +18,6 @@ public class Escravo {
 
     public Escravo() { }
 
-    public Escravo(InfoServidor infoConexaoServidor) {
-        this.infoConexaoServidor = infoConexaoServidor;
-    }
-
     public InfoServidor getInfoServidor() {
         return infoConexaoServidor;
     }

@@ -8,10 +8,11 @@
 
 package servidor;
 
-import base.InfoArquivo;
 import base.InfoServidor;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class JanelaServidor extends javax.swing.JFrame {
 
@@ -47,6 +48,9 @@ public class JanelaServidor extends javax.swing.JFrame {
         jScrollPaneConexoes = new javax.swing.JScrollPane();
         jTableConexoes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPaneConexoes1 = new javax.swing.JScrollPane();
+        jTableHistorico = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
         jMenuItemCadServEscravo = new javax.swing.JMenuItem();
@@ -59,6 +63,11 @@ public class JanelaServidor extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setName("framePrincipal");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                windowOpenedActionPerformed(evt);
+            }
+        });
 
         jTableArquivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,7 +95,7 @@ public class JanelaServidor extends javax.swing.JFrame {
         jTableArquivos.getColumnModel().getColumn(2).setPreferredWidth(120);
         jTableArquivos.getColumnModel().getColumn(2).setMaxWidth(120);
 
-        jLabel1.setText("Lista de Arquivos Disponíveis");
+        jLabel1.setText(" Arquivos Disponíveis");
 
         jTableEscravos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -96,8 +105,11 @@ public class JanelaServidor extends javax.swing.JFrame {
                 "Nome", "IP", "Porta", "Situação"
             }
         ));
+        jTableEscravos.setColumnSelectionAllowed(true);
         jTableEscravos.setEnabled(false);
+        jTableEscravos.getTableHeader().setReorderingAllowed(false);
         jScrollPaneEscravos.setViewportView(jTableEscravos);
+        jTableEscravos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableEscravos.getColumnModel().getColumn(1).setMinWidth(100);
         jTableEscravos.getColumnModel().getColumn(1).setMaxWidth(100);
         jTableEscravos.getColumnModel().getColumn(2).setMinWidth(60);
@@ -105,9 +117,9 @@ public class JanelaServidor extends javax.swing.JFrame {
         jTableEscravos.getColumnModel().getColumn(3).setMinWidth(100);
         jTableEscravos.getColumnModel().getColumn(3).setMaxWidth(100);
 
-        jLabel2.setText("Lista de Escravos");
+        jLabel2.setText(" Servidores Escravos Conectados");
 
-        jLabelBarraStatus.setText("Carregando...");
+        jLabelBarraStatus.setText("Inicializando...");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -147,17 +159,39 @@ public class JanelaServidor extends javax.swing.JFrame {
         jTableConexoes.getTableHeader().setReorderingAllowed(false);
         jScrollPaneConexoes.setViewportView(jTableConexoes);
         jTableConexoes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableConexoes.getColumnModel().getColumn(0).setMinWidth(50);
-        jTableConexoes.getColumnModel().getColumn(0).setPreferredWidth(50);
-        jTableConexoes.getColumnModel().getColumn(0).setMaxWidth(50);
-        jTableConexoes.getColumnModel().getColumn(1).setMinWidth(80);
-        jTableConexoes.getColumnModel().getColumn(1).setPreferredWidth(80);
-        jTableConexoes.getColumnModel().getColumn(1).setMaxWidth(80);
+        jTableConexoes.getColumnModel().getColumn(1).setMinWidth(50);
+        jTableConexoes.getColumnModel().getColumn(1).setPreferredWidth(50);
+        jTableConexoes.getColumnModel().getColumn(1).setMaxWidth(50);
         jTableConexoes.getColumnModel().getColumn(3).setMinWidth(50);
         jTableConexoes.getColumnModel().getColumn(3).setPreferredWidth(50);
         jTableConexoes.getColumnModel().getColumn(3).setMaxWidth(50);
 
-        jLabel3.setText("Lista de Clientes Conectados");
+        jLabel3.setText(" Clientes Conectados");
+
+        jTableHistorico.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mensagem", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableHistorico.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneConexoes1.setViewportView(jTableHistorico);
+        jTableHistorico.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableHistorico.getColumnModel().getColumn(1).setMinWidth(50);
+        jTableHistorico.getColumnModel().getColumn(1).setPreferredWidth(50);
+        jTableHistorico.getColumnModel().getColumn(1).setMaxWidth(50);
+
+        jLabel4.setText(" Histórico de Atividades");
 
         jMenuArquivo.setText("Arquivo");
 
@@ -200,19 +234,20 @@ public class JanelaServidor extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPaneArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneEscravos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneEscravos)
+                    .addComponent(jScrollPaneConexoes1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPaneArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPaneConexoes, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneConexoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -223,13 +258,19 @@ public class JanelaServidor extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPaneArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneConexoes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneEscravos, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPaneConexoes, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPaneConexoes1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPaneArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPaneEscravos, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -246,8 +287,12 @@ public class JanelaServidor extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
-        // 
+        abrirJanelaConfigPortas();
     }//GEN-LAST:event_jMenuItemCadServEscravoActionPerformed
+
+    private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
+        inicializacao();
+    }//GEN-LAST:event_windowOpenedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,6 +343,16 @@ public class JanelaServidor extends javax.swing.JFrame {
      * não existe código que não tenha sido feito por mim.
      */
 
+
+    /**
+     * Este método é executado no momento de abertura da janela
+     */
+    private void inicializacao() {
+        adicionarHistorico("Inicializando Sistema", "OK");
+
+        carregarConfigPortas();
+    }
+
     /**
      * Este é um método de teste de algumas classes
      */
@@ -326,10 +381,28 @@ public class JanelaServidor extends javax.swing.JFrame {
     }
 
     /**
+     * Este método abri a janela de configuração de conexão com o servidor
+     */
+    private void abrirJanelaConfigPortas() {
+        adicionarHistorico("Abrindo janela de configuração de portas", "OK");
+
+        janConfiPortas = new JanelaConfigPortas(this, true);
+        janConfiPortas.setVisible(true);
+    }
+
+    /**
      * Este método escreve uma mensagem na barra de status
      */
-    public void escreveNaBarraStatus(String mensagens) {
+    public void escreverNaBarraStatus(String mensagens) {
         jLabelBarraStatus.setText(mensagens);
+    }
+
+    /**
+     * Este método adiciona uma mensagem ao histórico
+     */
+    public void adicionarHistorico(String mensagem, String estado) {
+        DefaultTableModel model = (DefaultTableModel) jTableHistorico.getModel();
+        model.addRow(new String[]{mensagem, estado});
     }
 
     /**
@@ -346,10 +419,52 @@ public class JanelaServidor extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Este método carrega as informações de conexão do
+     */
+    public void carregarConfigPortas() {
+        try {
+            File arq = new File(Servidor.ARQ_CONFIG_PORTAS);
+
+            ArrayList<InfoServidor> listaPortas = new ArrayList<InfoServidor>();
+
+            listaPortas.add(new InfoServidor("Clientes", "-", 2000));
+            listaPortas.add(new InfoServidor("Escravos", "-", 2001));
+
+            if(!arq.exists() || !arq.isFile()) {
+                InfoServidor.salvarEmArquivo(listaPortas, Servidor.ARQ_CONFIG_PORTAS);
+            }
+
+            servidor.setInfoPortas(InfoServidor.carregarDeArquivo(listaPortas, Servidor.ARQ_CONFIG_PORTAS));
+        }
+        catch(Exception ex) {
+            adicionarHistorico("Corregando configurações de portas", "ERRO");
+            return;
+        }
+
+        adicionarHistorico("Corregando configurações de portas", "OK");
+    }
+
+
+    /**
+     * Retorna o atribudo servidor
+     */
+    public Servidor getServidor() {
+        return servidor;
+    }
+
+    /**
+     * Declaração dos meus atributos.
+     */
+    private Servidor                servidor = new Servidor();
+    private JanelaConfigPortas      janConfiPortas;
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelBarraStatus;
     private javax.swing.JMenu jMenuAjuda;
     private javax.swing.JMenu jMenuArquivo;
@@ -360,10 +475,13 @@ public class JanelaServidor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPaneArquivos;
     private javax.swing.JScrollPane jScrollPaneConexoes;
+    private javax.swing.JScrollPane jScrollPaneConexoes1;
     private javax.swing.JScrollPane jScrollPaneEscravos;
     private javax.swing.JSeparator jSeparator;
     private javax.swing.JTable jTableArquivos;
     private javax.swing.JTable jTableConexoes;
     private javax.swing.JTable jTableEscravos;
+    private javax.swing.JTable jTableHistorico;
     // End of variables declaration//GEN-END:variables
+
 }

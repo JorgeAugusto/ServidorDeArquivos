@@ -12,6 +12,8 @@ package servidor;
 
 import escravo.*;
 import base.InfoServidor;
+import com.sun.security.auth.module.JndiLoginModule;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,7 +29,7 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
 
         // Coloca janela no centro da tela
         setLocationRelativeTo(null);
-        janelaPai = (JanelaEscravo) parent;
+        janelaPai = (JanelaServidor) parent;
     }
 
     /**
@@ -42,7 +44,7 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
         jButtonEditar = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableConfigCon = new javax.swing.JTable();
+        jTableConfigPortas = new javax.swing.JTable();
         jButtonSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,22 +70,22 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
             }
         });
 
-        jTableConfigCon.setModel(new javax.swing.table.DefaultTableModel(
+        jTableConfigPortas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome*", "IP", "Porta"
+                "Conexões", "IP", "Porta"
             }
         ));
-        jTableConfigCon.setColumnSelectionAllowed(true);
-        jTableConfigCon.setEnabled(false);
-        jTableConfigCon.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTableConfigCon);
-        jTableConfigCon.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableConfigCon.getColumnModel().getColumn(0).setMinWidth(150);
-        jTableConfigCon.getColumnModel().getColumn(0).setPreferredWidth(150);
-        jTableConfigCon.getColumnModel().getColumn(0).setMaxWidth(60150);
+        jTableConfigPortas.setColumnSelectionAllowed(true);
+        jTableConfigPortas.setEnabled(false);
+        jTableConfigPortas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jTableConfigPortas);
+        jTableConfigPortas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableConfigPortas.getColumnModel().getColumn(0).setMinWidth(150);
+        jTableConfigPortas.getColumnModel().getColumn(0).setPreferredWidth(150);
+        jTableConfigPortas.getColumnModel().getColumn(0).setMaxWidth(60150);
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.setEnabled(false);
@@ -130,15 +132,15 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        salvaConfiConServidor();
+        salvarConfigPortas();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
-        carregaConfigConServidor();
+        atualizarTabelaConfigPortas();
     }//GEN-LAST:event_windowOpenedActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        habilitaEdicao();
+        habilitarEdicao();
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     /* Aqui inicia a implementaçãos dos meus métodos, deste ponto em diante
@@ -147,6 +149,7 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
 
     // Este método fecha a janela de cadatro de servidores escravos
     private void fecharJanela() {
+        janelaPai.adicionarHistorico("Fechando janela de configuração de portas", "OK");
         dispose();
     }
 
@@ -154,14 +157,17 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
      * Carrega informações de conexão com o servidor principal, apartir do arquivo
      * caso o arquivo de configuração não exista, cria o mesmo e carrefa
      */
-    private void carregaConfigConServidor() {
-        InfoServidor infoServidor = janelaPai.getEscravo().getInfoServidor();
-        DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
+    private void atualizarTabelaConfigPortas() {
+        ArrayList<InfoServidor> infoPortas = janelaPai.getServidor().getInfoPortas();
+        DefaultTableModel   model = (DefaultTableModel) jTableConfigPortas.getModel();
 
         model.setRowCount(0);
-        model.addRow(new String[]{infoServidor.getNome(),
-                                  infoServidor.getIp(),
-                                  Integer.toString(infoServidor.getPorta())});
+
+        for(InfoServidor info : infoPortas) {
+            model.addRow(new String[]{info.getNome(),
+                                      info.getIp(),
+                                      Integer.toString(info.getPorta())});
+        }
     }
 
 
@@ -169,62 +175,71 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
      * Este método salva as alterações feitas no arquivo de configuração de
      * conexão com o servidor
      */
-    private void salvaConfiConServidor() {
-        DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
-        List linha = (List) model.getDataVector().get(0);
+    private void salvarConfigPortas() {
+        DefaultTableModel   model = (DefaultTableModel) jTableConfigPortas.getModel();
+        List linhas = (List) model.getDataVector();
 
         try {
-            // Cria objeto de InfoServidor com os dados da JTable
-            InfoServidor infoServidor = new InfoServidor(
-                                            linha.get(0).toString(),
-                                            linha.get(1).toString(),
-                                            Integer.parseInt(linha.get(2).toString()));
+            ArrayList<InfoServidor> infoPortas = new ArrayList<InfoServidor>();
 
-            janelaPai.getEscravo().setInfoServidor(infoServidor);
-            InfoServidor.salvarEmArquivo(janelaPai.getEscravo().getInfoServidor(), Escravo.ARQ_CONFIG_CON_SERVIDOR);
+            for(Object linha : linhas) {
+                infoPortas.add(new InfoServidor(
+                                    ((List)linha).get(0).toString(),
+                                    ((List)linha).get(1).toString(),
+                                    Integer.parseInt(((List)linha).get(2).toString())
+                        ));
+            }
         }
         catch(Exception ex) {
             JOptionPane.showMessageDialog(rootPane,
-                    "Erro ao salvar informações de configuração",
-                    "Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
+                    "Erro ao salvar informações de configuração de Portas",
+                    "Erro ao Salvar Portas", JOptionPane.ERROR_MESSAGE);
+
+            janelaPai.adicionarHistorico("Salvando configuração de portas", "ERRO");
         }
 
+        janelaPai.adicionarHistorico("Salvando configuração de portas", "OK");
+
         // Troca o estado do botão de edição e recarrega pra ter certeza que foi salvo
-        habilitaEdicao();
+        habilitarEdicao();
     }
 
     /**
      * Este método habilida edição da tabela
      */
-    private void habilitaEdicao() {
-        if(!jTableConfigCon.isEnabled()) {
-            jTableConfigCon.setEnabled(true);
+    private void habilitarEdicao() {
+        if(!jTableConfigPortas.isEnabled()) {
+            jTableConfigPortas.setEnabled(true);
             jButtonEditar.setText("Cancelar");
             jButtonSalvar.setEnabled(true);
+
+            janelaPai.adicionarHistorico("Habilitando edição", "OK");
         }
         else {
-            jTableConfigCon.editingCanceled(null);
-            jTableConfigCon.clearSelection();
-            jTableConfigCon.setEnabled(false);
+            jTableConfigPortas.editingCanceled(null);
+            jTableConfigPortas.clearSelection();
+            jTableConfigPortas.setEnabled(false);
             jButtonEditar.setText("Editar");
             jButtonSalvar.setEnabled(false);
 
             // Recarrega arquivo, cancelando qualquer alteração
-            carregaConfigConServidor();
+            atualizarTabelaConfigPortas();
+
+            janelaPai.adicionarHistorico("Cancelando edição", "OK");
         }
     }
 
     /**
      * Declaração dos meus atributos.
      */
-    JanelaEscravo janelaPai;
+    JanelaServidor janelaPai;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableConfigCon;
+    private javax.swing.JTable jTableConfigPortas;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -129,15 +129,15 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        salvaConfiConServidor();
+        salvarConfiConServidor();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
-        carregaConfigConServidor();
+        carregarConfigConServidor();
     }//GEN-LAST:event_windowOpenedActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        habilitaEdicao();
+        habilitarEdicao();
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     /* Aqui inicia a implementaçãos dos meus métodos, deste ponto em diante
@@ -153,7 +153,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
      * Carrega informações de conexão com o servidor principal, apartir do arquivo
      * caso o arquivo de configuração não exista, cria o mesmo e carrefa
      */
-    private void carregaConfigConServidor() {
+    private void carregarConfigConServidor() {
         InfoServidor infoServidor = janelaPai.getEscravo().getInfoServidor();
         DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
 
@@ -168,7 +168,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
      * Este método salva as alterações feitas no arquivo de configuração de
      * conexão com o servidor
      */
-    private void salvaConfiConServidor() {
+    private void salvarConfiConServidor() {
         DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
         List linha = (List) model.getDataVector().get(0);
 
@@ -189,13 +189,13 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         }
 
         // Troca o estado do botão de edição e recarrega pra ter certeza que foi salvo
-        habilitaEdicao();
+        habilitarEdicao();
     }
 
     /**
      * Este método habilida edição da tabela
      */
-    private void habilitaEdicao() {
+    private void habilitarEdicao() {
         if(!jTableConfigCon.isEnabled()) {
             jTableConfigCon.setEnabled(true);
             jButtonEditar.setText("Cancelar");
@@ -209,7 +209,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
             jButtonSalvar.setEnabled(false);
 
             // Recarrega arquivo, cancelando qualquer alteração
-            carregaConfigConServidor();
+            carregarConfigConServidor();
         }
     }
 

@@ -20,12 +20,24 @@ public class Servidor {
      */
     private ArrayList<InfoServidor> infoPortas = new ArrayList<InfoServidor>();
     private JanelaServidor          janelaServidor;
+    private GerenteConexaoEscravo   gerenteConexaoEscravos;
+
 
 
     public Servidor(JanelaServidor janelaServidor) {
         this.janelaServidor = janelaServidor;
 
-        carregarConfigPortas();
+        carregarConfigPortas();             // carrega portas
+        iniciarGerenteConexaoEscravos();    // iniciar gerente de escravos
+    }
+
+
+    /**
+     * Este método inicia a Thread de gerenciamento de conexães do escravos
+     */
+    public final void iniciarGerenteConexaoEscravos() {
+        gerenteConexaoEscravos = new GerenteConexaoEscravo(this);
+        new Thread(gerenteConexaoEscravos).start();
     }
 
     public ArrayList<InfoServidor> getInfoPortas() {
@@ -80,7 +92,4 @@ public class Servidor {
 
         janelaServidor.adicionarHistorico("Corregando configurações de portas", "OK");
     }
-
-
-
 }

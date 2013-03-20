@@ -18,12 +18,13 @@ public class Servidor {
      * Este ArrayList tem uma lista de InfoServido, contento as portas, nas quais
      * o servidor vai escutar as conexões do clientes e dos servidores escravos
      */
-    private ArrayList<InfoServidor> infoPortas = new ArrayList<InfoServidor>();
-    private JanelaServidor          janelaServidor;
+    private ArrayList<InfoServidor> infoPortas;
+    private JanelaServidor          janelaServidor;     // só para facilidar o acesso!
     private GerenteConexaoEscravo   gerenteConexaoEscravos;
 
     public Servidor(JanelaServidor janelaServidor) {
         this.janelaServidor = janelaServidor;
+        infoPortas          = new ArrayList<InfoServidor>();
 
         carregarConfigPortas();             // carrega portas
         iniciarGerenteConexaoEscravos();    // iniciar gerente de escravos
@@ -50,13 +51,6 @@ public class Servidor {
         return janelaServidor;
     }
 
-    public int getPortaEscravos() {
-        if(infoPortas.size() >= 2) {
-            return infoPortas.get(1).getPorta();
-        }
-        return -1;
-    }
-
     public int getPortaClientes() {
         if(infoPortas.size() >= 2) {
             return infoPortas.get(0).getPorta();
@@ -64,7 +58,13 @@ public class Servidor {
         return -1;
     }
 
-
+    public int getPortaEscravos() {
+        if(infoPortas.size() >= 2) {
+            return infoPortas.get(1).getPorta();
+        }
+        return -1;
+    }
+    
     /**
      * Este método carrega as informações de conexão do
      */

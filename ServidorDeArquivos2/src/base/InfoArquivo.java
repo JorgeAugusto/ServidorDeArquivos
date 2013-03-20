@@ -49,4 +49,5 @@ public class InfoArquivo implements Serializable {
 
         return array;
     }
+    
 }

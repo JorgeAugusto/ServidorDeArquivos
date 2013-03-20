@@ -33,27 +33,17 @@ public class GerenteConexaoEscravo implements Runnable {
 
     @Override
     public void run() {
-        janelaServidor.adicionarHistorico("Iniciou Gerente de Conexões com Escravos", "OK");
+        janelaServidor.adicionarHistorico("Iniciou Thread do Gerente de Conexões com Escravos", "OK");
 
-        // Loop infinito, aceita as conexões vindas dos clientes
-        // e cria uma nova Conexao (GerenteConexao) para responder pela
-        // mesma
         for(;;) {
             try {
-                /**
-                 * new Thread(new Conexao(socketServidor.accept(), janela)).start();
-                 * Thread  thread  = new Thread(conexao);
-                 * thread.start();
-                 */
-                ConexaoEscravo  conexao = new ConexaoEscravo();
+                ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept());
                 Thread          thread  = new Thread(conexao);
                 thread.start();
-
+                janelaServidor.adicionarHistorico("Aceitou conexão de escravo: Escravo #1, na porta 2002", "OK");
             }
             catch(Exception ex) {
-                JOptionPane.showConfirmDialog(null, ex.getMessage(),
-                        "Erro ao aceitar a conexão do cliente e criar a nova Conexão",
-                        JOptionPane.ERROR_MESSAGE);
+                janelaServidor.adicionarHistorico("Aceitando conexão de Escravo", "ERRO");
             }
         }
     }

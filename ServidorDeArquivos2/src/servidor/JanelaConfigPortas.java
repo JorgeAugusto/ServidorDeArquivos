@@ -10,9 +10,7 @@
 
 package servidor;
 
-import escravo.*;
 import base.InfoServidor;
-import com.sun.security.auth.module.JndiLoginModule;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -48,7 +46,7 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
         jButtonSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Configuração de Portas de Escuta: Para Clientes e Servidores Escravos");
+        setTitle("Portas de Escuta: Para Clientes e Servidores Escravos");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -75,9 +73,17 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Conexões", "IP", "Porta"
+                "Conexões", "Porta"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableConfigPortas.setColumnSelectionAllowed(true);
         jTableConfigPortas.setEnabled(false);
         jTableConfigPortas.getTableHeader().setReorderingAllowed(false);
@@ -101,13 +107,13 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonFechar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(jButtonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEditar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonFechar, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +171,6 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
 
         for(InfoServidor info : infoPortas) {
             model.addRow(new String[]{info.getNome(),
-                                      info.getIp(),
                                       Integer.toString(info.getPorta())});
         }
     }
@@ -185,8 +190,8 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
             for(Object linha : linhas) {
                 infoPortas.add(new InfoServidor(
                                     ((List)linha).get(0).toString(),
-                                    ((List)linha).get(1).toString(),
-                                    Integer.parseInt(((List)linha).get(2).toString())
+                                    "-",
+                                    Integer.parseInt(((List)linha).get(1).toString())
                         ));
             }
 

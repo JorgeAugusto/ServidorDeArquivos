@@ -8,6 +8,7 @@
 
 package servidor;
 
+import base.JTableUtils;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,7 +46,7 @@ public class JanelaServidor extends javax.swing.JFrame {
         jScrollPaneConexoes = new javax.swing.JScrollPane();
         jTableConexoes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPaneConexoes1 = new javax.swing.JScrollPane();
+        jScrollPaneHistorico = new javax.swing.JScrollPane();
         jTableHistorico = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
@@ -142,11 +143,11 @@ public class JanelaServidor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Cliente", "Estado", "Arquivo", "%"
+                "Cliente", "Estado", "Arquivo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -156,12 +157,9 @@ public class JanelaServidor extends javax.swing.JFrame {
         jTableConexoes.getTableHeader().setReorderingAllowed(false);
         jScrollPaneConexoes.setViewportView(jTableConexoes);
         jTableConexoes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableConexoes.getColumnModel().getColumn(1).setMinWidth(50);
-        jTableConexoes.getColumnModel().getColumn(1).setPreferredWidth(50);
-        jTableConexoes.getColumnModel().getColumn(1).setMaxWidth(50);
-        jTableConexoes.getColumnModel().getColumn(3).setMinWidth(50);
-        jTableConexoes.getColumnModel().getColumn(3).setPreferredWidth(50);
-        jTableConexoes.getColumnModel().getColumn(3).setMaxWidth(50);
+        jTableConexoes.getColumnModel().getColumn(1).setMinWidth(80);
+        jTableConexoes.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTableConexoes.getColumnModel().getColumn(1).setMaxWidth(80);
 
         jLabel3.setText(" Clientes Conectados");
 
@@ -182,7 +180,7 @@ public class JanelaServidor extends javax.swing.JFrame {
             }
         });
         jTableHistorico.getTableHeader().setReorderingAllowed(false);
-        jScrollPaneConexoes1.setViewportView(jTableHistorico);
+        jScrollPaneHistorico.setViewportView(jTableHistorico);
         jTableHistorico.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableHistorico.getColumnModel().getColumn(1).setMinWidth(120);
         jTableHistorico.getColumnModel().getColumn(1).setPreferredWidth(120);
@@ -232,7 +230,7 @@ public class JanelaServidor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneConexoes1)
+                    .addComponent(jScrollPaneHistorico)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -265,7 +263,7 @@ public class JanelaServidor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneConexoes1, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addComponent(jScrollPaneHistorico, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -398,6 +396,8 @@ public class JanelaServidor extends javax.swing.JFrame {
     public void adicionarHistorico(String mensagem, String estado) {
         DefaultTableModel model = (DefaultTableModel) jTableHistorico.getModel();
         model.addRow(new String[]{mensagem, estado});
+        jTableHistorico.updateUI();
+        JTableUtils.selectAndScroll(jTableHistorico, jTableHistorico.getRowCount() - 1);
     }
 
     /**
@@ -443,8 +443,8 @@ public class JanelaServidor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPaneArquivos;
     private javax.swing.JScrollPane jScrollPaneConexoes;
-    private javax.swing.JScrollPane jScrollPaneConexoes1;
     private javax.swing.JScrollPane jScrollPaneEscravos;
+    private javax.swing.JScrollPane jScrollPaneHistorico;
     private javax.swing.JSeparator jSeparator;
     private javax.swing.JTable jTableArquivos;
     private javax.swing.JTable jTableConexoes;

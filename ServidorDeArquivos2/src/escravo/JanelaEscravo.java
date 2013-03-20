@@ -146,6 +146,11 @@ public class JanelaEscravo extends javax.swing.JFrame {
         jMenuArquivo.add(jMenuItemConfigConServidor);
 
         jMenuItemReiniciaConexoServidor.setText("Reinicar Conexão com Servidor");
+        jMenuItemReiniciaConexoServidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemReiniciaConexoServidorActionPerformed(evt);
+            }
+        });
         jMenuArquivo.add(jMenuItemReiniciaConexoServidor);
 
         jMenuItemSair.setText("Sair");
@@ -224,6 +229,10 @@ public class JanelaEscravo extends javax.swing.JFrame {
         inicializacao();
     }//GEN-LAST:event_windowOpenedActionPerformed
 
+    private void jMenuItemReiniciaConexoServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemReiniciaConexoServidorActionPerformed
+        reinicarConexao();
+    }//GEN-LAST:event_jMenuItemReiniciaConexoServidorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -282,8 +291,15 @@ public class JanelaEscravo extends javax.swing.JFrame {
             escravo = new Escravo(this);
         }
         catch(Exception ex) {
-
+            escreverNaBarraStatus("Erro! Ao criar socket do Servidor Escravo.");
         }
+    }
+
+    /**
+     * Este método realiza a reconexão com o servidor principal
+     */
+    private void reinicarConexao() {
+        escravo.conectarServidor();
     }
 
     /**

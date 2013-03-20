@@ -27,6 +27,6 @@ public class ConexaoEscravo implements Runnable {
 
     @Override
     public void run() {
-        // janelaServidor.adicionarHistorico("Processando Requisições do Escravo #1", "AGUARDANDO...");
+        janelaServidor.adicionarHistorico("Processando Requisições do Escravo #1", "AGUARDANDO...");
     }
 }

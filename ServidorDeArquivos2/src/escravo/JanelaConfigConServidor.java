@@ -14,6 +14,7 @@ import base.InfoServidor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import servidor.Servidor;
 
 public class JanelaConfigConServidor extends javax.swing.JDialog {
 
@@ -133,7 +134,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void windowOpenedActionPerformed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowOpenedActionPerformed
-        carregarConfigConServidor();
+        inicializacao();
     }//GEN-LAST:event_windowOpenedActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
@@ -144,16 +145,28 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
      * não existe código que não tenha sido feito por mim.
      */
 
+    /**
+     * Este método é executado no momento de abertura da janela
+     */
+    private void inicializacao() {
+        //adicionarHistorico("Inicializando Sistema", "OK");
+
+        carregarConfigConServidor();
+    }
+
     // Este método fecha a janela de cadatro de servidores escravos
     private void fecharJanela() {
         dispose();
     }
+
+
 
     /**
      * Carrega informações de conexão com o servidor principal, apartir do arquivo
      * caso o arquivo de configuração não exista, cria o mesmo e carrefa
      */
     private void carregarConfigConServidor() {
+        try {
         InfoServidor infoServidor = janelaPai.getEscravo().getInfoServidor();
         DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
 
@@ -161,6 +174,11 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
         model.addRow(new String[]{infoServidor.getNome(),
                                   infoServidor.getIp(),
                                   Integer.toString(infoServidor.getPorta())});
+        }
+        catch(Exception ex) {
+            janelaPai.escreverNaBarraStatus("Erro ao abrir a janela de Configuração de Conexão com o Servidor!!! DESCONECTADO DO SERVIDOR PRINCIPAL");
+            dispose();
+        }
     }
 
 

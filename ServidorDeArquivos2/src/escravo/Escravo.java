@@ -11,6 +11,7 @@ package escravo;
 import base.InfoServidor;
 import java.io.File;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 
 public class Escravo {
     public  static final String ARQ_CONFIG_CON_SERVIDOR = "ConfigConServidor.ser";
@@ -23,7 +24,31 @@ public class Escravo {
     public Escravo(JanelaEscravo janelaEscravo) throws Exception {
         this.janelaEscravo = janelaEscravo;
         carregarConfigConServidor();
-        socket = new Socket("localhost", 2001);
+        conectarServidor();
+    }
+
+    // Este método cria o socket de comunicação com o servidor principal.
+    public final void conectarServidor() {
+        try {
+            socket = new Socket(infoConexaoServidor.getIp(), infoConexaoServidor.getPorta());
+        }
+        catch(Exception ex) {
+            JOptionPane.showMessageDialog(janelaEscravo, "ERRO!");
+            janelaEscravo.escreverNaBarraStatus(
+                    String.format("ERRO ao conectar em: [%s] no IP: [%s] na Porta: [%d]",
+                        infoConexaoServidor.getNome(),
+                        infoConexaoServidor.getIp(),
+                        infoConexaoServidor.getPorta())
+                    );
+            return;
+        }
+
+        janelaEscravo.escreverNaBarraStatus(
+                String.format("Conectado com SUCESSO em: [%s] no IP: [%s] na Porta: [%d]",
+                    infoConexaoServidor.getNome(),
+                    infoConexaoServidor.getIp(),
+                    infoConexaoServidor.getPorta())
+                );
     }
 
     public InfoServidor getInfoServidor() {

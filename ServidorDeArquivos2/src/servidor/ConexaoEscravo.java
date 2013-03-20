@@ -60,7 +60,7 @@ public class ConexaoEscravo implements Runnable {
 
                 switch(mensagem.getTipoMensagem()) {
                     case LISTA_ARQUIVOS:
-                        recebendoListaArquivo();
+                        processarListaArquivo();
                     break;
 
                     case UPLOAD:
@@ -128,14 +128,14 @@ public class ConexaoEscravo implements Runnable {
     /**
      * Este método processa a mensagem de recebimento de uma lista de arquivos
      */
-    private synchronized void recebendoListaArquivo() {
+    private synchronized void processarListaArquivo() {
         janelaServidor.adicionarHistorico("Recenbendo Lista de Arquivos", "OK");
 
         ArrayList<InfoArquivo> listaArquivosServidor = servidor.getListaArquivo();
         listaArquivosServidor.clear();
 
         // Pega a lista de arquivos enviado pelo servidor escravo através da mensagem
-        ArrayList<InfoArquivo> listaArquivosEscravo = (ArrayList<InfoArquivo>) mensagem.getInfoRequisicao();
+        ArrayList<InfoArquivo> listaArquivosEscravo = (ArrayList<InfoArquivo>) mensagem.getInfoMensagem();
 
         for(InfoArquivo arquivo : listaArquivosEscravo) {
             listaArquivosServidor.add(

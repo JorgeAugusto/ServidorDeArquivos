@@ -31,7 +31,7 @@ public class Mensagem implements Serializable {
         return tipoRequisicao;
     }
 
-    public Object getInfoRequisicao() {
+    public Object getInfoMensagem() {
         return infoRequisicao;
     }
 }

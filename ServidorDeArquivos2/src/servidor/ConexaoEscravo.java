@@ -18,12 +18,13 @@ public class ConexaoEscravo implements Runnable {
     private ObjectOutputStream      saida;
     private Servidor                servidor;
 
-    public ConexaoEscravo(Socket socket) {
-        this.socket = socket;
+    public ConexaoEscravo(Socket socket, Servidor servidor) {
+        this.socket     = socket;
+        this.servidor   = servidor;
     }
 
     @Override
     public void run() {
-        servidor.getJanelaServidor().adicionarHistorico("Executou run em ConexaoEscravo", "OK");
+        servidor.getJanelaServidor().adicionarHistorico("Processando Requisições do Escravo #1", "AGUARDANDO...");
     }
 }

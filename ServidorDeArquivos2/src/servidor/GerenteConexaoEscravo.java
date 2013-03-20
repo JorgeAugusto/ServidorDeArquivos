@@ -44,12 +44,12 @@ public class GerenteConexaoEscravo implements Runnable {
 
         for(;;) {
             try {
-                ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept());
+                ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept(), servidor);
                 Thread          thread  = new Thread(conexao);
                 thread.start();
 
                 listaConexoes.add(conexao);     // salava conexão com escravo na lista!
-                janelaServidor.adicionarHistorico("Aceitou conexão de escravo: Escravo #1, na porta 2002", "OK");
+                janelaServidor.adicionarHistorico("Aceitou conexão de escravo: Escravo #1, na porta 2002 e criu nova Thread", "OK");
             }
             catch(Exception ex) {
                 janelaServidor.adicionarHistorico("Aceitando conexão de Escravo", "ERRO");

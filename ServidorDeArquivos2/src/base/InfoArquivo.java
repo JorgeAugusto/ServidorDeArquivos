@@ -45,7 +45,7 @@ public class InfoArquivo implements Serializable {
         String[] array = new String[3];
         array[0] = nome;
         array[1] = servEscravo.getNome();
-        array[2] = Long.toString(tamanho);
+        array[2] = Long.toString(tamanho) + " bytes";
 
         return array;
     }

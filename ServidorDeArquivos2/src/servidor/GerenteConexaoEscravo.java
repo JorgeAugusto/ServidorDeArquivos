@@ -40,7 +40,6 @@ public class GerenteConexaoEscravo implements Runnable {
     @Override
     public void run() {
         janelaServidor.adicionarHistorico("Iniciou Thread do Gerente de Conexões com Escravos", "OK");
-
         for(;;) {
             try {
                 ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept(), servidor, servidor.getNovoIdEscravo());
@@ -49,11 +48,7 @@ public class GerenteConexaoEscravo implements Runnable {
 
                 listaEscravos.add(conexao);     // salva conexão com escravo na lista!
 
-                janelaServidor.adicionarHistorico(String.format(
-                        "Aceitou conexão de escravo: Escravo #%d, no IP: [%s] na Porta: [%d] e criu nova Thread",
-                        conexao.getEscravoId(),
-                        conexao.getIP(),
-                        conexao.getPorta()), "OK");
+                janelaServidor.adicionarHistorico("Aceitou conexão de escravo: " + conexao.getInfoConexo(), "OK");
 
                 janelaServidor.atualizarTabelaEscravos();
             }

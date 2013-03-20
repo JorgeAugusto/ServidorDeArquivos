@@ -8,9 +8,11 @@
 
 package escravo;
 
+import base.InfoArquivo;
 import base.InfoServidor;
 import java.io.File;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class JanelaEscravo extends javax.swing.JFrame {
 
@@ -78,7 +80,8 @@ public class JanelaEscravo extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableArquivos.setColumnSelectionAllowed(true);
+        jTableArquivos.setCellSelectionEnabled(false);
+        jTableArquivos.setRowSelectionAllowed(true);
         jTableArquivos.getTableHeader().setReorderingAllowed(false);
         jScrollPaneArquivos.setViewportView(jTableArquivos);
         jTableArquivos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -289,6 +292,8 @@ public class JanelaEscravo extends javax.swing.JFrame {
     private void inicializacao() {
         try {
             escravo = new Escravo(this);
+
+            atualizarTabelaArquivos();
         }
         catch(Exception ex) {
             escreverNaBarraStatus("Erro! Ao criar socket do Servidor Escravo.");
@@ -349,7 +354,20 @@ public class JanelaEscravo extends javax.swing.JFrame {
      * Este métod atualiza a tabela de arquivos disponíveis
      */
     private void atualizarTabelaArquivos() {
+        // Este método preenche a JTable com os dados dos arquivos...
+        // Talvez fique melhor se este método for sincronizado também...
+        // Ainda estou pensando sobre isso, aguardando testes...
+        escravo.atualizarListaArquivos();
 
+        DefaultTableModel modelo = (DefaultTableModel) jTableArquivos.getModel();
+        modelo.setRowCount(0);
+
+        for(InfoArquivo arquivo : escravo.getListaArquivos()) {
+            modelo.addRow(arquivo.getArray());
+        }
+
+        // Adiciona linhas a tabela...
+        escreverNaBarraStatus("Total de Arquivos: " + escravo.getListaArquivos().size());
     }
 
     /**

@@ -8,6 +8,7 @@
 
 package servidor;
 
+import base.InfoArquivo;
 import base.InfoServidor;
 import java.io.File;
 import java.util.ArrayList;
@@ -33,12 +34,14 @@ public class Servidor {
      * o servidor vai escutar as conexões do clientes e dos servidores escravos
      */
     private ArrayList<InfoServidor> infoPortas;
+    private ArrayList<InfoArquivo>  listaArquivos;
     private JanelaServidor          janelaServidor;     // só para facilidar o acesso!
     private GerenteConexaoEscravo   gerenteConexaoEscravos;
 
     public Servidor(JanelaServidor janelaServidor) {
         this.janelaServidor = janelaServidor;
         infoPortas          = new ArrayList<InfoServidor>();
+        listaArquivos       = new ArrayList<InfoArquivo>();
 
         carregarConfigPortas();             // carrega portas
         iniciarGerenteConexaoEscravos();    // iniciar gerente de escravos
@@ -77,6 +80,17 @@ public class Servidor {
             return infoPortas.get(1).getPorta();
         }
         return -1;
+    }
+
+    /**
+     * Retorna a referência para a lista de arquivos do servidor principal
+     */
+    public ArrayList<InfoArquivo> getListaArquivo() {
+        return listaArquivos;
+    }
+
+    public void setListaArquivo(ArrayList<InfoArquivo> listaArquivos) {
+        this.listaArquivos = listaArquivos;
     }
 
     /**

@@ -8,6 +8,7 @@
 
 package servidor;
 
+import base.InfoArquivo;
 import base.JTableUtils;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -302,29 +303,31 @@ public class JanelaServidor extends javax.swing.JFrame {
         /*
          * Set the Nimbus look and feel
          */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+
+
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /*
+//         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+//         * default look and feel. For details see
+//         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
 
         /*
          * Create and display the form
@@ -407,14 +410,22 @@ public class JanelaServidor extends javax.swing.JFrame {
 
         jTableHistorico.updateUI();
         JTableUtils.selectAndScroll(jTableHistorico, jTableHistorico.getRowCount() - 1);
-        jTableHistorico.updateUI();
+        // jTableHistorico.updateUI();
     }
 
     /**
      * Este métod atualiza a tabela de arquivos disponíveis
      */
-    private void atualizaTabelaArquivos() {
+    public void atualizaTabelaArquivos() {
+        ArrayList<InfoArquivo> listaArquivosServidor = servidor.getListaArquivo();
+        DefaultTableModel model = (DefaultTableModel) jTableArquivos.getModel();
 
+        for(InfoArquivo arquivo : listaArquivosServidor) {
+            model.addRow(arquivo.getArray());
+        }
+
+        jTableArquivos.updateUI();
+        JTableUtils.selectAndScroll(jTableArquivos, jTableArquivos.getRowCount() - 1);
     }
 
     /**
@@ -423,7 +434,6 @@ public class JanelaServidor extends javax.swing.JFrame {
     public void atualizaTabelaClientesConectados() {
 
     }
-
 
     /**
      * Este método vai atualizar a tabela de servidores escravos
@@ -442,7 +452,7 @@ public class JanelaServidor extends javax.swing.JFrame {
          * ainda estou pensando se isso vai valer a pena
          */
         for(ConexaoEscravo escravo : listaEscravos) {
-            model.addRow(new String[]{"Escravo #" + escravo.getEscravoId(),
+            model.addRow(new String[]{"Escravo #" + escravo.getId(),
                                       escravo.getIP(),
                                       Integer.toString(escravo.getPorta()),
                                       escravo.getEstado().toString()});
@@ -450,7 +460,7 @@ public class JanelaServidor extends javax.swing.JFrame {
 
         jTableEscravos.updateUI();
         JTableUtils.selectAndScroll(jTableEscravos, model.getRowCount() - 1);
-        jTableEscravos.updateUI();
+        // jTableEscravos.updateUI();
     }
 
     /**

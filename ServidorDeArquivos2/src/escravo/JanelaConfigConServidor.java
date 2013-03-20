@@ -167,7 +167,7 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
      */
     private void carregarConfigConServidor() {
         try {
-        InfoServidor infoServidor = janelaPai.getEscravo().getInfoServidor();
+        InfoServidor infoServidor = janelaPai.getEscravo().getInfoConServidor();
         DefaultTableModel   model = (DefaultTableModel) jTableConfigCon.getModel();
 
         model.setRowCount(0);
@@ -197,8 +197,8 @@ public class JanelaConfigConServidor extends javax.swing.JDialog {
                                             linha.get(1).toString(),
                                             Integer.parseInt(linha.get(2).toString()));
 
-            janelaPai.getEscravo().setInfoServidor(infoServidor);
-            InfoServidor.salvarEmArquivo(janelaPai.getEscravo().getInfoServidor(), Escravo.ARQ_CONFIG_CON_SERVIDOR);
+            janelaPai.getEscravo().setInfoConServidor(infoServidor);
+            InfoServidor.salvarEmArquivo(janelaPai.getEscravo().getInfoConServidor(), Escravo.ARQ_CONFIG_CON_SERVIDOR);
         }
         catch(Exception ex) {
             JOptionPane.showMessageDialog(rootPane,

@@ -278,7 +278,12 @@ public class JanelaEscravo extends javax.swing.JFrame {
      * Este método é executado no momento de abertura da janela
      */
     private void inicializacao() {
-        carregarConfigConServidor();
+        try {
+            escravo = new Escravo(this);
+        }
+        catch(Exception ex) {
+
+        }
     }
 
     /**
@@ -339,29 +344,6 @@ public class JanelaEscravo extends javax.swing.JFrame {
     }
 
     /**
-     * Este método carrega as informações de conexão do
-     */
-    public void carregarConfigConServidor() {
-        try {
-            File arq = new File(Escravo.ARQ_CONFIG_CON_SERVIDOR);
-
-            InfoServidor infoServidor = new InfoServidor("Servidor", "localhost", 2000);
-
-            if(!arq.exists() || !arq.isFile()) {
-                InfoServidor.salvarEmArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR);
-            }
-
-            escravo.setInfoServidor(InfoServidor.carregarDeArquivo(infoServidor, Escravo.ARQ_CONFIG_CON_SERVIDOR));
-        }
-        catch(Exception ex) {
-            escreverNaBarraStatus("Erro ao carregar configurações da conexão com o Servidor.");
-            return;
-        }
-
-        escreverNaBarraStatus("Configurações da conexão com o Servidor, carregadas com sucesso.");
-    }
-
-    /**
      * Retorna o atribudo escravo
      */
     public Escravo getEscravo() {
@@ -371,7 +353,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
     /**
      * Declaração dos meus atributos.
      */
-    private Escravo                 escravo = new Escravo();
+    private Escravo                 escravo;
     private JanelaConfigConServidor janConfiConServidor;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

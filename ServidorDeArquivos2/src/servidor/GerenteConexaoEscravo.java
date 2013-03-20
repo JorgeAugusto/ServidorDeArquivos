@@ -11,6 +11,7 @@
 package servidor;
 
 import java.net.ServerSocket;
+import javax.swing.JOptionPane;
 
 public class GerenteConexaoEscravo implements Runnable {
     private ServerSocket        socketServidor;
@@ -32,6 +33,28 @@ public class GerenteConexaoEscravo implements Runnable {
 
     @Override
     public void run() {
-        janelaServidor.adicionarHistorico("Executando método run em 'GerenteConexaoEscravo'", "OK");
+        janelaServidor.adicionarHistorico("Iniciou Gerente de Conexões com Escravos", "OK");
+
+        // Loop infinito, aceita as conexões vindas dos clientes
+        // e cria uma nova Conexao (GerenteConexao) para responder pela
+        // mesma
+        for(;;) {
+            try {
+                /**
+                 * new Thread(new Conexao(socketServidor.accept(), janela)).start();
+                 * Thread  thread  = new Thread(conexao);
+                 * thread.start();
+                 */
+                ConexaoEscravo  conexao = new ConexaoEscravo();
+                Thread          thread  = new Thread(conexao);
+                thread.start();
+
+            }
+            catch(Exception ex) {
+                JOptionPane.showConfirmDialog(null, ex.getMessage(),
+                        "Erro ao aceitar a conexão do cliente e criar a nova Conexão",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 }

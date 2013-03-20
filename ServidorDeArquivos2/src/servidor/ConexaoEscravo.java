@@ -21,6 +21,7 @@ public class ConexaoEscravo implements Runnable {
     @Override
     public void run() {
         servidor.getJanelaServidor().adicionarHistorico("Executou run em ConexaoEscravo", "OK");
+        
     }
 
 }

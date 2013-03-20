@@ -11,12 +11,14 @@
 package servidor;
 
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class GerenteConexaoEscravo implements Runnable {
-    private ServerSocket        socketServidor;
-    private Servidor            servidor;         // referência a janela do programa
-    private JanelaServidor      janelaServidor;
+    private ServerSocket                socketServidor;
+    private Servidor                    servidor;         // referência a janela do programa
+    private JanelaServidor              janelaServidor;
+    private ArrayList<ConexaoEscravo>   listaConexoes;
 
     // Construtor
     public GerenteConexaoEscravo(Servidor servidor) {
@@ -24,6 +26,11 @@ public class GerenteConexaoEscravo implements Runnable {
             this.servidor   = servidor;
             socketServidor  = new ServerSocket(servidor.getPortaEscravos());
             janelaServidor  = servidor.getJanelaServidor();
+            listaConexoes   = new ArrayList<ConexaoEscravo>();
+
+
+            janelaServidor.adicionarHistorico("Criando SocketServ para Escravos, na porta: " +
+            Integer.toString(servidor.getPortaEscravos()), "OK");
         }
         catch(Exception ex) {
             janelaServidor.adicionarHistorico("Criando SocketServ para Escravos, na porta: " +
@@ -40,6 +47,8 @@ public class GerenteConexaoEscravo implements Runnable {
                 ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept());
                 Thread          thread  = new Thread(conexao);
                 thread.start();
+
+                listaConexoes.add(conexao);     // salava conexão com escravo na lista!
                 janelaServidor.adicionarHistorico("Aceitou conexão de escravo: Escravo #1, na porta 2002", "OK");
             }
             catch(Exception ex) {

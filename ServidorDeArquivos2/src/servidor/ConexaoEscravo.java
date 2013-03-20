@@ -18,10 +18,12 @@ public class ConexaoEscravo implements Runnable {
     private ObjectOutputStream      saida;
     private Servidor                servidor;
 
+    public ConexaoEscravo(Socket socket) {
+        this.socket = socket;
+    }
+
     @Override
     public void run() {
         servidor.getJanelaServidor().adicionarHistorico("Executou run em ConexaoEscravo", "OK");
-        
     }
-
 }

@@ -22,8 +22,6 @@ public class Servidor {
     private JanelaServidor          janelaServidor;
     private GerenteConexaoEscravo   gerenteConexaoEscravos;
 
-
-
     public Servidor(JanelaServidor janelaServidor) {
         this.janelaServidor = janelaServidor;
 

@@ -18,7 +18,7 @@ public class GerenteConexaoEscravo implements Runnable {
     private ServerSocket                socketServidor;
     private Servidor                    servidor;         // referência a janela do programa
     private JanelaServidor              janelaServidor;
-    private ArrayList<ConexaoEscravo>   listaConexoes;
+    private ArrayList<ConexaoEscravo>   listaEscravos;
 
     // Construtor
     public GerenteConexaoEscravo(Servidor servidor) {
@@ -26,8 +26,7 @@ public class GerenteConexaoEscravo implements Runnable {
             this.servidor   = servidor;
             socketServidor  = new ServerSocket(servidor.getPortaEscravos());
             janelaServidor  = servidor.getJanelaServidor();
-            listaConexoes   = new ArrayList<ConexaoEscravo>();
-
+            listaEscravos   = new ArrayList<ConexaoEscravo>();
 
             janelaServidor.adicionarHistorico("Criando SocketServ para Escravos, na porta: " +
             Integer.toString(servidor.getPortaEscravos()), "OK");
@@ -44,16 +43,30 @@ public class GerenteConexaoEscravo implements Runnable {
 
         for(;;) {
             try {
-                ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept(), servidor);
+                ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept(), servidor, servidor.getNovoIdEscravo());
                 Thread          thread  = new Thread(conexao);
                 thread.start();
 
-                listaConexoes.add(conexao);     // salava conexão com escravo na lista!
-                janelaServidor.adicionarHistorico("Aceitou conexão de escravo: Escravo #1, na porta 2002 e criu nova Thread", "OK");
+                listaEscravos.add(conexao);     // salva conexão com escravo na lista!
+
+                janelaServidor.adicionarHistorico(String.format(
+                        "Aceitou conexão de escravo: Escravo #%d, no IP: [%s] na Porta: [%d] e criu nova Thread",
+                        conexao.getEscravoId(),
+                        conexao.getIP(),
+                        conexao.getPorta()), "OK");
+
+                janelaServidor.atualizarTabelaEscravos();
             }
             catch(Exception ex) {
                 janelaServidor.adicionarHistorico("Aceitando conexão de Escravo", "ERRO");
             }
         }
+    }
+
+    /**
+     * Este método vai atualizar a lista de servidores escravos
+     */
+    public ArrayList<ConexaoEscravo> getListaEscravos() {
+        return listaEscravos;
     }
 }

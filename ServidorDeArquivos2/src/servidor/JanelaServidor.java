@@ -9,6 +9,7 @@
 package servidor;
 
 import base.JTableUtils;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -100,11 +101,18 @@ public class JanelaServidor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "IP", "Porta", "Situação"
+                "Nome", "IP", "Porta", "Estado"
             }
-        ));
-        jTableEscravos.setColumnSelectionAllowed(true);
-        jTableEscravos.setEnabled(false);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableEscravos.setRowSelectionAllowed(true);
         jTableEscravos.getTableHeader().setReorderingAllowed(false);
         jScrollPaneEscravos.setViewportView(jTableEscravos);
         jTableEscravos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -117,7 +125,7 @@ public class JanelaServidor extends javax.swing.JFrame {
 
         jLabel2.setText(" Servidores Escravos Conectados");
 
-        jLabelBarraStatus.setText("Inicializando...");
+        jLabelBarraStatus.setText("Conectado");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -396,8 +404,10 @@ public class JanelaServidor extends javax.swing.JFrame {
     public void adicionarHistorico(String mensagem, String estado) {
         DefaultTableModel model = (DefaultTableModel) jTableHistorico.getModel();
         model.addRow(new String[]{mensagem, estado});
+
         jTableHistorico.updateUI();
         JTableUtils.selectAndScroll(jTableHistorico, jTableHistorico.getRowCount() - 1);
+        jTableHistorico.updateUI();
     }
 
     /**
@@ -412,6 +422,35 @@ public class JanelaServidor extends javax.swing.JFrame {
      */
     public void atualizaTabelaClientesConectados() {
 
+    }
+
+
+    /**
+     * Este método vai atualizar a tabela de servidores escravos
+     * conectados ao servidor principal
+     */
+    void atualizarTabelaEscravos() {
+        ArrayList<ConexaoEscravo>  listaEscravos = servidor.getGerenteConexaoEscravos().getListaEscravos();
+
+        DefaultTableModel   model = (DefaultTableModel) jTableEscravos.getModel();
+
+        model.setRowCount(0);
+
+
+        /**
+         * Mudar a situação para refletir a situação do servidor escravo
+         * ainda estou pensando se isso vai valer a pena
+         */
+        for(ConexaoEscravo escravo : listaEscravos) {
+            model.addRow(new String[]{"Escravo #" + escravo.getEscravoId(),
+                                      escravo.getIP(),
+                                      Integer.toString(escravo.getPorta()),
+                                      escravo.getEstado().toString()});
+        }
+
+        jTableEscravos.updateUI();
+        JTableUtils.selectAndScroll(jTableEscravos, model.getRowCount() - 1);
+        jTableEscravos.updateUI();
     }
 
     /**

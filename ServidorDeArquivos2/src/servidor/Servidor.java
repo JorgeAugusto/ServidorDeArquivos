@@ -13,7 +13,21 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Servidor {
-    public  static final String ARQ_CONFIG_PORTAS = "ConfigPortasServidor.ser";
+    // Atributos Estáticos
+    public static final String ARQ_CONFIG_PORTAS = "ConfigPortasServidor.ser";
+    public static int   idEscravo   = 1;
+    public static int   idCliente   = 1;
+
+    // Métodos Estáticos
+    public int getNovoIdEscravo() {
+        return idEscravo++;
+    }
+
+    // Métodos Estáticos
+    public int getNovoIdCliente() {
+        return idCliente++;
+    }
+
     /**
      * Este ArrayList tem uma lista de InfoServido, contento as portas, nas quais
      * o servidor vai escutar as conexões do clientes e dos servidores escravos
@@ -64,7 +78,7 @@ public class Servidor {
         }
         return -1;
     }
-    
+
     /**
      * Este método carrega as informações de conexão do
      */
@@ -89,5 +103,12 @@ public class Servidor {
         }
 
         janelaServidor.adicionarHistorico("Corregando configurações de portas", "OK");
+    }
+
+    /**
+     * Retorna o gerente de conexões dos escravos
+     */
+    public GerenteConexaoEscravo getGerenteConexaoEscravos() {
+        return gerenteConexaoEscravos;
     }
 }

@@ -284,7 +284,7 @@ public class JanelaServidor extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSobreActionPerformed
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
-        fechaJanela();
+        fecharJanela();
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemCadServEscravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadServEscravoActionPerformed
@@ -379,7 +379,7 @@ public class JanelaServidor extends javax.swing.JFrame {
     /**
      * Este método fecha a janela e sai do programa
      */
-    private void fechaJanela() {
+    private void fecharJanela() {
         dispose();
     }
 
@@ -435,7 +435,7 @@ public class JanelaServidor extends javax.swing.JFrame {
     }
 
     /**
-     * Este método vai atualizar a tabela de servidores escravos
+     * Este método atualiza a tabela de servidores escravos
      * conectados ao servidor principal
      */
     void atualizarTabelaEscravos() {
@@ -445,8 +445,8 @@ public class JanelaServidor extends javax.swing.JFrame {
 
         model.setRowCount(0);
 
-
         /**
+         * @NOTA
          * Mudar a situação para refletir a situação do servidor escravo
          * ainda estou pensando se isso vai valer a pena
          */
@@ -499,5 +499,4 @@ public class JanelaServidor extends javax.swing.JFrame {
     private javax.swing.JTable jTableEscravos;
     private javax.swing.JTable jTableHistorico;
     // End of variables declaration//GEN-END:variables
-
 }

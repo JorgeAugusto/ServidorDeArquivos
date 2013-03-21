@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Escravo {
     public static final String  ARQ_CONFIG_CON_SERVIDOR = "ConfigConServidor.ser";
@@ -41,14 +42,19 @@ public class Escravo {
 
     // Este método cria o socket de comunicação com o servidor principal.
     public final void criarConexaoControle() {
+        JOptionPane.showMessageDialog(janelaEscravo, "Entrou do Construtor de Escravo!!!");
+
         try {
-        conexaoControle = new ConexaoControle(this);
-        Thread  thread  = new Thread(conexaoControle);
-        thread.start();
+            /* AQUI ESTÁ O ERRO!!! */
+            conexaoControle = new ConexaoControle(this);
+            Thread  thread  = new Thread(conexaoControle);
+            thread.start();
         }
         catch(Exception ex) {
             janelaEscravo.escreverNaBarraStatus("Erro na criação da conexão de controle com o servidor.");
         }
+
+        // JOptionPane.showMessageDialog(janelaEscravo, "Saio do Construtor de Escravo!!!");
     }
 
     /**
@@ -70,6 +76,13 @@ public class Escravo {
      */
     public ArrayList<InfoArquivo> getListaArquivos() {
         return listaArquivos;
+    }
+
+    /**
+     * Retorna a JanelaEscravo
+     */
+    public JanelaEscravo getJanelaEscravo() {
+        return janelaEscravo;
     }
 
     /**

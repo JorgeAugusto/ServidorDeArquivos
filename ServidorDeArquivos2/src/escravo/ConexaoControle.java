@@ -8,14 +8,10 @@
 
 package escravo;
 
-import base.EstadoSistema;
-import base.InfoArquivo;
-import base.InfoServidor;
 import base.Mensagem;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class ConexaoControle implements Runnable {
@@ -32,26 +28,23 @@ public class ConexaoControle implements Runnable {
      * a própria conexão de controle que cria o socket...
      * mudar isso em breve!
      */
-    public ConexaoControle(Escravo escravo) throws Exception {
-        JOptionPane.showMessageDialog(janelaEscravo, "Entro no construtor de ConexaoControle");
-
+    public ConexaoControle(Escravo escravo) /*throws Exception*/ {
         this.escravo    = escravo;
+        janelaEscravo   = escravo.getJanelaEscravo();
 
         try {
-            socket = new Socket(escravo.getInfoConServidor().getIp(), escravo.getInfoConServidor().getPorta());
-
+            socket      = new Socket(escravo.getInfoConServidor().getIp(), escravo.getInfoConServidor().getPorta());
             saida       = new ObjectOutputStream(socket.getOutputStream());
             saida.flush();
-
-            JOptionPane.showMessageDialog(janelaEscravo, "Esteve aqui");
             entrada     = new ObjectInputStream(socket.getInputStream());
-            JOptionPane.showMessageDialog(janelaEscravo, "Mas não aqui!!!");
 
+            /**
+             * Não precisa mais disso, por que é o servidor principal que requisa
+             * a lista de arquivos
+             */
             // enviarListaDeArquivos();
         }
         catch(Exception ex) {
-            JOptionPane.showMessageDialog(janelaEscravo, "Ouvi algum erro!");
-
             janelaEscravo.escreverNaBarraStatus(
                     String.format("ERRO ao conectar em: [%s] no IP: [%s] na Porta: [%d]",
                         escravo.getInfoConServidor().getNome(),
@@ -78,18 +71,18 @@ public class ConexaoControle implements Runnable {
     @Override
     public void run() {
         JOptionPane.showMessageDialog(janelaEscravo, "Entro na Thread de ConexaoControle");
-
         for(;;) {
             // Se o socke esta fechado então terminar Thread.
             if(socket.isClosed()) return;
 
             try {
                 mensagemRecebida = (Mensagem) entrada.readObject();
+                JOptionPane.showMessageDialog(janelaEscravo, "Leu mensagem...");
 
                 switch(mensagemRecebida.getTipoMensagem()) {
                     case LISTA_ARQUIVOS:
                         janelaEscravo.escreverNaBarraStatus("Enviando lista de arquivos para o servidor...");
-                        // enviarListaDeArquivos();
+                        enviarListaDeArquivos();
                     break;
 
                     case UPLOAD:
@@ -183,6 +176,8 @@ public class ConexaoControle implements Runnable {
      * Desconecta servidor escravo do servidor principal
      */
     private void desconectarServidorEscravo() {
+
+        janelaEscravo.escreverNaBarraStatus("Ouve algum erro na hora de processar mensagem!!!...");
 //        /**
 //        * @NOTA
 //        * Este código deve ser movido para um novo método...

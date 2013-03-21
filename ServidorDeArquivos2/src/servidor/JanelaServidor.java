@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class JanelaServidor extends javax.swing.JFrame {
-
     /**
      * Creates new form JanelaPrincipal
      */
@@ -296,42 +295,11 @@ public class JanelaServidor extends javax.swing.JFrame {
         inicializacao();
     }//GEN-LAST:event_windowOpenedActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    // Método principal da Janela
     public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
+        // Ativa ou desativa o LookFeel
+        ativarLookFeel(false);
 
-
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /*
-//         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-//         * default look and feel. For details see
-//         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-
-        /*
-         * Create and display the form
-         */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
@@ -347,21 +315,52 @@ public class JanelaServidor extends javax.swing.JFrame {
      * não existe código que não tenha sido feito por mim.
      */
 
+    /*
+     * Este método configura o LookFeel
+     * Colocado dessa forma para eu poder desativar quando eu precisar
+     * nos testes...
+     */
+    private static void ativarLookFeel(boolean ativar) {
+        if(!ativar) return;
+
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JanelaServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+    }
 
     /**
      * Este método é executado no momento de abertura da janela
      */
     private void inicializacao() {
+        try {
+            servidor = new Servidor(this);
+        }
+        catch(Exception ex) {
+            adicionarHistorico("Inicializando Sistema", "ERRO");
+            return;
+        }
+
         adicionarHistorico("Inicializando Sistema", "OK");
-
-        servidor = new Servidor(this);
-    }
-
-    /**
-     * Este é um método de teste de algumas classes
-     */
-    private void TestaClasse() {
-
     }
 
     /**

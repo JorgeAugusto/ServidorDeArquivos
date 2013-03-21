@@ -223,7 +223,6 @@ public class ConexaoControle implements Runnable {
             mensagemEnviada = new Mensagem(Mensagem.TipoMensagem.LISTA_ARQUIVOS, escravo.getListaArquivos());
 
             // envia listagem de arquivos...
-            // saida = new ObjectOutputStream(socket.getOutputStream());
             saida.writeObject(mensagemEnviada);
             saida.flush();
         }
@@ -231,5 +230,5 @@ public class ConexaoControle implements Runnable {
             janelaEscravo.escreverNaBarraStatus("Erro ao enivar lista de arquivos para: " + escravo.getInfoConServidor().getNome());
         }
     }
-    
+
 }

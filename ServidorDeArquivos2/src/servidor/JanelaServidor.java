@@ -421,6 +421,8 @@ public class JanelaServidor extends javax.swing.JFrame {
         ArrayList<InfoArquivo> listaArquivosServidor = servidor.getListaArquivo();
         DefaultTableModel model = (DefaultTableModel) jTableArquivos.getModel();
 
+        model.setNumRows(0);
+
         for(InfoArquivo arquivo : listaArquivosServidor) {
             model.addRow(arquivo.getArray());
         }

@@ -12,6 +12,7 @@ import base.EstadoSistema;
 import base.InfoArquivo;
 import base.InfoServidor;
 import base.Mensagem;
+import escravo.Escravo;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -33,6 +34,7 @@ public class ConexaoEscravo implements Runnable {
     private EstadoEscravo           estado;
     private Mensagem                mensagemRecebida;
     private Mensagem                mensagemEnviada;
+    private ArrayList<InfoArquivo>  listaArquivos;
 
     public ConexaoEscravo(Socket socket, Servidor servidor) throws Exception {
         this.socket     = socket;
@@ -40,19 +42,17 @@ public class ConexaoEscravo implements Runnable {
         this.id         = servidor.getNovoIdEscravo();
         janelaServidor  = servidor.getJanelaServidor();
         estado          = EstadoEscravo.CONECTADO;
+        listaArquivos   = new ArrayList<InfoArquivo>();
 
         // Se o escravo mandar logo algo...
         saida       = new ObjectOutputStream(socket.getOutputStream());
         saida.flush();
 
         entrada     = new ObjectInputStream(socket.getInputStream());
-
-        janelaServidor.adicionarHistorico("Fim do Construtor de : " + getNome(), EstadoSistema.OK);
     }
 
     @Override
     public void run() {
-        janelaServidor.adicionarHistorico("Iniciando Thread de : " + getNome(), EstadoSistema.OK);
         solicitarListaArquivos();
 
         for(;;) {
@@ -125,7 +125,7 @@ public class ConexaoEscravo implements Runnable {
      * Este método envia ao servidor escravo uma solicitação para que mesmo
      * envie uma lista contento os nomes dos arquivos que estão disponíveis
      */
-    private void solicitarListaArquivos() {
+    private synchronized void solicitarListaArquivos() {
         janelaServidor.adicionarHistorico("Enviando requisição de lista de arquivo para " + getNome(), EstadoSistema.PROCESSANDO);
         try {
             mensagemEnviada = new Mensagem(Mensagem.TipoMensagem.LISTA_ARQUIVOS, null);
@@ -144,35 +144,27 @@ public class ConexaoEscravo implements Runnable {
      * Este método processa a mensagemRecebida de recebimento de uma lista de arquivos
      */
     private synchronized void processarListaArquivo() {
-        janelaServidor.adicionarHistorico("Processecando lista de arquivos de : " + getNome() + "...", EstadoSistema.PROCESSANDO);
-
-        ArrayList<InfoArquivo> listaArquivosServidor = servidor.getListaArquivo();
-        listaArquivosServidor.clear();
-
         // Pega a lista de arquivos enviado pelo servidor escravo através da mensagemRecebida
         ArrayList<InfoArquivo> listaArquivosEscravo = (ArrayList<InfoArquivo>) mensagemRecebida.getInfoMensagem();
+        ArrayList<InfoArquivo> listaArquivosTemp = new ArrayList<InfoArquivo>();
 
         for(InfoArquivo arquivo : listaArquivosEscravo) {
-            listaArquivosServidor.add(
+            listaArquivosTemp.add(
             new InfoArquivo(arquivo.getNome(), new InfoServidor(getNome(), getIP(), arquivo.getServEscravo().getPorta()), arquivo.getTamanho() ));
         }
 
-        // Salva de volta no servidor.
-        servidor.setListaArquivo(listaArquivosServidor);
-        janelaServidor.atualizaTabelaArquivos();
-        janelaServidor.adicionarHistorico("Processecando lista de arquivos de : " + getNome(), EstadoSistema.OK);
+        listaArquivos = listaArquivosTemp;
+        servidor.processaListaArquivos();
     }
-
 
     /**
      * Desconecta servidor escravo do servidor principal
      */
-    private void desconectarServidorEscravo() {
+    private synchronized void desconectarServidorEscravo() {
         /**
         * @NOTA
         * Este código deve ser movido para um novo método...
         */
-
         janelaServidor.adicionarHistorico("Processsando Mensagem de " + getInfoConexo() , EstadoSistema.ERRO);
         janelaServidor.adicionarHistorico("Desconectando do Servidor Escravo... " + getNome() , EstadoSistema.PROCESSANDO);
 
@@ -182,25 +174,56 @@ public class ConexaoEscravo implements Runnable {
             socket.close();
 
             /**
-                * @NOTA 1
-                * Código muito prolixo!!!
-                * Considerar mudar a listaEscravos para dentro da classe servidor e
-                * não em GerenteConexaoEscravo como está atualmente.
-                * @NOTA 2
-                * Também considerar usar HashTable ao invéz de ArrayList
-                * para não depender o índice gerado por id
-                */
-            servidor.getGerenteConexaoEscravos().getListaEscravos().get(id - 1).setEstado(EstadoEscravo.DESCONECTADO);
-            janelaServidor.atualizarTabelaEscravos();
+            * @NOTA 1
+            * Código muito prolixo!!!
+            * Considerar mudar a listaEscravos para dentro da classe servidor e
+            * não em GerenteConexaoEscravo como está atualmente.
+            * @NOTA 2
+            * Também considerar usar HashTable ao invéz de ArrayList
+            * para não depender o índice gerado por id
+            */
 
-            // Removo arquivos deste servidor escravo
+            // Muda estado da conexão
+            servidor.getGerenteConexaoEscravos().getListaEscravos().get(id - 1).setEstado(EstadoEscravo.DESCONECTADO);
+            janelaServidor.adicionarHistorico("Desconectando Servidor Escravo: " + getNome(), EstadoSistema.OK);
 
             // Atualiza lista de arquivos...
+            enviarBroadCast();
+            janelaServidor.atualizarTabelaEscravos();
         }
         catch(Exception ex1) {
             janelaServidor.adicionarHistorico("Desconectando Servidor Escravo: " + getNome() + "...", EstadoSistema.ERRO);
         }
+    }
 
-        janelaServidor.adicionarHistorico("Desconectando Servidor Escravo: " + getNome(), EstadoSistema.OK);
+
+    /**
+     * Este método envia uma mensagem em Broadcast, ou seja, para todos os
+     * Servidores Escravos conectados
+     */
+    private synchronized void enviarBroadCast() {
+        janelaServidor.adicionarHistorico("Enviando Broadcas...", EstadoSistema.PROCESSANDO);
+        if(servidor.getGerenteConexaoEscravos().getListaEscravos().size() <= 0) return;
+
+        try{
+            ArrayList<ConexaoEscravo> listaEscravos = servidor.getGerenteConexaoEscravos().getListaEscravos();
+
+            for(ConexaoEscravo conEscravo : listaEscravos) {
+                // Se esta desconectado passa para o próximo
+                if(conEscravo.getEstado() == EstadoEscravo.DESCONECTADO) continue;
+
+                conEscravo.solicitarListaArquivos();
+            }
+        }
+        catch(Exception ex) {
+            janelaServidor.adicionarHistorico("Enviando Broadcas: " + getNome(), EstadoSistema.ERRO);
+        }
+    }
+
+    /**
+     * Retorna lista de arquivos deste escravo...
+     */
+    public ArrayList<InfoArquivo> getListaArquivo() {
+        return listaArquivos;
     }
 }

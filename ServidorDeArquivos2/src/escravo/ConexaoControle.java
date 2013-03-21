@@ -60,8 +60,6 @@ public class ConexaoControle implements Runnable {
                     escravo.getInfoConServidor().getIp(),
                     escravo.getInfoConServidor().getPorta())
                 );
-
-        JOptionPane.showMessageDialog(janelaEscravo, "Saio no construtor de ConexaoControle");
     }
 
     /**

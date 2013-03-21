@@ -40,21 +40,16 @@ public class Escravo {
         criarConexaoControle();
     }
 
-    // Este método cria o socket de comunicação com o servidor principal.
+    // Este método cria Thread que irá criar um Socket de comunicação com o servidor principal.
     public final void criarConexaoControle() {
-        JOptionPane.showMessageDialog(janelaEscravo, "Entrou do Construtor de Escravo!!!");
-
         try {
-            /* AQUI ESTÁ O ERRO!!! */
             conexaoControle = new ConexaoControle(this);
             Thread  thread  = new Thread(conexaoControle);
             thread.start();
         }
         catch(Exception ex) {
-            janelaEscravo.escreverNaBarraStatus("Erro na criação da conexão de controle com o servidor.");
+            janelaEscravo.escreverNaBarraStatus("Erro na criação da conexão de controle com: " + infoConServidor.getNome());
         }
-
-        // JOptionPane.showMessageDialog(janelaEscravo, "Saio do Construtor de Escravo!!!");
     }
 
     /**

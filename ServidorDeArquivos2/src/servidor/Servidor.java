@@ -8,6 +8,7 @@
 
 package servidor;
 
+import base.EstadoSistema;
 import base.InfoArquivo;
 import base.InfoServidor;
 import java.io.File;
@@ -112,11 +113,11 @@ public class Servidor {
             setInfoPortas(InfoServidor.carregarDeArquivo(listaPortas, Servidor.ARQ_CONFIG_PORTAS));
         }
         catch(Exception ex) {
-            janelaServidor.adicionarHistorico("Corregando configurações de portas", "ERRO");
+            janelaServidor.adicionarHistorico("Corregando configurações de portas", EstadoSistema.ERRO);
             return;
         }
 
-        janelaServidor.adicionarHistorico("Corregando configurações de portas", "OK");
+        janelaServidor.adicionarHistorico("Corregando configurações de portas", EstadoSistema.OK);
     }
 
     /**

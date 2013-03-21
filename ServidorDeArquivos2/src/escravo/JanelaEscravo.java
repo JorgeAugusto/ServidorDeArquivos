@@ -304,7 +304,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
      * Este método realiza a reconexão com o servidor principal
      */
     private void reinicarConexao() {
-        escravo.conectarServidor();
+        escravo.criarConexaoControle();
     }
 
     /**

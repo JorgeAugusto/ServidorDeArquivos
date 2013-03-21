@@ -10,6 +10,7 @@
 
 package servidor;
 
+import base.EstadoSistema;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -29,31 +30,31 @@ public class GerenteConexaoEscravo implements Runnable {
             listaEscravos   = new ArrayList<ConexaoEscravo>();
 
             janelaServidor.adicionarHistorico("Criando SocketServ para Escravos, na porta: " +
-            Integer.toString(servidor.getPortaEscravos()), "OK");
+            Integer.toString(servidor.getPortaEscravos()), EstadoSistema.OK);
         }
         catch(Exception ex) {
             janelaServidor.adicionarHistorico("Criando SocketServ para Escravos, na porta: " +
-            Integer.toString(servidor.getPortaEscravos()), "ERRO");
+            Integer.toString(servidor.getPortaEscravos()), EstadoSistema.ERRO);
         }
     }
 
     @Override
     public void run() {
-        janelaServidor.adicionarHistorico("Iniciou Thread do Gerente de Conexões com Escravos", "OK");
+        janelaServidor.adicionarHistorico("Iniciou Thread do Gerente de Conexões com Escravos", EstadoSistema.OK);
+
         for(;;) {
             try {
-                ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept(), servidor, servidor.getNovoIdEscravo());
+                ConexaoEscravo  conexao = new ConexaoEscravo(socketServidor.accept(), servidor);
                 Thread          thread  = new Thread(conexao);
                 thread.start();
 
                 listaEscravos.add(conexao);     // salva conexão com escravo na lista!
 
-                janelaServidor.adicionarHistorico("Aceitou conexão de escravo: " + conexao.getInfoConexo(), "OK");
-
+                janelaServidor.adicionarHistorico("Aceitou conexão de escravo: " + conexao.getInfoConexo(), EstadoSistema.OK);
                 janelaServidor.atualizarTabelaEscravos();
             }
             catch(Exception ex) {
-                janelaServidor.adicionarHistorico("Aceitando conexão de Escravo", "ERRO");
+                janelaServidor.adicionarHistorico("Aceitando conexão de Escravo", EstadoSistema.ERRO);
             }
         }
     }

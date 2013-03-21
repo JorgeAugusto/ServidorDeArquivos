@@ -8,6 +8,7 @@
 
 package servidor;
 
+import base.EstadoSistema;
 import base.InfoArquivo;
 import base.JTableUtils;
 import java.util.ArrayList;
@@ -112,7 +113,6 @@ public class JanelaServidor extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableEscravos.setRowSelectionAllowed(true);
         jTableEscravos.getTableHeader().setReorderingAllowed(false);
         jScrollPaneEscravos.setViewportView(jTableEscravos);
         jTableEscravos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -120,8 +120,8 @@ public class JanelaServidor extends javax.swing.JFrame {
         jTableEscravos.getColumnModel().getColumn(1).setMaxWidth(100);
         jTableEscravos.getColumnModel().getColumn(2).setMinWidth(60);
         jTableEscravos.getColumnModel().getColumn(2).setMaxWidth(60);
-        jTableEscravos.getColumnModel().getColumn(3).setMinWidth(100);
-        jTableEscravos.getColumnModel().getColumn(3).setMaxWidth(100);
+        jTableEscravos.getColumnModel().getColumn(3).setMinWidth(140);
+        jTableEscravos.getColumnModel().getColumn(3).setMaxWidth(140);
 
         jLabel2.setText(" Servidores Escravos Conectados");
 
@@ -352,15 +352,17 @@ public class JanelaServidor extends javax.swing.JFrame {
      * Este método é executado no momento de abertura da janela
      */
     private void inicializacao() {
+        adicionarHistorico("Inicializando Sistema...", EstadoSistema.PROCESSANDO);
+
         try {
             servidor = new Servidor(this);
         }
         catch(Exception ex) {
-            adicionarHistorico("Inicializando Sistema", "ERRO");
+            adicionarHistorico("Inicializando Sistema", EstadoSistema.ERRO);
             return;
         }
 
-        adicionarHistorico("Inicializando Sistema", "OK");
+        adicionarHistorico("Inicialização do Sistema Completa", EstadoSistema.OK);
     }
 
     /**
@@ -387,7 +389,7 @@ public class JanelaServidor extends javax.swing.JFrame {
      * Este método abri a janela de configuração de conexão com o servidor
      */
     private void abrirJanelaConfigPortas() {
-        adicionarHistorico("Abrindo janela de configuração de portas", "OK");
+        adicionarHistorico("Abrindo janela de configuração de portas", EstadoSistema.OK);
 
         janConfiPortas = new JanelaConfigPortas(this, true);
         janConfiPortas.setVisible(true);
@@ -403,9 +405,9 @@ public class JanelaServidor extends javax.swing.JFrame {
     /**
      * Este método adiciona uma mensagem ao histórico
      */
-    public void adicionarHistorico(String mensagem, String estado) {
+    public void adicionarHistorico(String mensagem, EstadoSistema estado) {
         DefaultTableModel model = (DefaultTableModel) jTableHistorico.getModel();
-        model.addRow(new String[]{mensagem, estado});
+        model.addRow(new String[]{mensagem, estado.toString()});
 
         jTableHistorico.updateUI();
         JTableUtils.selectAndScroll(jTableHistorico, jTableHistorico.getRowCount() - 1);
@@ -474,7 +476,6 @@ public class JanelaServidor extends javax.swing.JFrame {
      */
     private Servidor                servidor;
     private JanelaConfigPortas      janConfiPortas;
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

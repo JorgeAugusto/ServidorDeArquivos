@@ -29,40 +29,26 @@ public class Escravo {
     private JanelaEscravo           janelaEscravo;
     private Socket                  socket;
     private ArrayList<InfoArquivo>  listaArquivos;
+    private ConexaoControle         conexaoControle;
 
     public Escravo(JanelaEscravo janelaEscravo) throws Exception {
         this.janelaEscravo  = janelaEscravo;
         listaArquivos       = new ArrayList<InfoArquivo>();
 
         carregarConfigConServidor();
-        conectarServidor();
+        criarConexaoControle();
     }
 
     // Este método cria o socket de comunicação com o servidor principal.
-    public final void conectarServidor() {
+    public final void criarConexaoControle() {
         try {
-            socket = new Socket(infoConServidor.getIp(), infoConServidor.getPorta());
-
-            enviaListaDeArquivos();
+        conexaoControle = new ConexaoControle(this);
+        Thread  thread  = new Thread(conexaoControle);
+        thread.start();
         }
         catch(Exception ex) {
-            janelaEscravo.escreverNaBarraStatus(
-                    String.format("ERRO ao conectar em: [%s] no IP: [%s] na Porta: [%d]",
-                        infoConServidor.getNome(),
-                        infoConServidor.getIp(),
-                        infoConServidor.getPorta())
-                    );
-            return;
+            janelaEscravo.escreverNaBarraStatus("Erro na criação da conexão de controle com o servidor.");
         }
-
-        janelaEscravo.escreverNaBarraStatus(
-                String.format("Conectado com SUCESSO em: [%s] no IP: [%s] na Porta: [%d]",
-                    infoConServidor.getNome(),
-                    infoConServidor.getIp(),
-                    infoConServidor.getPorta())
-                );
-
-        // Envia listagem dos arquivos...
     }
 
     /**
@@ -109,24 +95,10 @@ public class Escravo {
         janelaEscravo.escreverNaBarraStatus("Configurações da conexão com o Servidor, carregadas com sucesso.");
     }
 
-
-    // Este método responde a solicitção de listagem de arquivos...
-    private void enviaListaDeArquivos() {
-        try {
-            atualizarListaArquivos();
-
-            Mensagem mensagem = new Mensagem(Mensagem.TipoMensagem.LISTA_ARQUIVOS, listaArquivos);
-
-            // envia listagem de arquivos...
-            saida = new ObjectOutputStream(socket.getOutputStream());
-            saida.writeObject(mensagem);
-            saida.flush();
-        }
-        catch(Exception ex) {
-            janelaEscravo.escreverNaBarraStatus("Erro ao enivar lista de arquivos ao servidor: " + ex.getMessage());
-        }
-    }
-
+    /**
+     * Este método cria a lista de arquivos a ser enviada para o servidor e
+     * a ser mostrada na tabela de arquivos na JanelaEscravo
+     */
     public void atualizarListaArquivos() {
         try {
             InfoServidor    esteEscravo = new InfoServidor("Máquina Local", "-", infoConServidor.getPorta());

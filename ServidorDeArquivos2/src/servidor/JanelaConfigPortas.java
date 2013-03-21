@@ -10,6 +10,7 @@
 
 package servidor;
 
+import base.EstadoSistema;
 import base.InfoServidor;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +156,7 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
 
     // Este método fecha a janela de cadatro de servidores escravos
     private void fecharJanela() {
-        janelaPai.adicionarHistorico("Fechando janela de configuração de portas", "OK");
+        janelaPai.adicionarHistorico("Fechando janela de configuração de portas", EstadoSistema.OK);
         dispose();
     }
 
@@ -203,10 +204,10 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
                     "Erro ao salvar informações de configuração de Portas",
                     "Erro ao Salvar Portas", JOptionPane.ERROR_MESSAGE);
 
-            janelaPai.adicionarHistorico("Salvando configuração de portas", "ERRO");
+            janelaPai.adicionarHistorico("Salvando configuração de portas", EstadoSistema.ERRO);
         }
 
-        janelaPai.adicionarHistorico("Salvando configuração de portas", "OK");
+        janelaPai.adicionarHistorico("Salvando configuração de portas", EstadoSistema.OK);
 
         // Troca o estado do botão de edição e recarrega pra ter certeza que foi salvo
         habilitarEdicao();
@@ -221,7 +222,7 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
             jButtonEditar.setText("Cancelar");
             jButtonSalvar.setEnabled(true);
 
-            janelaPai.adicionarHistorico("Habilitando edição", "OK");
+            janelaPai.adicionarHistorico("Habilitando edição", EstadoSistema.OK);
         }
         else {
             jTableConfigPortas.editingCanceled(null);
@@ -233,7 +234,7 @@ public class JanelaConfigPortas extends javax.swing.JDialog {
             // Recarrega arquivo, cancelando qualquer alteração
             atualizarTabelaConfigPortas();
 
-            janelaPai.adicionarHistorico("Cancelando edição", "OK");
+            janelaPai.adicionarHistorico("Cancelando edição", EstadoSistema.OK);
         }
     }
 

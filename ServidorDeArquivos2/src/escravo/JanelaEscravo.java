@@ -363,7 +363,7 @@ public class JanelaEscravo extends javax.swing.JFrame {
         modelo.setRowCount(0);
 
         for(InfoArquivo arquivo : escravo.getListaArquivos()) {
-            modelo.addRow(arquivo.getArray());
+            modelo.addRow(new String[]{arquivo.getNome(), arquivo.getTamanhoIntuitivo()});
         }
 
         // Adiciona linhas a tabela...

@@ -45,9 +45,36 @@ public class InfoArquivo implements Serializable {
         String[] array = new String[3];
         array[0] = nome;
         array[1] = servEscravo.getNome();
-        array[2] = Long.toString(tamanho) + " bytes";
+        array[2] = getTamanhoIntuitivo();
 
         return array;
     }
-    
+
+    /**
+     * Retorna o tamanho do arquivo como uma string de forma mais intuitiva
+     * KB, MB, GB, etc
+     */
+    public String getTamanhoIntuitivo() {
+        final int KB = 1024;
+        final int MB = 1024 * 1024;
+        final int GB = 1024 * 1024 * 1024;
+
+        String str  = new String();
+        double tam  = tamanho;
+
+        if(tamanho < KB) {
+            str = Long.toString(tamanho) + " bytes";
+        }
+        else if(tamanho >= KB && tamanho < MB) {
+            str = String.format("%.3f KB", tam / KB);
+        }
+        else if(tamanho >= MB && tamanho < GB) {
+            str = String.format("%.3f MB", tam / MB);
+        }
+        else if(tamanho >= GB) {
+            str = String.format("%.3f GB", tam / GB);
+        }
+
+        return str;
+    }
 }

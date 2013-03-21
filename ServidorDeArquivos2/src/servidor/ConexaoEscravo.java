@@ -126,7 +126,6 @@ public class ConexaoEscravo implements Runnable {
      * envie uma lista contento os nomes dos arquivos que estão disponíveis
      */
     private synchronized void solicitarListaArquivos() {
-        janelaServidor.adicionarHistorico("Enviando requisição de lista de arquivo para " + getNome(), EstadoSistema.PROCESSANDO);
         try {
             mensagemEnviada = new Mensagem(Mensagem.TipoMensagem.LISTA_ARQUIVOS, null);
 
@@ -144,7 +143,6 @@ public class ConexaoEscravo implements Runnable {
      * Este método processa a mensagemRecebida de recebimento de uma lista de arquivos
      */
     private synchronized void processarListaArquivo() {
-        // Pega a lista de arquivos enviado pelo servidor escravo através da mensagemRecebida
         ArrayList<InfoArquivo> listaArquivosEscravo = (ArrayList<InfoArquivo>) mensagemRecebida.getInfoMensagem();
         ArrayList<InfoArquivo> listaArquivosTemp = new ArrayList<InfoArquivo>();
 
@@ -155,12 +153,13 @@ public class ConexaoEscravo implements Runnable {
 
         listaArquivos = listaArquivosTemp;
         servidor.getGerenteConexaoEscravos().processaListaArquivos();
+        janelaServidor.adicionarHistorico("Processsando lista de arquivos de " + getNome() , EstadoSistema.OK);
     }
 
     /**
      * Desconecta servidor escravo do servidor principal
      */
-    private synchronized void desconectarServidorEscravo() {
+    private void desconectarServidorEscravo() {
         /**
         * @NOTA
         * Este código deve ser movido para um novo método...
@@ -208,7 +207,7 @@ public class ConexaoEscravo implements Runnable {
         janelaServidor.adicionarHistorico("Enviando Broadcas...", EstadoSistema.PROCESSANDO);
         if(!servidor.getGerenteConexaoEscravos().temEscravoConectado()) {
             janelaServidor.adicionarHistorico("Enviando Broadcas... Falou não há Servidores Escravos conectados", EstadoSistema.ERRO);
-            
+
             return false;
         }
 

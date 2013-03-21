@@ -94,25 +94,6 @@ public class Servidor {
         this.listaArquivos = listaArquivos;
     }
 
-    public synchronized void processaListaArquivos() {
-        listaArquivos.clear();
-        try{
-            ArrayList<ConexaoEscravo> listaEscravos = getGerenteConexaoEscravos().getListaEscravos();
-
-            for(ConexaoEscravo conEscravo : listaEscravos) {
-                // Se esta desconectado passa para o próximo
-                if(conEscravo.getEstado() == ConexaoEscravo.EstadoEscravo.DESCONECTADO) continue;
-
-                listaArquivos.addAll(conEscravo.getListaArquivo());
-            }
-
-            janelaServidor.atualizaTabelaArquivos();
-        }
-        catch(Exception ex) {
-            // janelaServidor.adicionarHistorico("Enviando Broadcas: " + getNome(), EstadoSistema.ERRO);
-        }
-    }
-
     /**
      * Este método carrega as informações de conexão do
      */

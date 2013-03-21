@@ -154,7 +154,7 @@ public class ConexaoEscravo implements Runnable {
         }
 
         listaArquivos = listaArquivosTemp;
-        servidor.processaListaArquivos();
+        servidor.getGerenteConexaoEscravos().processaListaArquivos();
     }
 
     /**
@@ -188,7 +188,10 @@ public class ConexaoEscravo implements Runnable {
             janelaServidor.adicionarHistorico("Desconectando Servidor Escravo: " + getNome(), EstadoSistema.OK);
 
             // Atualiza lista de arquivos...
-            enviarBroadCast();
+            if(!enviarBroadCast()) {
+                servidor.getGerenteConexaoEscravos().processaListaArquivos();
+            }
+
             janelaServidor.atualizarTabelaEscravos();
         }
         catch(Exception ex1) {
@@ -201,9 +204,13 @@ public class ConexaoEscravo implements Runnable {
      * Este método envia uma mensagem em Broadcast, ou seja, para todos os
      * Servidores Escravos conectados
      */
-    private synchronized void enviarBroadCast() {
+    private synchronized boolean enviarBroadCast() {
         janelaServidor.adicionarHistorico("Enviando Broadcas...", EstadoSistema.PROCESSANDO);
-        if(servidor.getGerenteConexaoEscravos().getListaEscravos().size() <= 0) return;
+        if(!servidor.getGerenteConexaoEscravos().temEscravoConectado()) {
+            janelaServidor.adicionarHistorico("Enviando Broadcas... Falou não há Servidores Escravos conectados", EstadoSistema.ERRO);
+            
+            return false;
+        }
 
         try{
             ArrayList<ConexaoEscravo> listaEscravos = servidor.getGerenteConexaoEscravos().getListaEscravos();
@@ -218,6 +225,10 @@ public class ConexaoEscravo implements Runnable {
         catch(Exception ex) {
             janelaServidor.adicionarHistorico("Enviando Broadcas: " + getNome(), EstadoSistema.ERRO);
         }
+
+        janelaServidor.adicionarHistorico("Enviando Broadcas", EstadoSistema.OK);
+
+        return true;
     }
 
     /**

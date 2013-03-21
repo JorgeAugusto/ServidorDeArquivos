@@ -65,4 +65,38 @@ public class GerenteConexaoEscravo implements Runnable {
     public ArrayList<ConexaoEscravo> getListaEscravos() {
         return listaEscravos;
     }
+
+    /**
+     * Este método atualiza a lista de arquivos no servidor...
+     */
+    public synchronized void processaListaArquivos() {
+        servidor.getListaArquivo().clear();
+        try{
+            for(ConexaoEscravo conEscravo : listaEscravos) {
+                // Se esta desconectado passa para o próximo
+                if(conEscravo.getEstado() == ConexaoEscravo.EstadoEscravo.DESCONECTADO) continue;
+
+                servidor.getListaArquivo().addAll(conEscravo.getListaArquivo());
+            }
+
+            janelaServidor.atualizaTabelaArquivos();
+        }
+        catch(Exception ex) {
+            janelaServidor.adicionarHistorico("Processando listas de arquivos dos Servidores Escravos", EstadoSistema.ERRO);
+        }
+    }
+
+
+    /**
+     * Returna o número total de servidores escravos conectados
+     * isso é para ajudar o método de método enviaE
+     */
+    public boolean temEscravoConectado() {
+        for(ConexaoEscravo conexao : listaEscravos) {
+            if(conexao.getEstado() == ConexaoEscravo.EstadoEscravo.CONECTADO)
+                return true;
+        }
+
+        return false;
+    }
 }

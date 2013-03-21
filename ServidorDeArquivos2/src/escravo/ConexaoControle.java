@@ -70,18 +70,15 @@ public class ConexaoControle implements Runnable {
      */
     @Override
     public void run() {
-        JOptionPane.showMessageDialog(janelaEscravo, "Entro na Thread de ConexaoControle");
         for(;;) {
             // Se o socke esta fechado então terminar Thread.
             if(socket.isClosed()) return;
 
             try {
                 mensagemRecebida = (Mensagem) entrada.readObject();
-                JOptionPane.showMessageDialog(janelaEscravo, "Leu mensagem...");
 
                 switch(mensagemRecebida.getTipoMensagem()) {
                     case LISTA_ARQUIVOS:
-                        janelaEscravo.escreverNaBarraStatus("Enviando lista de arquivos para o servidor...");
                         enviarListaDeArquivos();
                     break;
 
@@ -220,6 +217,8 @@ public class ConexaoControle implements Runnable {
     // Este método responde a solicitção de listagem de arquivos...
     private void enviarListaDeArquivos() {
         try {
+            janelaEscravo.escreverNaBarraStatus("Enviando lista de arquivos para:" + escravo.getInfoConServidor().getNome());
+
             escravo.atualizarListaArquivos();
             mensagemEnviada = new Mensagem(Mensagem.TipoMensagem.LISTA_ARQUIVOS, escravo.getListaArquivos());
 
@@ -229,12 +228,8 @@ public class ConexaoControle implements Runnable {
             saida.flush();
         }
         catch(Exception ex) {
-            janelaEscravo.escreverNaBarraStatus("Erro ao enivar lista de arquivos ao servidor: " + ex.getMessage());
+            janelaEscravo.escreverNaBarraStatus("Erro ao enivar lista de arquivos para: " + escravo.getInfoConServidor().getNome());
         }
     }
-
-
-
-
-
+    
 }
